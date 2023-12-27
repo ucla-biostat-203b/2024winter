@@ -7,12 +7,12 @@ title: Biostat 203B
 
 ## Lecture
 
-Lec 1 Schedule:
+**Lec 1** Schedule:
 
-Tue (lecture) 3pm-4:50pm \@ CHS 33-105A\
-Thu (lecture and lab) 3pm-4:50pm \@ CHS 33-105A
+Tue (lecture) 3pm-4:50pm @ CHS 33-105A\
+Thu (lecture and lab) 3pm-4:50pm @ CHS 33-105A
 
-Lec 80 (MDSH) Schedule:
+**Lec 80 (MDSH)** Schedule:
 
 | Date         | Time          | Location                                   |
 |--------------|---------------|--------------------------------------------|
@@ -36,17 +36,17 @@ Lec 80 (MDSH) Schedule:
 [Dr. Hua Zhou](http://hua-zhou.github.io/)\
 Office: CHS 21-254A\
 Phone: (310)794-7835\
-Email: [huazhou\@ucla.edu](mailto:huazhou@ucla.edu){.email}\
-Office hours:\
-- Lec 1: Tue 5pm-7pm \@ CHS 21-254A\
-- Lec 80 (MDSH): Thu 7:30pm-8:30pm \@ Zoom <https://ucla.zoom.us/j/97770904876>
+Email: <huazhou@ucla.edu>  
+Office hours:  
+- Lec 1: Tue 5pm-7pm @ CHS 21-254A  
+- Lec 80 (MDSH): Thu 7:30pm-9:30pm @ Zoom <https://ucla.zoom.us/j/97770904876>  
 
 ## TA team
 
-Lec 1: Tomoki Okuno [tomokiokuno0528\@ucla.edu](mailto:tomokiokuno0528@ucla.edu){.email}.\
+Lec 1: Tomoki Okuno <tomokiokuno0528@ucla.edu>\
 Office hours: TBD
 
-Lec 2: Jonathan Hori [jonhori\@ucla.edu](mailto:jonhori@ucla.edu){.email}, Jasen Zhang [jasenzhang\@ucla.edu](mailto:jasenzhang@ucla.edu){.email}\
+Lec 2: Jonathan Hori <jonhori@ucla.edu>, Jasen Zhang <jasenzhang@ucla.edu>\
 Office hours: TBD
 
 ## Course Description
@@ -103,27 +103,27 @@ UCLA’s Office for Equity, Diversity, and Inclusion provides resources, events,
 **Message about Academic Integrity to All UCLA Students from UCLA Dean of Students**: UCLA is a community of scholars. In this community, all members including faculty staff and students alike are responsible for maintaining standards of academic honesty. As a student and member of the University community, you are here to get an education and are, therefore, expected to demonstrate integrity in your academic endeavors. You are evaluated on your own merits. Cheating, plagiarism, collaborative work, multiple submissions without the permission of the professor, or other kinds of academic dishonesty are considered unacceptable behavior and will result in formal disciplinary proceedings usually resulting in suspension or dismissal.
 
 **Forms of Academic Dishonesty**: As specified in the UCLA Student Conduct Code, violations or attempted violations of academic dishonesty include, but are not limited to, cheating, fabrication, plagiarism, multiple submissions or facilitating academic integrity:\
-\* Allowing another person to take a quiz, exam, or similar evalution for you\
-\* Using unauthorized material, information, or study aids in any academic exercise or examination – textbook, notes, formula list, calculators, etc.\
-\* Unauthorized collaboration in providing or requesting assistance, such as sharing information\
-\* Unauthorized use of someone else’s data in completing a computer exercise\
-\* Altering a graded exam or assignment and requesting that I be regraded
+* Allowing another person to take a quiz, exam, or similar evalution for you\
+* Using unauthorized material, information, or study aids in any academic exercise or examination – textbook, notes, formula list, calculators, etc.\
+* Unauthorized collaboration in providing or requesting assistance, such as sharing information\
+* Unauthorized use of someone else’s data in completing a computer exercise\
+* Altering a graded exam or assignment and requesting that I be regraded
 
 **Plagiarism**: Presenting another’s words or ideas as if they were one’s own\
-\* Submitting as your own through purchase or otherwise, part of or an entire work produced verbatim by someone else\
-\* Paraphrasing ideas, data or writing without properly acknowledging the source\
-\* Unauthorized transfer and use of someone else’s computer file as your own\
-\* Unauthorized use of someone else’s data in completing a computer exercise
+* Submitting as your own through purchase or otherwise, part of or an entire work produced verbatim by someone else\
+* Paraphrasing ideas, data or writing without properly acknowledging the source\
+* Unauthorized transfer and use of someone else’s computer file as your own\
+* Unauthorized use of someone else’s data in completing a computer exercise
 
 **Multiple Submissions**: Submitting the same work (with exact or similar content) in more than one class without permission from the instructor to do so. This includes courses you are currently taking, as well as courses you might take in another quarter.
 
 **Facilitating Academic Dishonesty**: Participating in any action that compromises the integrity of the academic standards of the University; assisting another to commit an act of academic dishonesty\
-\* Taking a quiz, exam, or similar evaluation in place of another person\
-\* Allowing another student to copy from you\
-\* Providing material or other information to another student with knowledge that such assistance could be used in any of the violations stated above (e.g., giving test information to students in other discussion sections of the same course)\
-\* Altering data to support research\
-\* Presenting results from research that was not performed\
-\* Crediting source material that was not used for research
+* Taking a quiz, exam, or similar evaluation in place of another person\
+* Allowing another student to copy from you\
+* Providing material or other information to another student with knowledge that such assistance could be used in any of the violations stated above (e.g., giving test information to students in other discussion sections of the same course)\
+* Altering data to support research\
+* Presenting results from research that was not performed\
+* Crediting source material that was not used for research
 
 While you are here at UCLA, if you are unsure whether what you are considering doing is cheating, **don’t take chances** – ask your professor. In addition, avoid placing yourself in situations which might lead your professor to **suspect you of cheating**.
 
