@@ -12,8 +12,6 @@ format:
     toc-depth: 4
     toc-location: left
     code-fold: false
-bibliography: "../bib-HZ.bib"
-csl: "../apa.csl"
 ---
 
 Display machine information for reproducibility:

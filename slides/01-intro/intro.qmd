@@ -12,8 +12,6 @@ format:
     toc-depth: 4
     toc-location: left
     code-fold: false
-bibliography: "../bib-HZ.bib"
-csl: "../apa.csl"
 ---
 
 ## Statistics and data science
@@ -32,7 +30,7 @@ csl: "../apa.csl"
 
 ## Big data in 1990s
 
-@Huber94HugeData; @Huber96MassiveData
+[Huber 1994](https://doi.org/10.1007/978-3-642-52463-9_1); [Huber 1996](https://nap.nationalacademies.org/read/5505/chapter/23).
 
 | Data Size | Bytes          | Storage Mode               |
 |-----------|----------------|----------------------------|
@@ -112,5 +110,3 @@ If time permits, I'll add some Python code in the lectures.
 -   IDRE workshops: <https://idre.ucla.edu/calendar>
 
 -   QCBio workshops: <https://qcb.ucla.edu/collaboratory/workshops/>
-
-## References
