@@ -19,12 +19,20 @@ Display machine information for reproducibility:
 sessionInfo()
 ```
 
+Windows users need to set bash engine to `Git Bash`:
+```{r, eval = Sys.info()['sysname'] == "Windows"}
+knitr::opts_chunk$set(engine.path = list(
+  bash = "C:\\Program\ Files\\Git\\bin\\bash.exe"
+))
+```
+
+
 ## Preface
 
 - This html is rendered from `linux.qmd` on Linux Ubuntu 22.04 (jammy).  
     - Mac users can render `linux.qmd` directly. Some tools such as `tree` and `locate` need to be installed (follow the error messages). 
     
-    - Windows users need to install WSL (Windows Subsystem for Linux) to render `linux.qmd` using Ubuntu. Some tools such as `tree` and `locate` need to be installed (follow the error messages).  
+    - Windows users need to install `Git for Windows` to render `linux.qmd` using Git Bash or install `WSL` (Windows Subsystem for Linux) to render `linux.qmd` using Ubuntu. Some tools such as `tree` and `locate` need to be installed (follow the error messages).  
     
     - Both Mac and Windows users can also use Docker to render `linux.qmd` within a Ubuntu container.
 
@@ -97,8 +105,8 @@ system_profiler SPSoftwareDataType
 echo $SHELL
 ```
 
-- List available shells:
-```{bash}
+- List available shells (on Linux or MacOS):
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 cat /etc/shells
 ```
 
@@ -154,7 +162,7 @@ man ls | head -30
 
 - `tree` command (if installed) displays directory structure.   
 `tree -L levels` display levels directories deep.
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 # display only directories in levels 1, 2 from root directory
 tree -d -L 1 /
 ```
@@ -216,7 +224,8 @@ ls -al
 - `chmod 751 file` sets permission `rwxr-x--x` to a file.
 
 - `groups [USERNAME]` shows which group(s) a user belongs to:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
+# On Linux or MacOS
 groups $USER
 ```
 
@@ -387,42 +396,42 @@ sed 's/CentOS/RHEL/' linux.qmd | grep RHEL
 
 - `awk` is a filter and report writer.
 
-- First let's display the content of the file `/etc/passwd`:
-```{bash}
+- First let's display the content of the file `/etc/passwd` (this file only exists in Linux and MacOS):
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 cat /etc/passwd
 ```
 Each line contains fields (1) user name, (2) password, (3) user ID, (4) group ID, (5) user ID info, (6) home directory, and (7) command shell, separated by `:`.
 
 - Print sorted list of login names:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 awk -F: '{ print $1 }' /etc/passwd | sort | head -10
 ```
 
 - Print number of lines in a file, as `NR` stands for Number of Rows:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 awk 'END { print NR }' /etc/passwd
 ```
 or
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 wc -l /etc/passwd
 ```
 or (not displaying file name)
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 wc -l < /etc/passwd
 ```
 
 - Print login names with UID in range `1000-1035`:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 awk -F: '{if ($3 >= 1000 && $3 <= 1047) print}' /etc/passwd
 ```
 
 - Print login names and log-in shells in comma-separated format:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 awk -F: '{OFS = ","} {print $1, $7}' /etc/passwd
 ```
 
 - Print login names and indicate those with UID>1000 as `vip`:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 awk -F: -v status="" '{OFS = ","} 
 {if ($3 >= 1000) status="vip"; else status="regular"} 
 {print $1, status}' /etc/passwd
@@ -500,17 +509,17 @@ ps -eaf
 ```
 
 - All Python processes:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 ps -eaf | grep python
 ```
 
 - Process with PID=1:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 ps -fp 1
 ```
 
 - All processes owned by a user:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 ps -fu $USER
 ```
 
@@ -770,7 +779,7 @@ cat runSim.R
 R CMD BATCH '--args n=100' runSim.R
 ```
 or
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 Rscript runSim.R n=100
 ```
 
@@ -783,7 +792,7 @@ Rscript runSim.R n=100
 - `nohup` is POSIX standard thus available on Linux and MacOS.
 
 - Run `runSim.R` in background and writes output to `nohup.out`:
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 nohup Rscript runSim.R n=100 &
 ```
 The `&` at the end of the command instructs Linux to run this command in background, so we gain control of the terminal immediately. 
@@ -833,13 +842,12 @@ cat autoSim.R
 Note when we call bash command using the `system` function in R, we set optional argument `wait=FALSE` so that jobs can be run parallel.
 
 -
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 Rscript autoSim.R
 ```
 
-```{bash}
+```{bash, eval = Sys.info()['sysname'] != "Windows"}
 #| echo: false
-#| eval: true
 rm n*.txt *.Rout
 ```
 
