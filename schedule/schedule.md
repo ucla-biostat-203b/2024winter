@@ -18,11 +18,11 @@ Recommended readings:
 * [_Happy Git with R_](http://happygitwithr.com) by Jenny Bryan.  
 * [_Quarto documentation_](https://quarto.org/docs/guide/).  
 * [_R Markdown: The Definitive Guide_](https://bookdown.org/yihui/rmarkdown/) by Yihui Xie, J.J. Allaire, and Garrett Grolemund.  
-* [_R for Data Science_](http://r4ds.had.co.nz) by Hadley Wickham and Garrett Grolemund.  
+* [_R for Data Science_](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.  
 * [_R Graphics Cookbook_](https://r-graphics.org) by Winston Chang.   
 * [_Tidy Modeling with R_](https://www.tmwr.org/) by Max Kuhn and Julia Silge.  
-* [_Advanced R_](http://adv-r.had.co.nz) by Hadley Wickham.  
-* [_R Packages_](http://r-pkgs.had.co.nz) by Hadley Wickham.  
+* [_Advanced R_](https://adv-r.hadley.nz/) by Hadley Wickham.  
+* [_R Packages_](https://r-pkgs.org/) by Hadley Wickham and Jennifer Bryan.  
 * [_Rcpp For Everyone_](https://teuder.github.io/rcpp4everyone_en/) by Masaki E. Tsuda.  
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ucla-biostat-203b/2024winter/master?urlpath=rstudio)
