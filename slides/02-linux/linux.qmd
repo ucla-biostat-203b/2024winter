@@ -21,6 +21,7 @@ sessionInfo()
 
 Windows users need to set bash engine to `Git Bash`:
 ```{r, eval = Sys.info()['sysname'] == "Windows"}
+# only on Windows
 knitr::opts_chunk$set(engine.path = list(
   bash = "C:\\Program\ Files\\Git\\bin\\bash.exe"
 ))
