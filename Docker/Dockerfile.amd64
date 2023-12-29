@@ -1,0 +1,13 @@
+# https://rocker-project.org/images/versioned/rstudio.html
+# ubuntu: 22.04 (jammy), R: 4.3.2, Python: 3.10
+FROM rocker/geospatial:4.3.2
+
+# Jupyter
+RUN /rocker_scripts/install_jupyter.sh
+
+# Julia
+RUN /rocker_scripts/install_julia.sh
+
+# extra R and Python packages
+COPY install_extra_pkgs.sh /rocker_scripts/install_extra_pkgs.sh
+RUN /rocker_scripts/install_extra_pkgs.sh

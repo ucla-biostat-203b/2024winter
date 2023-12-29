@@ -1,0 +1,29 @@
+# https://rocker-project.org/images/versioned/rstudio.html
+# ubuntu: 22.04 (jammy), R: 4.3.2, Python: 3.10
+FROM rocker/rstudio:4.3.2
+
+LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
+      org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
+      org.opencontainers.image.vendor="Rocker Project" \
+      org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
+
+# tidyverse      
+RUN /rocker_scripts/install_tidyverse.sh      
+
+# verse (texLive)
+ENV CTAN_REPO=https://mirror.ctan.org/systems/texlive/tlnet
+ENV PATH=$PATH:/usr/local/texlive/bin/linux
+RUN /rocker_scripts/install_verse.sh
+
+# geospatial
+RUN /rocker_scripts/install_geospatial.sh
+
+# Julia
+RUN /rocker_scripts/install_julia.sh
+
+# Jupyter
+RUN /rocker_scripts/install_jupyter.sh
+
+# extra R and Python packages
+COPY install_extra_pkgs.sh /rocker_scripts/install_extra_pkgs.sh
+RUN /rocker_scripts/install_extra_pkgs.sh
