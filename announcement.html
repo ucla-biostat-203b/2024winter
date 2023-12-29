@@ -3,10 +3,22 @@ layout: course
 title: Biostat 203B
 ---
 
-<h3>Posts</h3>
+<h3>Posts (Lec 80)</h3>
 <ul>
   {% for post in site.posts %}
-  {% if post.category contains 'biostat203bwinter2024' %}
+  {% if post.category contains 'biostat203bwinter2024lec80' %}
+<li class="post">
+  <span class="date">{{ post.date | date_to_string }}</span>
+  <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+</li>
+	{% endif %}
+  {% endfor %}
+</ul>
+
+<h3>Posts (Lec 1)</h3>
+<ul>
+  {% for post in site.posts %}
+  {% if post.category contains 'biostat203bwinter2024lec1' %}
 <li class="post">
   <span class="date">{{ post.date | date_to_string }}</span>
   <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
