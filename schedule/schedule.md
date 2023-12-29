@@ -27,8 +27,8 @@ Recommended readings:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ucla-biostat-203b/2024winter/master?urlpath=rstudio)
 
-| Week | Tuesday | Thursday | Homework | Lec 80 (MDSH) Schedule |
-|:-----------|:------------|:------------|:------------|:------------|
+| Week | Tuesday | Thursday | Homework | MDSH |
+|:-----------|:------------|:------------|:------------|:---------------|
 | 0 | | | | MDSH weekend 1 |  
 | 1 | 1/9 introduction and course logistics \[slides: [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/01-intro/intro.qmd), [html](../slides/01-intro/intro.html)\], Linux basics \[slides: [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/02-linux/linux.qmd), [html](../slides/02-linux/linux.html)\] | 1/11 Lab: \[slides: [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/labs/lab01/lab01.qmd), [html](../labs/lab01/lab01.html)\] | HW1 \[[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/hw/hw1/hw1.qmd), [html](../hw/hw1/hw1.html)\] |    
 | 2 | 1/16 reproducible research \[slides: [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/03-repres/repres.qmd), [html](../slides/03-repres/repres.html)\], Git/GitHub \[slides: [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/04-git/git.qmd), [html](../slides/04-git/git.html)\] | 1/18 Lab | |    
