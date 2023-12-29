@@ -19,9 +19,9 @@ Display machine information for reproducibility:
 sessionInfo()
 ```
 
-Windows users need to set bash engine to `Git Bash`:
+Windows Git Bash users need to set bash engine to `Git Bash`:
 ```{r, eval = Sys.info()['sysname'] == "Windows"}
-# only on Windows
+# only on Windows Git Bash
 knitr::opts_chunk$set(engine.path = list(
   bash = "C:\\Program\ Files\\Git\\bin\\bash.exe"
 ))
@@ -597,7 +597,7 @@ ssh huazhou@hoffman2.idre.ucla.edu
 
 - _Private key_. Put on your own computer. Consider this as the actual key in your pocket; **never give private keys to others**.  
 
-{{< video https://www.youtube.com/embed/S8K464ImU0c >}}
+{{< video https://www.youtube.com/embed/1kJaLt4Wa30 >}}
 
 - Messages from server to your computer is encrypted with your public key. It can only be decrypted using your private key.
 
@@ -699,7 +699,7 @@ source("script.R")
 
 ### Batch mode
 
-- Demo script [`meanEst.R`](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/02-linux/meanEst.R) implements an (terrible) estimator of mean
+- Demo script [`meanEst.R`](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/02-linux/meanEst.R) implements an (terrible) estimator of mean
 $$
   {\widehat \mu}_n = \frac{\sum_{i=1}^n x_i 1_{i \text{ is prime}}}{\sum_{i=1}^n 1_{i \text{ is prime}}}.
 $$
@@ -768,7 +768,7 @@ eval(parse(text = "x=3"))
 print(x)
 ```
 
-- [`runSim.R`](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/02-linux/runSim.R) has components: (1) **command argument parser**, (2) method implementation, (3) data generator with unspecified parameter `n`, and (4) estimation based on generated data.
+- [`runSim.R`](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/02-linux/runSim.R) has components: (1) **command argument parser**, (2) method implementation, (3) data generator with unspecified parameter `n`, and (4) estimation based on generated data.
 ```{bash}
 #| echo: false
 cat runSim.R
@@ -827,7 +827,7 @@ R in conjunction with `nohup` (or `screen`) can be used to orchestrate a large s
 - Python in many ways makes a better _glue_.
 
 - Suppose we have 
-    - [`runSim.R`](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/02-linux/runSim.R) which runs a simulation based on command line argument `n`.  
+    - [`runSim.R`](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/02-linux/runSim.R) which runs a simulation based on command line argument `n`.  
     - A large collection of `n` values that we want to use in our simulation study.  
     - Access to a server with 128 cores.  
 How to parallelize the job?    
@@ -836,7 +836,7 @@ How to parallelize the job?
 
 - Option 2 (smarter): automate calls using R and `nohup`. 
 
-- Let's demonstrate using the script [autoSim.R](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/02-linux/autoSim.R)
+- Let's demonstrate using the script [autoSim.R](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/02-linux/autoSim.R)
 ```{bash}
 cat autoSim.R
 ```
