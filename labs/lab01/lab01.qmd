@@ -1,0 +1,303 @@
+---
+title: "Lab 1: R, RStudio, Quarto, Git, SSH, Keys, and MIMIC"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+knitr:
+  opts_chunk: 
+    echo: true
+    fig.align: 'center'
+---
+
+This tutorial goes through the process of installing the software environment (R, Quarto, RStudio, Git, SSH, Docker) for reproducing 203B course materials and working on 203B homework.
+
+# R, Quarto, and RStudio
+
+- Download and install R v4.3.2 or later <https://cran.rstudio.com>. 
+
+::: {.panel-tabset}
+
+## Mac
+
+Mac users be aware that `R-x.x.x-arm64.pkg` is for Apple Silicon CPUs (M1/M2/M3) and `R-x.x.x-x86_64.pkg` is for Intel CPUs.
+
+## Windows
+
+Windows users also need to install the Rtools.
+
+:::
+
+- Download and install Quarto CLI v1.3.450 or later <https://quarto.org/docs/get-started/>. 
+
+- Download and install RStudio Desktop v2023.12 or later <https://posit.co/download/rstudio-desktop/> 
+
+::: {.callout-tip}
+## Enable GitHub Copilot in RStudio
+
+`Tools` -> `Global Options...` -> `Copilot` -> `Enable GitHub Copilot` -> `Apply`
+:::
+
+# Terminal and Bash shell
+
+::: {.panel-tabset}
+
+## Mac
+ 
+- Open the `Terminal` app. You can find `Terminal` from `LaunchPad` -> `Other`, or from `Spotlight Search` (type Terminal). For convenience, you can pin the Terminal program to the Dock.   
+
+- Check that current shell is Bash   
+```{bash}
+#| eval: false
+echo $SHELL
+```
+
+- If necessary, change default shell to Bash by the following command in Terminal. Then close the Terminal window and reopen it.
+```{bash}
+#| eval: false
+chsh -s /bin/bash
+```
+
+## Windows Git Bash
+
+- Download and install [`Git for Windows`](https://gitforwindows.org/) v2.43 or later. Accept the default settings during the installation process.
+
+- `Git Bash` program is available as a component of `Git for Windows`. It provides a basic Bash shell and packages many commonly used Linux programs. 
+
+- Instruct RStudio to use `Git Bash` as terminal: Tools -> Global Options... -> Terminal -> New terminals open with -> Git Bash.
+
+- Note that `Git Bash` is not a Linux system. It's a Windows program that emulates a Bash shell, but lacks many Linux commands. `Git Bash` does not have a separate Linux file system. It piggybacks on the Windows file system, thus cannot do Linux-style file permission control. The user home of `Git Bash` is same as the user home on Windows, e.g., `/c/Users/[USERNAME]`.
+
+## Windows WSL (recommended)
+
+Our first lectures and homework depends heavily on Linux. It is recommended to install a Linux system on Windows. The WSL (Windows Subsystem for Linux) is a complete Linux solution for Windows users. 
+
+- Install WSL2 following [instructions](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+- A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon ![Ubuntu](https://assets.ubuntu.com/v1/ce518a18-CoF-2022_solid+O.svg){width=25}.
+
+- WSL is full Linux system. It has its own Linux file system, separate from the Windows file system. The user home is at `/home/[USERNAME]` within the Linux file system. 
+
+    - Within WSL, it is easy to access the files in Windows file system, which is mounted at `/mnt/c` on WSL. For the example, the file `/c/Users/[USERNAME]/file` is available within WSL at `/mnt/c/Users/[USERNAME]/file`. 
+    
+    - Within Windows, it is easy to access the files in the WSL file system from the Linux tab in File Explorer. 
+
+- For homework 1 (extensive Linux exercises), it is recommended to use RStudio Server within WSL2. Follow the instructions [here](https://support.posit.co/hc/en-us/articles/360049776974-Using-RStudio-Server-in-Windows-WSL2) and [here](https://posit.co/download/rstudio-server/) to install R (v4.1.2 at time of writing) and RStudio Server on WSL2 Ubuntu v20.04.
+
+::: {.callout-tip}
+If needed, install the older version of `libssl1.1` package on WSL2 (Ubuntu v20.04 ships with `libssl3`), which is required by RStudio Server:
+```{bash}
+#| eval: false
+echo "deb http://security.ubuntu.com/ubuntu focal-security main" | sudo tee /etc/apt/sources.list.d/focal-security.list
+sudo apt-get update
+sudo apt-get install libssl1.1
+```
+:::
+
+- Point your browser to `http://localhost:8787` to access RStudio Server. The default username and the password is the same as your Ubuntu login credential.
+
+::: {.callout-tip}
+Occasionally we need to lunch, restart, or stop RStudio Server on WSL2 Ubuntu:
+```{bash}
+#| eval: false
+sudo rstudio-server start
+sudo rstudio-server restart
+sudo rstudio-server stop
+```
+:::
+
+- Install Quarto CLI on WSL2 Ubuntu:
+```{bash}
+#| eval: false
+wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb
+sudo gdebi quarto-1.3.450-linux-amd64.deb
+```
+
+# Git and GitHub
+
+- Check whether `git` command is available in Terminal. 
+
+::: {.panel-tabset}
+
+## Mac
+
+If `git` is not available, follow the [instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) `Installing on macOS` section to install it.
+
+## Windows
+
+`git` is included in either `Git Bash` or WSL Ubuntu.
+
+:::
+
+## `git clone` and `git pull` course materials
+
+- In Terminal (Mac Terminal, Windows Git Bash, or Windows WSL), you can `git clone` a copy of course materials by
+```{bash}
+#| eval: false
+git clone https://github.com/ucla-biostat-203b/2024winter.git ~/203b-lecture
+```
+This command clones the GitHub repository to a folder called `203b-lecture` under your home directory. You can clone multiple copies to different locations on the same machine if you want. Since this GitHub repository is frequently updated, you can sync the local copy on your computer with the repository on GitHub by running
+```{bash}
+#| eval: false
+git pull
+```
+within the `203b-lecture` folder.
+
+- Navigate to the `203b-lecture` folder, double click the `2023winter.Rproj` file to open the project in RStudio. Within RStudio, you can navigate to the `slides` folder to open and render `qmd` files. 
+
+    You can also perform the majority of daily Git operations within RStudio.
+
+## Set up GitHub repo for 203B homework
+
+- Apply for the [Student Developer Pack](https://education.github.com/pack) at GitHub using your UCLA email. You'll get GitHub Pro account with unlimited public and private repositories for free. 
+
+- On <https://github.com/>, create a **private** repository `biostat-203b-2024-winter` and add `Hua-Zhou` and TAs as your collaborators with write permission. This repository is for submitting your 203B homework.
+
+- In Terminal (Mac Terminal, Windows Git Bash, or Windows WSL), you can run
+```{bash}
+#| eval: false
+git clone [SSH_ADDRESS] ~/203b-hw
+```
+to clone your homework repository to a folder called `203b-hw` under your home directory on your computer. `[SSH_ADDRESS]` is obtained by clicking the menu `<> Code` -> `SSH` on the repository page on GitHub.
+
+- Alternatively, you can also use RStudio to git clone: `File` -> `New Project...` -> `Version Control` -> `Git` -> input `Repository URL:`, `Project directory name:` (203b-hw).
+
+# SSH and keys
+
+## SSH client
+
+- SSH client should be available in Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) by default. 
+    
+- In Terminal, the command to connect to a Linux machine is
+```{bash}
+#| eval: false
+ssh [USERNAME]@[IP_ADDRESS]
+```
+Replace `[USERNAME]` in the command by your actual user name on the Linux machine you are connecting to. If you cannot connect, you may not have an account. For example, to connect to **my** account on the Hoffman2 cluster at UCLA
+```{bash}
+#| eval: false
+ssh huazhou@hoffman2.idre.ucla.edu
+```
+
+## SSH keys
+
+- First check whether you already have keys on your local machine. If you don't have `~/.ssh` folder, that means you have never used SSH before.
+```{bash}
+#| eval: false
+ls -al ~/.ssh
+```
+
+- If no SSH keys yet, generate a pair of RSA keys
+    - Method 1: Generate keys on Terminal, following the [instructions in lecture notes](https://ucla-biostat-203b.github.io/2024winter/slides/02-linux/linux.html#steps-to-generate-keys).  
+    - Method 2: Use RStudio to generate keys. `Tools` -> `Global Options...` -> `Git/SVN`. 
+    
+    Using either method, make sure keys are in the default location `~/.ssh/`
+
+- Make sure the permission for the key files are correct. 
+
+::: {.panel-tabset}
+
+## Mac
+
+- The permission for the `~/.ssh` folder should be `700 (drwx------)`. 
+
+- The permission for the private key `~/.ssh/id_rsa` should be `600 (-rw-------)`. 
+
+- The permission for the public key `~/.ssh/id_rsa.pub` should be `644 (-rw-r--r--)`.
+
+## Windows Git Bash
+
+- The permission for the `~/.ssh` folder can be `755 (drwxr-xr-x)`. 
+
+- The permission for the private key `~/.ssh/id_rsa` can be `644 (-rw-r--r--)`. 
+
+- The permission for the public key `~/.ssh/id_rsa.pub` can be `644 (-rw-r--r--)`.
+
+## Windows WSL
+
+- The permission for the `~/.ssh` folder should be `700 (drwx------)`. 
+
+- The permission for the private key `~/.ssh/id_rsa` should be `600 (-rw-------)`. 
+
+- The permission for the public key `~/.ssh/id_rsa.pub` should be `644 (-rw-r--r--)`.
+
+:::
+
+- Upload the public SSH key to GitHub: Click the user Avatar on top right corner -> Settings -> SSH and GPG keys -> New SSH key. 
+
+In your local machine terminal, you may copy the public key to the clipboard by following command.
+
+::: {.panel-tabset}
+
+## Mac
+
+```{bash}
+#| eval: false
+pbcopy ~/.ssh/id_rsa.pub
+```
+
+## Windows
+
+```{bash}
+#| eval: false
+clip < ~/.ssh/id_rsa.pub
+```
+
+## Linux
+
+If the `xclip` and `xsel` are installed, then we can use
+```{bash}
+#| eval: false
+xclip -selection clipboard ~/.ssh/id_rsa.pub
+```
+
+:::
+
+- On local machine, instruct RStudio to use the public key just generated: `Tools` -> `Global Options...` -> `Git/SVN` -> `SSH key:`.
+
+- After setting up SSH key, you can `git push` your local commits to GitHub repo seamlessly without inputting passwords. 
+
+# MIMIC Data
+
+Much of homework and in class examples are demonstrated on the [MIMIC-IV](https://physionet.org/content/mimiciv/2.2/) v2.2 data set. Download the data to your computer from [here](https://ucla.box.com/s/u90zkq9cvpv8p5s064s8bvy40c0tqx33) (7.69 GB), and make it available at `~/mimic`. For example, you can create a symbolic link by
+```{bash}
+#| eval: false
+ln -s /PATH/TO/YOUR/MIMIC_FOLDER ~/mimic
+```
+Your homework solution should always read data from `~/mimic`. This is critical for TA team to reproduce your homework.
+```{bash}
+ls ~/mimic
+```
+
+# Docker (optional)
+
+A customized Docker container provides a self-contained Linux Ubuntu environment for reproducing materials in this course.
+
+- Download and install the Docker Desktop <https://www.docker.com/products/docker-desktop/>.  
+
+- Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the `/Docker` folder of course material.
+
+- To run a Docker container, we first modify the `volumes` section of the `docker-compose.yml` file to map the `203b-lecture`, `203-hw`, and `mimic` folders on your computer to the home directory in the Ubuntu system in Docker container. Then type
+```{bash}
+#| eval: false
+docker compose up
+```
+to run the Docker container. This can take up to 10 minutes depending on internet connection. 
+
+- Point your browser to `localhost:8787` to connect to the RStudio Server running on the Ubuntu system.
+
+- **Advanced:** Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the `/Docker` folder of course material. Modify the `Dockerfile.amd64` or `Dockerfile.arm64` according to your needs. Type
+```{bash}
+#| eval: false
+docker build Dockerfile.amd64 . -t [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
+docker push Dockerfile.amd64 [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
+```
+to build the new Docker image. 
