@@ -43,22 +43,18 @@ Office hours:
 
 ## TA team
 
-<div class="panel-tabset">
-
-### Lec 1
+- Lec 1
 
 Tomoki Okuno <tomokiokuno0528@ucla.edu>\
 Office hours: TBD
 
-### Lec 80 (MDSH)
+- Lec 80 (MDSH)
 
 Jonathan Hori <jonhori@ucla.edu>\
 Office hours: TBD
 
 Jasen Zhang <jasenzhang@ucla.edu>\
 Office hours: TBD
-
-</div>
 
 ## Course Description
 
