@@ -7,14 +7,12 @@ title: Biostat 203B
 
 ## Lecture
 
-<div class="panel-tabset">
-
-### Lec 1
+- Lec 1 lecture schedule: 
 
 Tue (lecture) 3pm-4:50pm @ CHS 33-105A\
 Thu (lecture and lab) 3pm-4:50pm @ CHS 33-105A
 
-### Lec 80 (MDSH)
+- Lec 80 (MDSH) lecture schedule: 
 
 | Date         | Time          | Location                                   |
 |--------------|---------------|--------------------------------------------|
@@ -32,8 +30,6 @@ Thu (lecture and lab) 3pm-4:50pm @ CHS 33-105A
 | Thu, Mar 7   | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
 | Sat, Mar 16  | 2pm-6pm       | CHS 43-105A                                |
 | Sun, Mar 17  | 2pm-6pm       | CHS 43-105A                                |
-
-</div>
 
 ## Instructor
 
