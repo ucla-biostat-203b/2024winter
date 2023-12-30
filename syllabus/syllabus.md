@@ -7,7 +7,7 @@ title: Biostat 203B
 
 ## Lecture
 
-:::{.tabset}
+::: {.panel-tabset}
 
 ### Lec 1
 
@@ -47,7 +47,7 @@ Office hours:
 
 ## TA team
 
-:::{.tabset}
+::: {.panel-tabset}
 
 ### Lec 1
 
