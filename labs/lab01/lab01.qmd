@@ -43,6 +43,7 @@ Windows users also need to install the Rtools.
 ::: {.callout-tip}
 ## Enable GitHub Copilot in RStudio
 
+You will thank me for this act:
 `Tools` -> `Global Options...` -> `Copilot` -> `Enable GitHub Copilot` -> `Apply`
 :::
 
@@ -120,6 +121,8 @@ sudo rstudio-server stop
 wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb
 sudo gdebi quarto-1.3.450-linux-amd64.deb
 ```
+
+:::
 
 # Git and GitHub
 

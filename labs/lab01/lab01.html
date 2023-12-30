@@ -3026,12 +3026,7 @@ vertical-align: -.125em;
    
   <ul>
   <li><a href="#r-quarto-and-rstudio" id="toc-r-quarto-and-rstudio" class="nav-link active" data-scroll-target="#r-quarto-and-rstudio"><span class="header-section-number">1</span> R, Quarto, and RStudio</a></li>
-  <li><a href="#terminal-and-bash-shell" id="toc-terminal-and-bash-shell" class="nav-link" data-scroll-target="#terminal-and-bash-shell"><span class="header-section-number">2</span> Terminal and Bash shell</a>
-  <ul>
-  <li><a href="#mac-1" id="toc-mac-1" class="nav-link" data-scroll-target="#mac-1"><span class="header-section-number">2.1</span> Mac</a></li>
-  <li><a href="#windows-git-bash" id="toc-windows-git-bash" class="nav-link" data-scroll-target="#windows-git-bash"><span class="header-section-number">2.2</span> Windows Git Bash</a></li>
-  <li><a href="#windows-wsl-recommended" id="toc-windows-wsl-recommended" class="nav-link" data-scroll-target="#windows-wsl-recommended"><span class="header-section-number">2.3</span> Windows WSL (recommended)</a></li>
-  </ul></li>
+  <li><a href="#terminal-and-bash-shell" id="toc-terminal-and-bash-shell" class="nav-link" data-scroll-target="#terminal-and-bash-shell"><span class="header-section-number">2</span> Terminal and Bash shell</a></li>
   <li><a href="#git-and-github" id="toc-git-and-github" class="nav-link" data-scroll-target="#git-and-github"><span class="header-section-number">3</span> Git and GitHub</a>
   <ul>
   <li><a href="#git-clone-and-git-pull-course-materials" id="toc-git-clone-and-git-pull-course-materials" class="nav-link" data-scroll-target="#git-clone-and-git-pull-course-materials"><span class="header-section-number">3.1</span> <code>git clone</code> and <code>git pull</code> course materials</a></li>
@@ -3042,8 +3037,8 @@ vertical-align: -.125em;
   <li><a href="#ssh-client" id="toc-ssh-client" class="nav-link" data-scroll-target="#ssh-client"><span class="header-section-number">4.1</span> SSH client</a></li>
   <li><a href="#ssh-keys" id="toc-ssh-keys" class="nav-link" data-scroll-target="#ssh-keys"><span class="header-section-number">4.2</span> SSH keys</a></li>
   </ul></li>
-  <li><a href="#docker-optional" id="toc-docker-optional" class="nav-link" data-scroll-target="#docker-optional"><span class="header-section-number">5</span> Docker (optional)</a></li>
-  <li><a href="#mimic-data" id="toc-mimic-data" class="nav-link" data-scroll-target="#mimic-data"><span class="header-section-number">6</span> MIMIC Data</a></li>
+  <li><a href="#mimic-data" id="toc-mimic-data" class="nav-link" data-scroll-target="#mimic-data"><span class="header-section-number">5</span> MIMIC Data</a></li>
+  <li><a href="#docker-optional" id="toc-docker-optional" class="nav-link" data-scroll-target="#docker-optional"><span class="header-section-number">6</span> Docker (optional)</a></li>
   </ul>
 </nav>
 </div>
@@ -3112,15 +3107,16 @@ Enable GitHub Copilot in RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>Tools</code> -&gt; <code>Global Options...</code> -&gt; <code>Copilot</code> -&gt; <code>Enable GitHub Copilot</code> -&gt; <code>Apply</code></p>
+<p>You will thank me for this act: <code>Tools</code> -&gt; <code>Global Options...</code> -&gt; <code>Copilot</code> -&gt; <code>Enable GitHub Copilot</code> -&gt; <code>Apply</code></p>
 </div>
 </div>
 </section>
 <section id="terminal-and-bash-shell" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Terminal and Bash shell</h1>
-<p>::: {.panel-tabset}</p>
-<section id="mac-1" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="mac-1"><span class="header-section-number">2.1</span> Mac</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href>Windows Git Bash</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href>Windows WSL (recommended)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <ul>
 <li><p>Open the <code>Terminal</code> app. You can find <code>Terminal</code> from <code>LaunchPad</code> -&gt; <code>Other</code>, or from <code>Spotlight Search</code> (type Terminal). For convenience, you can pin the Terminal program to the Dock.</p></li>
 <li><p>Check that current shell is Bash</p></li>
@@ -3134,22 +3130,20 @@ Enable GitHub Copilot in RStudio
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chsh</span> <span class="at">-s</span> /bin/bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="windows-git-bash" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="windows-git-bash"><span class="header-section-number">2.2</span> Windows Git Bash</h2>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <ul>
 <li><p>Download and install <a href="https://gitforwindows.org/"><code>Git for Windows</code></a> v2.43 or later. Accept the default settings during the installation process.</p></li>
 <li><p><code>Git Bash</code> program is available as a component of <code>Git for Windows</code>. It provides a basic Bash shell and packages many commonly used Linux programs.</p></li>
 <li><p>Instruct RStudio to use <code>Git Bash</code> as terminal: Tools -&gt; Global Options… -&gt; Terminal -&gt; New terminals open with -&gt; Git Bash.</p></li>
 <li><p>Note that <code>Git Bash</code> is not a Linux system. It’s a Windows program that emulates a Bash shell, but lacks many Linux commands. <code>Git Bash</code> does not have a separate Linux file system. It piggybacks on the Windows file system, thus cannot do Linux-style file permission control. The user home of <code>Git Bash</code> is same as the user home on Windows, e.g., <code>/c/Users/[USERNAME]</code>.</p></li>
 </ul>
-</section>
-<section id="windows-wsl-recommended" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="windows-wsl-recommended"><span class="header-section-number">2.3</span> Windows WSL (recommended)</h2>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <p>Our first lectures and homework depends heavily on Linux. It is recommended to install a Linux system on Windows. The WSL (Windows Subsystem for Linux) is a complete Linux solution for Windows users.</p>
 <ul>
 <li><p>Install WSL2 following <a href="https://learn.microsoft.com/en-us/windows/wsl/install">instructions</a>.</p></li>
-<li><p>A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon <img src="data:image/svg+xml;base64,MWwUACBXOrNqNQrQab2AD9gmRRP22PITyA80ddNDzu2/Lby1C2xti6OEomzpZBnbFki2Tm8w2d5VUq3uqN2a7o+6k+V2/33+NN7+o9sk7OX8YlyPdPTZgT+/nLb74/X6emM2e3h4gAeBq9ujGSPibLo/6rv7k/Hh4Opxu8cOu/AARffsQhKElKnf2VqOq2lna1o/nY87sDifBnpZnZyfb7wbyxDHzbet2bR+Oh93tmbLcTXtbC1ObhfnY/eO1YsszqeB+m7xuN0TFiB7ed8tnrZ70QQsJe67WwG3MzNocwFM8cIVrQkkk67n6+NxhuV2/0OLQZNKG4k4uFvEnN3A2NAamw4bNhooCTCIB5IErCRtZA6lkQ0qjFkCTEXUiEAt2ZqYQomxgkHz47IZmARLY1IgV7MmVsAYEYAaBRGgVFotoDw2TyMKSYc+f6gQFLP4UARk6n5ohMDqzI1EERCNrRkScIRYI5EE02zBif/suy8nylZXtxfbPd2C8/l6/DyQBJiTWTcEBlRU5ZfkKSXBGDX/2XEu4AwWjJMcEJWNuAKYsWxfzCEQzRuDMRsl1cCDU1pGQiDPyQJIVakBprmxEwhWWAuCRKHGHsAlE4rKE0I8s0ryNVP3yRxEPVICGbDq0NzVOZhqSvhOLAkUrtqyCoIK/UaBDG0A5ohqCYImMgCzmeyTBYg6e2PQ02LhAnIlb8UCKHW8dKGbdCg/wFSAgyVbYoJxuc/JEjBDgBHM9jcJYPiQCcrIfKhSwGpaLbCAjSKaoAOyMrVIBERqh9O5AqXZdH+0YwAD" class="img-fluid" width="25" alt="Ubuntu">.</p></li>
+<li><p>A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjcuNDA2NjggNzM4LjMxNDIxIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2U5NTAwZTt9PC9zdHlsZT48L2RlZnM+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSIxMDkuMDI2OTYiIGN5PSIzNDguMDk0MTIiIHI9IjEwOS4wMjY5NiIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTYzLjA4MzY5IiBjeT0iMTA5LjAyNjk4IiByPSIxMDkuMDI2OTgiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00OTIuNDgxOTQsMTMzNi42NjU3N2EyNjUuNTI1MDUsMjY1LjUyNTA1LDAsMCwxLTE4MS4wNzEyLTEzOC4wOTgxNCwxNTYuOTQ3ODQsMTU2Ljk0Nzg0LDAsMCwxLTkzLjIxOTExLDExLjQ1ODI1LDM1NC45MzUyNCwzNTQuOTM1MjQsMCwwLDAsMjU1LjUzNzIzLDIxNC4xNjQ1NSwzNTkuMjA3NzcsMzU5LjIwNzc3LDAsMCwwLDc3LjQxOTQ5LDcuOTY3LDE1Ni4wMDMxMywxNTYuMDAzMTMsMCwwLDEtMzEuOTIyMzYtOTEuMTU0NjZDNTEwLjI0NjIyLDEzNDAuMDA1MjUsNTAxLjI3NzM1LDEzMzguNTQ4LDQ5Mi40ODE5NCwxMzM2LjY2NTc3WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzNy41NjE1NSAtNzA3Ljk3OTk4KSIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTM4LjUyMDQ2IiBjeT0iNjI5LjI4NzIzIiByPSIxMDkuMDI2OTgiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik04MjcuNzk4LDEyOTcuMjIwOTVBMzU2LjcwMDU2LDM1Ni43MDA1NiwwLDAsMCw4NDUuNjcyODMsODc4LjcwMmExNTcuMTQ0NDEsMTU3LjE0NDQxLDAsMCwxLTYxLjMwOTc1LDcxLjgwMzEsMjY3LjI5MywyNjcuMjkzLDAsMCwxLTguNzM2ODgsMjY1LjQ4ODRBMTU2LjM0Njc3LDE1Ni4zNDY3NywwLDAsMSw4MjcuNzk4LDEyOTcuMjIwOTVaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3LjU2MTU1IC03MDcuOTc5OTgpIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjM4LjE3NjQ0LDg5OS43MTkwNnE0LjE1MDUtLjIyNzc5LDguMzA1MzMtLjIyNTUzQTE1Ny4zNDYyNiwxNTcuMzQ2MjYsMCwwLDEsMzI5LjE2NDE2LDkyMy4wMzksMjY1LjkwNjUzLDI2NS45MDY1MywwLDAsMSw1NDMuMjcyMzgsODA4LjUyOTY2YTE1OC4wODc3LDE1OC4wODc3LDAsMCwxLDMzLjA3Ni04OC40MjAyMkM0MzkuMjQ1NDksNzA5LjI1MTc3LDMwNi4wMjQyMSw3ODAuMDAxLDIzOC4xNzY0NCw4OTkuNzE5MDZaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3LjU2MTU1IC03MDcuOTc5OTgpIi8+PC9zdmc+" class="img-fluid" width="25" alt="Ubuntu">.</p></li>
 <li><p>WSL is full Linux system. It has its own Linux file system, separate from the Windows file system. The user home is at <code>/home/[USERNAME]</code> within the Linux file system.</p>
 <ul>
 <li><p>Within WSL, it is easy to access the files in Windows file system, which is mounted at <code>/mnt/c</code> on WSL. For the example, the file <code>/c/Users/[USERNAME]/file</code> is available within WSL at <code>/mnt/c/Users/[USERNAME]/file</code>.</p></li>
@@ -3203,7 +3197,9 @@ Tip
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> gdebi quarto-1.3.450-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
+</div>
+</div>
+</div>
 </section>
 <section id="git-and-github" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Git and GitHub</h1>
@@ -3211,12 +3207,12 @@ Tip
 <li>Check whether <code>git</code> command is available in Terminal.</li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href>Windows</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href>Windows</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>If <code>git</code> is not available, follow the <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">instructions</a> <code>Installing on macOS</code> section to install it.</p>
 </div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <p><code>git</code> is included in either <code>Git Bash</code> or WSL Ubuntu.</p>
 </div>
 </div>
@@ -3290,23 +3286,23 @@ Tip
 <li><p>Make sure the permission for the key files are correct.</p></li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href>Windows Git Bash</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href>Windows WSL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href>Windows Git Bash</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false" href>Windows WSL</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <ul>
 <li><p>The permission for the <code>~/.ssh</code> folder should be <code>700 (drwx------)</code>.</p></li>
 <li><p>The permission for the private key <code>~/.ssh/id_rsa</code> should be <code>600 (-rw-------)</code>.</p></li>
 <li><p>The permission for the public key <code>~/.ssh/id_rsa.pub</code> should be <code>644 (-rw-r--r--)</code>.</p></li>
 </ul>
 </div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <ul>
 <li><p>The permission for the <code>~/.ssh</code> folder can be <code>755 (drwxr-xr-x)</code>.</p></li>
 <li><p>The permission for the private key <code>~/.ssh/id_rsa</code> can be <code>644 (-rw-r--r--)</code>.</p></li>
 <li><p>The permission for the public key <code>~/.ssh/id_rsa.pub</code> can be <code>644 (-rw-r--r--)</code>.</p></li>
 </ul>
 </div>
-<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
 <ul>
 <li><p>The permission for the <code>~/.ssh</code> folder should be <code>700 (drwx------)</code>.</p></li>
 <li><p>The permission for the private key <code>~/.ssh/id_rsa</code> should be <code>600 (-rw-------)</code>.</p></li>
@@ -3320,19 +3316,19 @@ Tip
 </ul>
 <p>In your local machine terminal, you may copy the public key to the clipboard by following command.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href>Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false" href>Linux</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href>Mac</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href>Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false" href>Linux</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pbcopy</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clip</span> <span class="op">&lt;</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <p>If the <code>xclip</code> and <code>xsel</code> are installed, then we can use</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xclip</span> <span class="at">-selection</span> clipboard ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3346,36 +3342,15 @@ Tip
 </ul>
 </section>
 </section>
-<section id="docker-optional" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Docker (optional)</h1>
-<p>A customized Docker container provides a self-contained Linux Ubuntu environment for reproducing materials in this course.</p>
-<ul>
-<li><p>Download and install the Docker Desktop <a href="https://www.docker.com/products/docker-desktop/" class="uri">https://www.docker.com/products/docker-desktop/</a>.</p></li>
-<li><p>Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material.</p></li>
-<li><p>To run a Docker container, we first modify the <code>volumes</code> section of the <code>docker-compose.yml</code> file to map the <code>203b-lecture</code>, <code>203-hw</code>, and <code>mimic</code> folders on your computer to the home directory in the Ubuntu system in Docker container. Then type</p></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>to run the Docker container. This can take up to 10 minutes depending on internet connection.</p>
-<ul>
-<li><p>Point your browser to <code>localhost:8787</code> to connect to the RStudio Server running on the Ubuntu system.</p></li>
-<li><p><strong>Advanced:</strong> Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material. Modify the <code>Dockerfile</code> according to your needs. Type</p></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build . <span class="at">-t</span> huazhou/ucla_biostat_203b_2023w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>to build the new Docker image.</p>
-</section>
-<section id="mimic-data" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> MIMIC Data</h1>
+<section id="mimic-data" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> MIMIC Data</h1>
 <p>Much of homework and in class examples are demonstrated on the <a href="https://physionet.org/content/mimiciv/2.2/">MIMIC-IV</a> v2.2 data set. Download the data to your computer from <a href="https://ucla.box.com/s/u90zkq9cvpv8p5s064s8bvy40c0tqx33">here</a> (7.69 GB), and make it available at <code>~/mimic</code>. For example, you can create a symbolic link by</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /PATH/TO/YOUR/MIMIC_FOLDER ~/mimic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /PATH/TO/YOUR/MIMIC_FOLDER ~/mimic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Your homework solution should always read data from <code>~/mimic</code>. This is critical for TA team to reproduce your homework.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/mimic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/mimic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>CHANGELOG.txt
 LICENSE.txt
@@ -3384,6 +3359,28 @@ hosp
 icu</code></pre>
 </div>
 </div>
+</section>
+<section id="docker-optional" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Docker (optional)</h1>
+<p>A customized Docker container provides a self-contained Linux Ubuntu environment for reproducing materials in this course.</p>
+<ul>
+<li><p>Download and install the Docker Desktop <a href="https://www.docker.com/products/docker-desktop/" class="uri">https://www.docker.com/products/docker-desktop/</a>.</p></li>
+<li><p>Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material.</p></li>
+<li><p>To run a Docker container, we first modify the <code>volumes</code> section of the <code>docker-compose.yml</code> file to map the <code>203b-lecture</code>, <code>203-hw</code>, and <code>mimic</code> folders on your computer to the home directory in the Ubuntu system in Docker container. Then type</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>to run the Docker container. This can take up to 10 minutes depending on internet connection.</p>
+<ul>
+<li><p>Point your browser to <code>localhost:8787</code> to connect to the RStudio Server running on the Ubuntu system.</p></li>
+<li><p><strong>Advanced:</strong> Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material. Modify the <code>Dockerfile.amd64</code> or <code>Dockerfile.arm64</code> according to your needs. Type</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build Dockerfile.amd64 . <span class="at">-t</span> <span class="pp">[</span><span class="ss">DOCKERHUB_USERNAME</span><span class="pp">]</span>/ucla_biostat_203b_2024w</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push Dockerfile.amd64 <span class="pp">[</span><span class="ss">DOCKERHUB_USERNAME</span><span class="pp">]</span>/ucla_biostat_203b_2024w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>to build the new Docker image.</p>
 </section>
 
 </main>
