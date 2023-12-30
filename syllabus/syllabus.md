@@ -7,7 +7,7 @@ title: Biostat 203B
 
 ## Lecture
 
-::: {.panel-tabset}
+<div class="panel-tabset">
 
 ### Lec 1
 
@@ -33,7 +33,7 @@ Thu (lecture and lab) 3pm-4:50pm @ CHS 33-105A
 | Sat, Mar 16  | 2pm-6pm       | CHS 43-105A                                |
 | Sun, Mar 17  | 2pm-6pm       | CHS 43-105A                                |
 
-:::
+</div>
 
 ## Instructor
 
@@ -47,7 +47,7 @@ Office hours:
 
 ## TA team
 
-::: {.panel-tabset}
+<div class="panel-tabset">
 
 ### Lec 1
 
@@ -62,7 +62,7 @@ Office hours: TBD
 Jasen Zhang <jasenzhang@ucla.edu>\
 Office hours: TBD
 
-:::
+</div>
 
 ## Course Description
 
