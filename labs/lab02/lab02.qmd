@@ -1,0 +1,59 @@
+---
+title: "Lab 2: Getting Started With Homework"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+knitr:
+  opts_chunk: 
+    echo: true
+    fig.align: 'center'
+---
+
+This tutorial assumes that you have already installed R, RStudio, and Git on your computer. If not, please refer to the [Lab 1](https://ucla-biostat-203b.github.io/2024winter/labs/lab01/lab01.html).
+
+# Set up GitHub repo for 203B homework
+
+- On <https://github.com/>, create a **private** repository `biostat-203b-2024-winter` and add `Hua-Zhou` and TA team (`tomokiokuno0528` for Lec 1; `jonathanhori` and `jasenzhang1` for Lec 80) as your collaborators with write permission. This repository is for submitting your 203B homework.
+
+- You can also use RStudio to git clone the `biostat-203b-2024-winter` repository to your local machine: `File` -> `New Project...` -> `Version Control` -> `Git` -> input `Repository URL:`, `Project directory name:` (203b-hw).
+
+- Alternatively, in Terminal (Mac Terminal, Windows Git Bash, or Windows WSL), you can run
+```{bash}
+#| eval: false
+git clone [SSH_ADDRESS] ~/203b-hw
+```
+to clone your homework repository to a folder called `203b-hw` under your home directory on your computer. `[SSH_ADDRESS]` is obtained by clicking the menu `<> Code` -> `SSH` on the repository page on GitHub. Then you can double click the `biostat-203b-2024-winter.Rproj` file to open the RStudio project.
+
+# MIMIC Data
+
+Much of homework and exercises are demonstrated on the [MIMIC-IV](https://physionet.org/content/mimiciv/2.2/) v2.2 data set. Download the data to your computer from [here](https://ucla.box.com/s/u90zkq9cvpv8p5s064s8bvy40c0tqx33) (7.69 GB), and make it available at `~/mimic`. For example, you can create a symbolic link by
+```{bash}
+#| eval: false
+ln -s /PATH/TO/YOUR/MIMIC_FOLDER ~/mimic
+```
+Your homework solution should always read data from `~/mimic`. This is critical for TA team to reproduce your homework.
+```{bash}
+ls -l ~/mimic/
+```
+
+# Start with homework 1
+
+- Create folder `hw1`.
+
+- Download [`hw1.qmd`](https://raw.githubusercontent.com/UCLA-Biostat-203B/2024winter/main/hw/hw1/hw1.qmd) to `hw1/` folder. Make a copy and rename it to `hw1sol.qmd`. This is your homework solution file.
+
+- Demonstrate Q2: include CITI completion report and completion certificate.
+
+- Demonstrate Q3.2.
+
+- Demonstrate Q5.
+
