@@ -7,12 +7,14 @@ title: Biostat 203B
 
 ## Lecture
 
-Lec 1 Schedule:
+:::{.tabset}
+
+### Lec 1
 
 Tue (lecture) 3pm-4:50pm @ CHS 33-105A\
 Thu (lecture and lab) 3pm-4:50pm @ CHS 33-105A
 
-Lec 80 (MDSH) Schedule:
+### Lec 80 (MDSH)
 
 | Date         | Time          | Location                                   |
 |--------------|---------------|--------------------------------------------|
@@ -31,6 +33,8 @@ Lec 80 (MDSH) Schedule:
 | Sat, Mar 16  | 2pm-6pm       | CHS 43-105A                                |
 | Sun, Mar 17  | 2pm-6pm       | CHS 43-105A                                |
 
+:::
+
 ## Instructor
 
 [Dr. Hua Zhou](http://hua-zhou.github.io/)\
@@ -43,11 +47,22 @@ Office hours:
 
 ## TA team
 
-Lec 1: Tomoki Okuno <tomokiokuno0528@ucla.edu>\
+:::{.tabset}
+
+### Lec 1
+
+Tomoki Okuno <tomokiokuno0528@ucla.edu>\
 Office hours: TBD
 
-Lec 80 (MDSH): Jonathan Hori <jonhori@ucla.edu>, Jasen Zhang <jasenzhang@ucla.edu>\
+### Lec 80 (MDSH)
+
+Jonathan Hori <jonhori@ucla.edu>\
 Office hours: TBD
+
+Jasen Zhang <jasenzhang@ucla.edu>\
+Office hours: TBD
+
+:::
 
 ## Course Description
 
