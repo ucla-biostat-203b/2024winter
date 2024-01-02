@@ -22,11 +22,16 @@ format:
 
 - My favorite definition of a *data scientist*:
 
-> A data scientist is someone who is better at statistics than any software engineer and better at software engineering than any statistician.
+> A data scientist is someone who is better at statistics than any **software engineer** and better at software engineering than any **statistician**.
 
 ``` {shortcodes=false}
 {{< tweet user="josh_wills" id="198093512149958656" >}}
 ```
+
+<p align="center">
+<img src="./data-science-venn.png" width="60%"/>
+</p>
+
 
 ## Big data in 1990s
 
@@ -46,7 +51,7 @@ format:
 4V's of big data:
 
 <p align="center">
-<img src="./4-Vs-of-big-data.jpg" height="450" width="700"/>
+<img src="./4-Vs-of-big-data.jpg" width="100%"/>
 </p>
 
 Source: [IBM](http://www.ibmbigdatahub.com/infographic/four-vs-big-data).
@@ -68,7 +73,7 @@ Source: [AmStat News (2021 Nov)](https://magazine.amstat.org/wp-content/uploads/
 A position posted by Genetech.
 
 <p align="center">
-<img src="./genetech.png" height="450" width="700"/>
+<img src="./genetech.png" width="100%"/>
 </p>
 
 ## Course description
