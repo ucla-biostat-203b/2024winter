@@ -1,5 +1,6 @@
 # https://rocker-project.org/images/versioned/rstudio.html
-# ubuntu: 22.04 (jammy), R: 4.3.2, Python: 3.10
+# https://github.com/rocker-org/rocker-versioned2
+# ubuntu: 22.04 (jammy), R: 4.3.2, Python: 3.10, Julia: 1.9.4
 FROM rocker/rstudio:4.3.2
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
@@ -18,12 +19,36 @@ RUN /rocker_scripts/install_verse.sh
 # geospatial
 RUN /rocker_scripts/install_geospatial.sh
 
-# Julia
-RUN /rocker_scripts/install_julia.sh
-
 # Jupyter
 RUN /rocker_scripts/install_jupyter.sh
 
-# extra R and Python packages
-COPY install_extra_pkgs.sh /rocker_scripts/install_extra_pkgs.sh
-RUN /rocker_scripts/install_extra_pkgs.sh
+# Copy a script that we will use to correct permissions after running certain commands
+COPY fix-permissions /usr/local/bin/fix-permissions
+RUN chmod a+rx /usr/local/bin/fix-permissions
+
+# Ubuntu packages
+COPY install_ubuntu_pkgs.sh /rocker_scripts/install_ubuntu_pkgs.sh
+COPY ubuntu_pkgs.txt /rocker_scripts/ubuntu_pkgs.txt
+RUN /rocker_scripts/install_ubuntu_pkgs.sh
+
+# Python packages
+ENV NB_GID=staff
+COPY install_python_pkgs.sh /rocker_scripts/install_python_pkgs.sh
+COPY python_pkgs.txt /rocker_scripts/python_pkgs.txt
+RUN /rocker_scripts/install_python_pkgs.sh
+
+# R packages
+# for reticulate
+ENV RETICULATE_PYTHON_ENV=/opt/venv
+COPY install_r_pkgs.sh /rocker_scripts/install_r_pkgs.sh
+COPY r_pkgs.txt /rocker_scripts/r_pkgs.txt
+RUN /rocker_scripts/install_r_pkgs.sh
+
+# Julia and packages
+RUN /rocker_scripts/install_julia.sh
+ENV JULIA_DEPOT_PATH=/opt/julia
+ENV JULIA_PKGDIR=/opt/julia
+ENV JUPYTER=/opt/venv/bin/jupyter
+COPY install_julia_pkgs.sh /rocker_scripts/install_julia_pkgs.sh
+COPY julia_pkgs.txt /rocker_scripts/julia_pkgs.txt
+RUN /rocker_scripts/install_julia_pkgs.sh

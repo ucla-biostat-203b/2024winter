@@ -1,14 +1,19 @@
 services:
   rstudio:
-    image: huazhou/ucla_biostat_203b_2024w:manifest-arm64
+    image: huazhou/ucla-biostat-203b-2024w
     ports:
       - "8787:8787"
+      - "8888:8888"
     environment:
       PASSWORD: 203b
       ROOT: true
       DISABLE_AUTH: true
+      # USERID: 1000 # uid of rstudio user in the container
+      # GROUPID: 1001 # gid of staff group in the container
     volumes:
       - "/Users/huazhou/Documents/github.com/ucla-biostat-203b/2024winter:/home/rstudio/203b-lecture"
       - "/Users/huazhou/Library/CloudStorage/Box-Box/MIMIC/mimic-iv-2.2:/home/rstudio/mimic"
       - "/Users/huazhou/Desktop/203b-hw:/home/rstudio/203b-hw"
+      - "/Users/huazhou/Documents/github.com/ucla-biostat-212a/2024winter:/home/rstudio/212a-lecture"
       - "/Users/huazhou/.ssh:/home/rstudio/.ssh"
+      - "/Users/huazhou/.gitconfig:/etc/gitconfig"

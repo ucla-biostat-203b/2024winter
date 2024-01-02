@@ -1,10 +1,1 @@
-install.packages(
-  "ggrepel", 
-  "htmlwidgets",
-  "maps",
-  "markdown", 
-  "nycflights13",
-  "reticulate",
-  "rmarkdown", 
-  "tidyverse"
-)
+install.packages(read.csv("Docker/r_pkgs.txt", header = F)[[1]], repos = "https://cran.rstudio.com")

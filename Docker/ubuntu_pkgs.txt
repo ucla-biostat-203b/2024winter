@@ -1,0 +1,3 @@
+bsdmainutils
+mlocate
+tree

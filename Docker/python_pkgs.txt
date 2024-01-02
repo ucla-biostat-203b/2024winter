@@ -1,0 +1,17 @@
+cartopy
+IPython
+keras
+keras-tuner
+matplotlib
+numpy
+nycflights13
+openpyxl
+pandas
+plotnine
+seaborn
+scikit-learn
+statsmodels
+tensorflow
+tensorflow-hub
+xgboost
+xlrd
