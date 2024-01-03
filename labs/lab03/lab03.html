@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2023-12-30">
+<meta name="dcterms.date" content="2024-01-03">
 
-<title>Lab 3: Docker (optional)</title>
+<title>Lab 3: Docker (optional for Lec 1)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3029,6 +3029,8 @@ vertical-align: -.125em;
   <li><a href="#run-a-docker-container" id="toc-run-a-docker-container" class="nav-link" data-scroll-target="#run-a-docker-container"><span class="header-section-number">2</span> Run a Docker container</a></li>
   <li><a href="#build-your-own-docker-image" id="toc-build-your-own-docker-image" class="nav-link" data-scroll-target="#build-your-own-docker-image"><span class="header-section-number">3</span> Build your own Docker image</a></li>
   <li><a href="#push-the-docker-image-to-docker-hub" id="toc-push-the-docker-image-to-docker-hub" class="nav-link" data-scroll-target="#push-the-docker-image-to-docker-hub"><span class="header-section-number">4</span> Push the Docker image to Docker Hub</a></li>
+  <li><a href="#run-docker-container-on-hoffman2-todo" id="toc-run-docker-container-on-hoffman2-todo" class="nav-link" data-scroll-target="#run-docker-container-on-hoffman2-todo"><span class="header-section-number">5</span> Run Docker container on Hoffman2 (TODO)</a></li>
+  <li><a href="#run-docker-container-on-cloud-todo" id="toc-run-docker-container-on-cloud-todo" class="nav-link" data-scroll-target="#run-docker-container-on-cloud-todo"><span class="header-section-number">6</span> Run Docker container on cloud (TODO)</a></li>
   </ul>
 </nav>
 </div>
@@ -3038,7 +3040,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 3: Docker (optional)</h1>
+<h1 class="title">Lab 3: Docker (optional for Lec 1)</h1>
 <p class="subtitle lead">Biostat 203B</p>
 </div>
 
@@ -3056,7 +3058,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 30, 2023</p>
+      <p class="date">January 3, 2024</p>
     </div>
   </div>
   
@@ -3075,13 +3077,13 @@ vertical-align: -.125em;
 <section id="run-a-docker-container" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="run-a-docker-container"><span class="header-section-number">2</span> Run a Docker container</h2>
 <ul>
-<li><p>Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material.</p></li>
+<li><p>Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of the course material.</p></li>
 <li><p>To run a Docker container, we first modify the <code>volumes</code> section of the <code>docker-compose.yml</code> file to map the <code>203b-lecture</code>, <code>203-hw</code>, and <code>mimic</code> folders on your computer to the home directory in the Ubuntu system in Docker container. Then type</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> up</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>to run the Docker container. This can take up to 10 minutes depending on internet connection.</p>
+<p>to run the Docker container. This can take up to 10 minutes for Docker to pull the <a href="https://hub.docker.com/repository/docker/huazhou/ucla-biostat-203b-2024w/general">image</a>, depending on internet connection.</p>
 <ul>
 <li>Point your browser to <code>localhost:8787</code> to connect to the RStudio Server running on the Ubuntu system in the container.</li>
 </ul>
@@ -3107,6 +3109,12 @@ vertical-align: -.125em;
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push Dockerfile.amd64 <span class="pp">[</span><span class="ss">DOCKERHUB_USERNAME</span><span class="pp">]</span>/ucla_biostat_203b_2024w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>to push the new Docker image to Docker Hub.</p>
+</section>
+<section id="run-docker-container-on-hoffman2-todo" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="run-docker-container-on-hoffman2-todo"><span class="header-section-number">5</span> Run Docker container on Hoffman2 (TODO)</h2>
+</section>
+<section id="run-docker-container-on-cloud-todo" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="run-docker-container-on-cloud-todo"><span class="header-section-number">6</span> Run Docker container on cloud (TODO)</h2>
 </section>
 
 </main>

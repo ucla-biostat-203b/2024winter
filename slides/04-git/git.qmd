@@ -15,6 +15,11 @@ format:
 engine: knitr    
 ---
 
+Display machine information for reproducibility:
+```{r}
+sessionInfo()
+```
+
 ## If it's not in source control, it doesn't exist.
 
 <p align="center">

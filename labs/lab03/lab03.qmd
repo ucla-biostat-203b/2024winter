@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Docker (optional)"
+title: "Lab 3: Docker (optional for Lec 1)"
 subtitle: Biostat 203B
 author: "Dr. Hua Zhou @ UCLA"
 date: today
@@ -28,14 +28,14 @@ Download and install the Docker Desktop <https://www.docker.com/products/docker-
 
 ## Run a Docker container 
 
-- Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the `/Docker` folder of course material.
+- Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the `/Docker` folder of the course material.
 
 - To run a Docker container, we first modify the `volumes` section of the `docker-compose.yml` file to map the `203b-lecture`, `203-hw`, and `mimic` folders on your computer to the home directory in the Ubuntu system in Docker container. Then type
 ```{bash}
 #| eval: false
-docker compose up
+docker-compose up
 ```
-to run the Docker container. This can take up to 10 minutes depending on internet connection. 
+to run the Docker container. This can take up to 10 minutes for Docker to pull the [image](https://hub.docker.com/repository/docker/huazhou/ucla-biostat-203b-2024w/general), depending on internet connection. 
 
 - Point your browser to `localhost:8787` to connect to the RStudio Server running on the Ubuntu system in the container.
 
@@ -60,3 +60,7 @@ to build the new Docker image.
 docker push Dockerfile.amd64 [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
 ```
 to push the new Docker image to Docker Hub.
+
+## Run Docker container on Hoffman2 (TODO)
+
+## Run Docker container on cloud (TODO)

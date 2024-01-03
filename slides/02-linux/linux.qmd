@@ -19,15 +19,6 @@ Display machine information for reproducibility:
 sessionInfo()
 ```
 
-Windows Git Bash users need to set bash engine to `Git Bash`:
-```{r, eval = Sys.info()['sysname'] == "Windows"}
-# only on Windows Git Bash
-knitr::opts_chunk$set(engine.path = list(
-  bash = "C:\\Program\ Files\\Git\\bin\\bash.exe"
-))
-```
-
-
 ## Preface
 
 - This html is rendered from `linux.qmd` on Linux Ubuntu 22.04 (jammy).  
@@ -35,7 +26,22 @@ knitr::opts_chunk$set(engine.path = list(
     
     - Windows users need to install `Git for Windows` to render `linux.qmd` using Git Bash or install `WSL` (Windows Subsystem for Linux) to render `linux.qmd` using Ubuntu. Some tools such as `tree` and `locate` need to be installed (follow the error messages).  
     
-    - Both Mac and Windows users can also use Docker to render `linux.qmd` within a Ubuntu container.
+    - Both Mac and Windows users can also use Docker to render `linux.qmd` within a Ubuntu container. Details in Lab 3.
+
+::: {.callout-tip}
+
+### Set Bash engine in Windows
+
+Windows Git Bash users need to set bash engine to `Git Bash`:
+```{r, eval = Sys.info()['sysname'] == "Windows"}
+# only on Windows Git Bash
+knitr::opts_chunk$set(engine.path = list(
+  bash = "C:\\Program\ Files\\Git\\bin\\bash.exe"
+))
+```
+or similarly to WSL.
+
+:::  
 
 - In this lecture, most code chunks are `bash` commands instead of R code. 
 
@@ -47,8 +53,9 @@ Linux is _the_ most common platform for scientific computing and deployment of d
 
 - Things break; when they break using Linux, it's easy to fix.
 
-- Scalability: portable devices (Android, iOS), laptops, servers, clusters, and super computers.
+- Scalability: portable devices (Android, iOS), laptops, servers, clusters, and super-computers.
     - E.g. UCLA Hoffmann2 cluster runs on Linux; most machines in cloud (AWS, Azure, GCP) run on Linux.  
+    
 - Cost: it's free!
 
 ## [Distributions of Linux](http://upload.wikimedia.org/wikipedia/commons/1/1b/Linux_Distribution_Timeline.svg)
@@ -61,9 +68,11 @@ Linux is _the_ most common platform for scientific computing and deployment of d
   <img src="./redhat_kills_centos.png" height="200" width="300">
 </p>
 
-- UCLA Hoffman2 cluster runs CentOS 7.9.2009 (as of 2023-01-01).
+- UCLA Hoffman2 cluster runs CentOS 7.9.2009 (as of 2024-01-01).
 
-- MacOS was originally derived from Unix/Linux (Darwin kernel). It is POSIX compliant. Most shell commands we review here apply to MacOS terminal as well. Windows/DOS, unfortunately, is a totally different breed.
+- MacOS was originally derived from Unix/Linux (Darwin kernel). It is POSIX compliant. Most shell commands we review here apply to MacOS terminal as well. 
+
+    Windows/DOS, unfortunately, is a totally different breed.
 
 - Show operating system (OS) type:
 ```{bash}
@@ -95,7 +104,7 @@ system_profiler SPSoftwareDataType
 
 - Most commonly used shells include `bash`, `csh`, `tcsh`, `zsh`, etc.
 
-- The default shell in MacOS changed from `bash` to `zsh` since MacOS v10.15.
+- The default shell in MacOS changed from `bash` to `zsh` since MacOS v10.15 circa 2019.
 
 - Sometimes a command and a script does not run simply because it's written for another shell.
 
@@ -127,21 +136,21 @@ Then log out and log in.
 
 ### Command history and bash completion
 
-We can navigate to previous/next commands by the upper and lower keys, or maintain a command history stack using `pushd` and `popd` commands.
+- We can navigate to previous/next commands by the upper and lower keys, or maintain a command history stack using `pushd` and `popd` commands.
 
-Bash provides the following standard completion for the Linux users by default. Much less typing errors and time!  
+- Bash provides the following standard completion for the Linux users by default. Much less typing errors and time!  
 
-- Pathname completion.  
-
-- Filename completion.  
-
-- Variablename completion: `echo $[TAB][TAB]`.  
-
-- Username completion: `cd ~[TAB][TAB]`.
-
-- Hostname completion `ssh huazhou@[TAB][TAB]`.
-
-- It can also be customized to auto-complete other stuff such as options and command's arguments. Google `bash completion` for more information.
+    - Pathname completion.  
+    
+    - Filename completion.  
+    
+    - Variablename completion: `echo $[TAB][TAB]`.  
+    
+    - Username completion: `cd ~[TAB][TAB]`.
+    
+    - Hostname completion `ssh huazhou@[TAB][TAB]`.
+    
+    - It can also be customized to auto-complete other stuff such as options and command's arguments. Google `bash completion` for more information.
 
 ### `man` is man's best friend
 
@@ -190,13 +199,15 @@ ls -l
 ls -al
 ```
 
-- `..` denotes the parent of current working directory.
+- Symbols for special directories:
 
-- `.` denotes the current working directory.
+    - `..` denotes the parent of current working directory.
 
-- `~` denotes user's home directory.
+    - `.` denotes the current working directory.
 
-- `/` denotes the root directory.
+    - `~` denotes user's home directory.
+
+    - `/` denotes the root directory.
 
 - `cd ..` changes to parent directory.
 
@@ -226,8 +237,12 @@ ls -al
 
 - `groups [USERNAME]` shows which group(s) a user belongs to:
 ```{bash, eval = Sys.info()['sysname'] != "Windows"}
-# On Linux or MacOS
 groups $USER
+```
+
+- `id` shows the ids of user and its groups.
+```{bash}
+id
 ```
 
 ### Manipulate files and directories
@@ -282,7 +297,7 @@ which R
 | `[a-z]`    | any lowercase letter                |
 | `[0-9]`    | any number (same as `[0123456789]`) |
 
--
+- Example: 
 ```{bash}
 # all png files in current folder
 ls -l *.png
@@ -292,9 +307,9 @@ ls -l *.png
 
 - Wildcards are examples of _regular expressions_. 
 
-- Regular expressions are a powerful tool to efficiently sift through large amounts of text: record linking, data cleaning, scraping data from website or other data-feed. 
+- Regular expressions (regex) are a powerful tool to efficiently sift through large amounts of text: record linking, data cleaning, scraping data from website or other data-feed. 
 
-- Google `regular expressions` to learn.
+- We will learn more about regex in the [strings and regex](https://ucla-biostat-203b.github.io/2024winter/slides/09-strings/stringr.html) lecture.
 
 ## Work with text files
 
@@ -305,8 +320,8 @@ ls -l *.png
 #| size: smallsize
 cat runSim.R
 ```
+Be cautious to `cat` large text files.
     
-
 - `head` prints the first 10 lines of a file:
 ```{bash}
 head runSim.R
@@ -323,6 +338,10 @@ tail runSim.R
 `tail -l` prints the last $l$ lines of a file:
 ```{bash}
 tail -15 runSim.R
+```
+`tail -n +NUM` outputs starting with line NUM:
+```{bash}
+tail -n +20 runSim.R
 ```
 
 - Questions: 
@@ -342,9 +361,7 @@ ls -l | head -5
 
 - `<` reads input from a file.
 
-- Combinations of shell commands (`grep`, `sed`, `awk`, ...), piping and redirection, and regular expressions allow us pre-process and reformat huge text files efficiently. 
-
-- See HW1.
+- Combinations of shell commands (`grep`, `sed`, `awk`, ...), piping and redirection, and regular expressions allow us pre-process and reformat huge text files efficiently. See HW1.
 
 ### `less` is more; `more` is less
 
@@ -445,6 +462,25 @@ awk -F: -v status="" '{OFS = ","}
 </p>
 Source: [Editor War](http://en.wikipedia.org/wiki/Editor_war) on Wikipedia.
 
+#### Vi
+
+- `Vi` is ubiquitous (POSIX standard). Learn at least its basics; otherwise you can edit nothing on some clusters. 
+
+- Basic survival commands:
+    - `vi filename` to start editing a file.
+    - `vi` is a _modal_ editor: _insert_ mode and _normal_ mode. Pressing `i` switches from the normal mode to insert mode. Pressing `ESC` switches from the insert mode to normal mode.  
+    - `:x<Return>` quits `vi` and saves changes.  
+    - `:q!<Return>` quits vi without saving latest changes.  
+    - `:w<Return>` saves changes.
+    - `:wq<Return>` quits `vi` and saves changes.      
+
+- Google `vi cheatsheet`:
+
+<p align="center">
+  <img src="./Vi_Cheat_Sheet.pdf" height="500">
+</p>
+
+
 #### Emacs
 
 - `Emacs` is a powerful text editor with extensive support for many languages including `R`, $\LaTeX$, `python`, and `C/C++`; however it's _not_ installed by default on many Linux distributions. 
@@ -465,29 +501,12 @@ Source: [Editor War](http://en.wikipedia.org/wiki/Editor_war) on Wikipedia.
 `C-<key>` means hold the `control` key, and press `<key>`.  
 `M-<key>` means press the `Esc` key once, and press `<key>`.
 
-#### Vi
-
-- `Vi` is ubiquitous (POSIX standard). Learn at least its basics; otherwise you can edit nothing on some clusters. 
-
-- Basic survival commands:
-    - `vi filename` to start editing a file.
-    - `vi` is a _modal_ editor: _insert_ mode and _normal_ mode. Pressing `i` switches from the normal mode to insert mode. Pressing `ESC` switches from the insert mode to normal mode.  
-    - `:x<Return>` quits `vi` and saves changes.  
-    - `:q!<Return>` quits vi without saving latest changes.  
-    - `:w<Return>` saves changes.
-    - `:wq<Return>` quits `vi` and saves changes.      
-
-- Google `vi cheatsheet`
-
-<p align="center">
-  <img src="./Vi_Cheat_Sheet.pdf" height="500">
-</p>
 
 ## IDE (Integrated Development Environment)
 
 - Statisticians/data scientists write a lot of code. Critical to adopt a good IDE that goes beyond code editing: syntax highlighting, executing code within editor, debugging, profiling, version control, etc.
 
-- **RStudio**, Eclipse, Emacs, Matlab, Visual Studio, **VS Code**, etc.
+- **RStudio**, **JupyterLab**, Eclipse, Emacs, Matlab, Visual Studio, **VS Code**, etc.
 
 ## Processes
 
@@ -603,9 +622,9 @@ ssh huazhou@hoffman2.idre.ucla.edu
 
 - Messages from your computer to server is signed with your private key (digital signatures) and can be verified by anyone who has your public key (authentication).
 
-### Steps to generate keys
+### Steps to generate keys (on ternminal)
 
-- On Linux, Mac, or Windows Git Bash, to generate a key pair:
+- On Linux, Mac, Windows Git Bash, or Windows WSL, to generate a key pair:
 ```{bash}
 #| eval: false
 ssh-keygen -t rsa -f ~/.ssh/[KEY_FILENAME] -C [USERNAME]
@@ -721,7 +740,7 @@ or
 Rscript meanEst.R
 ```
 
-- Typically automate batch calls using a scripting language, e.g., Python, Perl, and shell script.
+- Typically we automate batch calls using a scripting language, e.g., Python, Perl, and shell script.
 
 ### Pass arguments to R scripts
 

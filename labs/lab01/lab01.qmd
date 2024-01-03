@@ -18,7 +18,7 @@ knitr:
     fig.align: 'center'
 ---
 
-This tutorial goes through the process of installing the software environment (R, Quarto, RStudio, Git, SSH, Docker) for reproducing 203B course materials and working on 203B homework.
+This tutorial goes through the process of installing the software environment (R, Quarto, RStudio, Git, SSH) for reproducing 203B course materials and working on 203B homework.
 
 # R, Quarto, and RStudio
 
@@ -243,6 +243,10 @@ xclip -selection clipboard ~/.ssh/id_rsa.pub
 
 # Obtain and reproduce course materials
 
+::: {.panel-tabset}
+
+### Terminal
+
 - In Terminal (Mac Terminal, Windows Git Bash, or Windows WSL), you can `git clone` a copy of course materials by
 ```{bash}
 #| eval: false
@@ -257,10 +261,12 @@ within the `203b-lecture` folder.
 
 - Navigate to the `203b-lecture` folder, double click the `2024winter.Rproj` file to open the project in RStudio. Within RStudio, you can navigate to the `slides` folder to open and render `qmd` files. 
 
-    You can also perform the majority of daily Git operations within RStudio.
+### RStudio
 
 ::: {.callout-tip}
 Alternatively, you can also use RStudio to git clone the `biostat-203b-2024-winter` repository to your local machine: `File` -> `New Project...` -> `Version Control` -> `Git` -> input `Repository URL:`, `Project directory name:` 203b-lecture.
 :::
 
 - In RStudio, navigate to the `slides` folder, open and render `qmd` files.
+
+:::

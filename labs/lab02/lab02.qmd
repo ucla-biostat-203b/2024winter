@@ -24,7 +24,7 @@ This tutorial assumes that you have already installed R, RStudio, and Git on you
 
 - On <https://github.com/>, create a **private** repository `biostat-203b-2024-winter` and add `Hua-Zhou` and TA team (`tomokiokuno0528` for Lec 1; `jonathanhori` and `jasenzhang1` for Lec 80) as your collaborators with write permission. This repository is for submitting your 203B homework.
 
-- You can also use RStudio to git clone the `biostat-203b-2024-winter` repository to your local machine: `File` -> `New Project...` -> `Version Control` -> `Git` -> input `Repository URL:`, `Project directory name:` (203b-hw).
+- You can use RStudio to git clone the `biostat-203b-2024-winter` repository to your local machine: `File` -> `New Project...` -> `Version Control` -> `Git` -> input `Repository URL:`, `Project directory name:` (203b-hw).
 
 - Alternatively, in Terminal (Mac Terminal, Windows Git Bash, or Windows WSL), you can run
 ```{bash}
@@ -47,9 +47,11 @@ ls -l ~/mimic/
 
 # Start with homework 1
 
+- Create and switch to branch `develop`.
+
 - Create folder `hw1`.
 
-- Download [`hw1.qmd`](https://raw.githubusercontent.com/UCLA-Biostat-203B/2024winter/main/hw/hw1/hw1.qmd) to `hw1/` folder. Make a copy and rename it to `hw1sol.qmd`. This is your homework solution file.
+- Download [`hw1.qmd`](https://raw.githubusercontent.com/UCLA-Biostat-203B/2024winter/main/hw/hw1/hw1.qmd) to `hw1/` folder. Make a copy and rename it to `hw1sol.qmd`, which will be your homework solution file.
 
 - Demonstrate Q2: include CITI completion report and completion certificate.
 
