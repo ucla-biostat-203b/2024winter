@@ -3138,34 +3138,14 @@ Enable GitHub Copilot in RStudio
 <p>Our first lectures and homework depend heavily on Linux. It is recommended to install the WSL (Windows Subsystem for Linux) program, which is is a complete Linux solution for Windows users.</p>
 <ul>
 <li><p>Install WSL2 following <a href="https://learn.microsoft.com/en-us/windows/wsl/install">instructions</a>.</p></li>
-<li><p>A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon <img src="data:image/svg+xml;base64,MWwUACBXOrNqNQrQab2AD9gmRRP22PITyA80ddNDzu2/Lby1C2xti6OEomzpZBnbFki2Tm8w2d5VUq3uqN2a7o+6k+V2/33+NN7+o9sk7OX8YlyPdPTZgT+/nLb74/X6emM2e3h4gAeBq9ujGSPibLo/6rv7k/Hh4Opxu8cOu/AARffsQhKElKnf2VqOq2lna1o/nY87sDifBnpZnZyfb7wbyxDHzbet2bR+Oh93tmbLcTXtbC1ObhfnY/eO1YsszqeB+m7xuN0TFiB7ed8tnrZ70QQsJe67WwG3MzNocwFM8cIVrQkkk67n6+NxhuV2/0OLQZNKG4k4uFvEnN3A2NAamw4bNhooCTCIB5IErCRtZA6lkQ0qjFkCTEXUiEAt2ZqYQomxgkHz47IZmARLY1IgV7MmVsAYEYAaBRGgVFotoDw2TyMKSYc+f6gQFLP4UARk6n5ohMDqzI1EERCNrRkScIRYI5EE02zBif/suy8nylZXtxfbPd2C8/l6/DyQBJiTWTcEBlRU5ZfkKSXBGDX/2XEu4AwWjJMcEJWNuAKYsWxfzCEQzRuDMRsl1cCDU1pGQiDPyQJIVakBprmxEwhWWAuCRKHGHsAlE4rKE0I8s0ryNVP3yRxEPVICGbDq0NzVOZhqSvhOLAkUrtqyCoIK/UaBDG0A5ohqCYImMgCzmeyTBYg6e2PQ02LhAnIlb8UCKHW8dKGbdCg/wFSAgyVbYoJxuc/JEjBDgBHM9jcJYPiQCcrIfKhSwGpaLbCAjSKaoAOyMrVIBERqh9O5AqXZdH+0YwAD" class="img-fluid" width="25" alt="Ubuntu">.</p></li>
+<li><p>A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjcuNDA2NjggNzM4LjMxNDIxIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2U5NTAwZTt9PC9zdHlsZT48L2RlZnM+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSIxMDkuMDI2OTYiIGN5PSIzNDguMDk0MTIiIHI9IjEwOS4wMjY5NiIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTYzLjA4MzY5IiBjeT0iMTA5LjAyNjk4IiByPSIxMDkuMDI2OTgiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00OTIuNDgxOTQsMTMzNi42NjU3N2EyNjUuNTI1MDUsMjY1LjUyNTA1LDAsMCwxLTE4MS4wNzEyLTEzOC4wOTgxNCwxNTYuOTQ3ODQsMTU2Ljk0Nzg0LDAsMCwxLTkzLjIxOTExLDExLjQ1ODI1LDM1NC45MzUyNCwzNTQuOTM1MjQsMCwwLDAsMjU1LjUzNzIzLDIxNC4xNjQ1NSwzNTkuMjA3NzcsMzU5LjIwNzc3LDAsMCwwLDc3LjQxOTQ5LDcuOTY3LDE1Ni4wMDMxMywxNTYuMDAzMTMsMCwwLDEtMzEuOTIyMzYtOTEuMTU0NjZDNTEwLjI0NjIyLDEzNDAuMDA1MjUsNTAxLjI3NzM1LDEzMzguNTQ4LDQ5Mi40ODE5NCwxMzM2LjY2NTc3WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzNy41NjE1NSAtNzA3Ljk3OTk4KSIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTM4LjUyMDQ2IiBjeT0iNjI5LjI4NzIzIiByPSIxMDkuMDI2OTgiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik04MjcuNzk4LDEyOTcuMjIwOTVBMzU2LjcwMDU2LDM1Ni43MDA1NiwwLDAsMCw4NDUuNjcyODMsODc4LjcwMmExNTcuMTQ0NDEsMTU3LjE0NDQxLDAsMCwxLTYxLjMwOTc1LDcxLjgwMzEsMjY3LjI5MywyNjcuMjkzLDAsMCwxLTguNzM2ODgsMjY1LjQ4ODRBMTU2LjM0Njc3LDE1Ni4zNDY3NywwLDAsMSw4MjcuNzk4LDEyOTcuMjIwOTVaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3LjU2MTU1IC03MDcuOTc5OTgpIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjM4LjE3NjQ0LDg5OS43MTkwNnE0LjE1MDUtLjIyNzc5LDguMzA1MzMtLjIyNTUzQTE1Ny4zNDYyNiwxNTcuMzQ2MjYsMCwwLDEsMzI5LjE2NDE2LDkyMy4wMzksMjY1LjkwNjUzLDI2NS45MDY1MywwLDAsMSw1NDMuMjcyMzgsODA4LjUyOTY2YTE1OC4wODc3LDE1OC4wODc3LDAsMCwxLDMzLjA3Ni04OC40MjAyMkM0MzkuMjQ1NDksNzA5LjI1MTc3LDMwNi4wMjQyMSw3ODAuMDAxLDIzOC4xNzY0NCw4OTkuNzE5MDZaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3LjU2MTU1IC03MDcuOTc5OTgpIi8+PC9zdmc+" class="img-fluid" width="25" alt="Ubuntu">.</p></li>
 <li><p>WSL is a full Linux system. It has its own Linux file system, separate from the Windows file system. The user home is at <code>/home/[USERNAME]</code> within the Linux file system.</p>
 <ul>
 <li><p>Within WSL, it is easy to access the files in Windows file system, which is mounted at <code>/mnt/c</code> on WSL. For example, the file <code>/c/Users/[USERNAME]/file</code> is available within WSL at <code>/mnt/c/Users/[USERNAME]/file</code>.</p></li>
 <li><p>Within Windows, it is easy to access the files in the WSL file system from the Linux tab in File Explorer.</p></li>
 </ul></li>
-<li><p>For Homework 1 (extensive Linux exercises), it is recommended to use <em>RStudio Server</em> within WSL. Follow the instructions <a href="https://support.posit.co/hc/en-us/articles/360049776974-Using-RStudio-Server-in-Windows-WSL2">here</a> and <a href="https://posit.co/download/rstudio-server/">here</a> to install R (v4.1.2 at time of writing) and RStudio Server on WSL2 Ubuntu v20.04.</p></li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If needed, install the older version of <code>libssl1.1</code> package on WSL2 (Ubuntu v20.04 ships with <code>libssl3</code>), which is required by RStudio Server:</p>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;deb http://security.ubuntu.com/ubuntu focal-security main&quot;</span> <span class="kw">|</span> <span class="fu">sudo</span> tee /etc/apt/sources.list.d/focal-security.list</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install libssl1.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-<ul>
-<li>In Windows, point your browser to <a href="http://localhost:8787" class="uri">http://localhost:8787</a> to access RStudio Server. The default username and the password is the same as your Ubuntu login credential.</li>
+<li><p>For Homework 1 (extensive Linux exercises), it is recommended to use <em>RStudio Server</em> within WSL. Follow the instructions [here]https://posit.co/download/rstudio-server/) (choose Ubuntu 22) to install R (v4.3.2 at time of writing) and RStudio Server on WSL2 Ubuntu v22.04.</p></li>
+<li><p>In Windows, point your browser to <a href="http://localhost:8787" class="uri">http://localhost:8787</a> to access RStudio Server. The default username and the password is the same as your Ubuntu login credential.</p></li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3179,9 +3159,9 @@ Tip
 <div class="callout-body-container callout-body">
 <p>Occasionally we need to lunch, restart, or stop RStudio Server on WSL2 Ubuntu:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rstudio-server start</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rstudio-server restart</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rstudio-server stop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rstudio-server start</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rstudio-server restart</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rstudio-server stop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3189,8 +3169,8 @@ Tip
 <li>Install Quarto CLI on WSL2 Ubuntu:</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> gdebi quarto-1.3.450-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> gdebi quarto-1.3.450-linux-amd64.deb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3222,11 +3202,11 @@ Tip
 <li><p>In Terminal, the command to connect to a Linux machine is</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="pp">[</span><span class="ss">USERNAME</span><span class="pp">]</span>@<span class="pp">[</span><span class="ss">IP_ADDRESS</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="pp">[</span><span class="ss">USERNAME</span><span class="pp">]</span>@<span class="pp">[</span><span class="ss">IP_ADDRESS</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Replace <code>[USERNAME]</code> in the command by your actual user name on the Linux machine you are connecting to. If you cannot connect, you may not have an account. For example, to connect to <strong>my</strong> account on the Hoffman2 cluster at UCLA</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> huazhou@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> huazhou@hoffman2.idre.ucla.edu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="ssh-keys" class="level2" data-number="4.2">
@@ -3235,7 +3215,7 @@ Tip
 <li>First check whether you already have keys on your local machine. If you don’t have <code>~/.ssh</code> folder, that means you have never used SSH before.</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-al</span> ~/.ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-al</span> ~/.ssh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>If no SSH keys yet, generate a pair of RSA keys
@@ -3303,18 +3283,18 @@ Tip
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pbcopy</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pbcopy</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clip</span> <span class="op">&lt;</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">clip</span> <span class="op">&lt;</span> ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <p>If the <code>xclip</code> and <code>xsel</code> are installed, then we can use</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xclip</span> <span class="at">-selection</span> clipboard ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xclip</span> <span class="at">-selection</span> clipboard ~/.ssh/id_rsa.pub</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3337,11 +3317,11 @@ Tip
 <li>In Terminal (Mac Terminal, Windows Git Bash, or Windows WSL), you can <code>git clone</code> a copy of course materials by</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ucla-biostat-203b/2024winter.git ~/203b-lecture</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ucla-biostat-203b/2024winter.git ~/203b-lecture</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This command clones the GitHub repository to a folder called <code>203b-lecture</code> under your home directory. You can clone multiple copies to different locations on the same machine if you want. Since this GitHub repository is frequently updated, you can sync the local copy on your computer with the repository on GitHub by running</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>within the <code>203b-lecture</code> folder.</p>
 <ul>
