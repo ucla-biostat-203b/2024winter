@@ -21,7 +21,7 @@ Office: CHS 21-254A\
 Phone: (310)794-7835\
 Email: <huazhou@ucla.edu>  
 Office hours:  
-- Lec 1: Tue 2pm-3pm @ CHS 21-254A  
+- Lec 1: Tue, Thu 2pm-3pm @ CHS 21-254A  
 - Lec 80 (MDSH): The hour after each in-person and Zoom lecture     
 
 ## TA team
