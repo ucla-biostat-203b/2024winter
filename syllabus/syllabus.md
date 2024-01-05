@@ -7,29 +7,12 @@ title: Biostat 203B
 
 ## Lecture
 
-- Lec 1 lecture schedule: 
+- **Lec 1** schedule: 
 
 Tue (lecture) 3pm-4:50pm @ CHS 33-105A\
 Thu (lecture and lab) 3pm-4:50pm @ CHS 33-105A
 
-- Lec 80 (MDSH) lecture schedule: 
-
-| Date         | Time          | Location                                   |
-|--------------|---------------|--------------------------------------------|
-| Sat, Jan 6   | 2pm-6pm       | CHS 33-105A                                |
-| Sun, Jan 7   | 2pm-6pm       | CHS 43-105A                                |
-| Thu, Jan 11  | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Thu, Jan 18  | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Thu, Jan 25  | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Thu, Feb 1   | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Sat, Feb 10  | 2pm-6pm       | CHS 43-105A                                |
-| Sun, Feb 11  | 2pm-6pm       | CHS 43-105A                                |
-| Thu, Feb 15  | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Thu, Feb 22  | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Thu, Feb 29  | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Thu, Mar 7   | 5:30pm-7:30pm | [Zoom](https://ucla.zoom.us/j/97770904876) |
-| Sat, Mar 16  | 2pm-6pm       | CHS 43-105A                                |
-| Sun, Mar 17  | 2pm-6pm       | CHS 43-105A                                |
+- [**Lec 80 (MDSH)** schedule](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule-lec80.html)
 
 ## Instructor
 
@@ -38,7 +21,7 @@ Office: CHS 21-254A\
 Phone: (310)794-7835\
 Email: <huazhou@ucla.edu>  
 Office hours:  
-- Lec 1: Tue 5pm-7pm @ CHS 21-254A  
+- Lec 1: Tue 2pm-3pm @ CHS 21-254A  
 - Lec 80 (MDSH): The hour after each in-person and Zoom lecture     
 
 ## TA team
