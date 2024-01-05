@@ -90,7 +90,7 @@ Our first lectures and homework depend heavily on Linux. It is recommended to in
     
     - Within Windows, it is easy to access the files in the WSL file system from the Linux tab in File Explorer. 
 
-- For Homework 1 (extensive Linux exercises), it is recommended to use _RStudio Server_ within WSL. Follow the instructions [here](https://posit.co/download/rstudio-server/) to install R (v4.3.2 at time of writing) and RStudio Server on WSL2 Ubuntu v20.04.
+- For Homework 1 (extensive Linux exercises), it is recommended to use _RStudio Server_ within WSL. Follow the instructions [here]https://posit.co/download/rstudio-server/) (choose Ubuntu 22) to install R (v4.3.2 at time of writing) and RStudio Server on WSL2 Ubuntu v22.04.
 
 - Install Quarto CLI on WSL2 Ubuntu:
 ```{bash}
@@ -112,6 +112,7 @@ sudo rstudio-server stop
 :::
 
 :::
+
 
 # Git and GitHub
 
