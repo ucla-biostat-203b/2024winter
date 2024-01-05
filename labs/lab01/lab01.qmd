@@ -78,7 +78,7 @@ chsh -s /bin/bash
 
 ## Windows WSL (recommended)
 
-Our first lectures and homework depend heavily on Linux. It is recommended to install the WSL (Windows Subsystem for Linux) program, which is is a complete Linux solution for Windows users. 
+Our first lectures and homework depend heavily on Linux. It is recommended to install the WSL (Windows Subsystem for Linux) program, which is a complete Linux solution for Windows users. 
 
 - Install WSL2 following [instructions](https://learn.microsoft.com/en-us/windows/wsl/install).
 
@@ -90,29 +90,7 @@ Our first lectures and homework depend heavily on Linux. It is recommended to in
     
     - Within Windows, it is easy to access the files in the WSL file system from the Linux tab in File Explorer. 
 
-- For Homework 1 (extensive Linux exercises), it is recommended to use _RStudio Server_ within WSL. Follow the instructions [here](https://support.posit.co/hc/en-us/articles/360049776974-Using-RStudio-Server-in-Windows-WSL2) and [here](https://posit.co/download/rstudio-server/) to install R (v4.1.2 at time of writing) and RStudio Server on WSL2 Ubuntu v20.04.
-
-::: {.callout-tip}
-If needed, install the older version of `libssl1.1` package on WSL2 (Ubuntu v20.04 ships with `libssl3`), which is required by RStudio Server:
-```{bash}
-#| eval: false
-echo "deb http://security.ubuntu.com/ubuntu focal-security main" | sudo tee /etc/apt/sources.list.d/focal-security.list
-sudo apt-get update
-sudo apt-get install libssl1.1
-```
-:::
-
-- In Windows, point your browser to <http://localhost:8787> to access RStudio Server. The default username and the password is the same as your Ubuntu login credential.
-
-::: {.callout-tip}
-Occasionally we need to lunch, restart, or stop RStudio Server on WSL2 Ubuntu:
-```{bash}
-#| eval: false
-sudo rstudio-server start
-sudo rstudio-server restart
-sudo rstudio-server stop
-```
-:::
+- For Homework 1 (extensive Linux exercises), it is recommended to use _RStudio Server_ within WSL. Follow the instructions [here](https://posit.co/download/rstudio-server/) to install R (v4.3.2 at time of writing) and RStudio Server on WSL2 Ubuntu v20.04.
 
 - Install Quarto CLI on WSL2 Ubuntu:
 ```{bash}
@@ -120,6 +98,18 @@ sudo rstudio-server stop
 wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.3.450/quarto-1.3.450-linux-amd64.deb
 sudo gdebi quarto-1.3.450-linux-amd64.deb
 ```
+
+- In Windows, point your browser to <http://localhost:8787> to access RStudio Server. The default username and the password is the same as your Ubuntu login credential.
+
+::: {.callout-tip}
+Occasionally we need to lunch, restart, or stop RStudio Server on WSL2 Ubuntu. The Bash commands are
+```{bash}
+#| eval: false
+sudo rstudio-server start
+sudo rstudio-server restart
+sudo rstudio-server stop
+```
+:::
 
 :::
 
@@ -268,5 +258,21 @@ Alternatively, you can also use RStudio to git clone the `biostat-203b-2024-wint
 :::
 
 - In RStudio, navigate to the `slides` folder, open and render `qmd` files.
+
+:::
+
+# Docker and Hoffman2
+
+There are more ways to run the course materials.
+
+::: {.panel-tabset}
+
+### Docker
+
+You can use Docker to run the course materials on your local machine. See [Lab 3](https://ucla-biostat-203b.github.io/2024winter/labs/lab03-docker/lab03-docker.html) for instructions.
+
+### Hoffman2
+
+You can also use Hoffman2 cluster at UCLA to run the course materials. See [Hoffman2 documentation](https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#rstudio-server) for instructions.
 
 :::
