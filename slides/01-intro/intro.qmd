@@ -82,7 +82,7 @@ A position posted by Genetech.
 
 - This is _not_ a machine learning course. Biostat 212AB are machine learning courses.   
 
-- Read [syllabus](https://ucla-biostat-203b.github.io/2024winter/syllabus/syllabus.html) and [schedule](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule.html) for a tentative list of topics and course logistics.
+- Read [syllabus](https://ucla-biostat-203b.github.io/2024winter/syllabus/syllabus.html) and schedule ([lec 80](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule-lec80.html), [lec 1](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule-lec1.html)) for a tentative list of topics and course logistics.
 
 ## Why R?
 
@@ -94,7 +94,7 @@ If time permits, I'll add some Python code in the lectures.
 
 ## What I expect from you
 
-- You are curious and are excited about "figuring stuff out".
+- You are curious and are excited about "figuring stuff out."  
 
 - You are proficient in coding and debugging (or are ready to work to get there).
 
@@ -112,6 +112,6 @@ If time permits, I'll add some Python code in the lectures.
 
 ## More (free) UCLA resources for learning data science
 
--   IDRE workshops: <https://idre.ucla.edu/calendar>
+- IDRE workshops: <https://idre.ucla.edu/calendar>
 
--   QCBio workshops: <https://qcb.ucla.edu/collaboratory/workshops/>
+- QCBio workshops: <https://qcb.ucla.edu/collaboratory/workshops/>
