@@ -43,7 +43,7 @@ Office hours: TBD
 
 Computing skills and software tools for handling potentially big medical and public health data.
 
-See the [schedule](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule.html) page for a tentative list of topics.
+See the schedule ([lec 80](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule-lec80.html), [lec 1](https://ucla-biostat-203b.github.io/2024winter/schedule/schedule-lec1.html)) page for a tentative list of topics.
 
 ## Prerequisites
 
@@ -59,7 +59,7 @@ There are no required textbooks. Some useful resources will be distributed durin
 
 ## Attendance
 
-Class attendance to both lectures and Thursday lab is **mandatory**.
+Class attendance to all lectures and labs is **mandatory**.
 
 ## Homework
 
