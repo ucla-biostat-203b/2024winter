@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-01-04">
+<meta name="dcterms.date" content="2024-01-06">
 
 <title>Lab 2: Getting Started With Homework</title>
 <style>
@@ -3055,7 +3055,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 4, 2024</p>
+      <p class="date">January 6, 2024</p>
     </div>
   </div>
   
@@ -3088,24 +3088,65 @@ vertical-align: -.125em;
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> ~/mimic/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>total 48
--rw-r--r--@  1 huazhou  staff  13332 Jan  5  2023 CHANGELOG.txt
--rw-r--r--@  1 huazhou  staff   2518 Jan  5  2023 LICENSE.txt
--rw-r--r--@  1 huazhou  staff   2884 Jan  6  2023 SHA256SUMS.txt
-drwxr-xr-x@ 24 huazhou  staff    768 Nov 24 11:34 hosp
-drwxr-xr-x@ 11 huazhou  staff    352 Nov 24 11:34 icu</code></pre>
+<pre><code>total 24
+-rw-r--r--  1 504 rstudio 13332 Jan  5  2023 CHANGELOG.txt
+drwxr-xr-x 24 504 rstudio   768 Jan  4 22:18 hosp
+drwxr-xr-x 11 504 rstudio   352 Nov 24 19:34 icu
+-rw-r--r--  1 504 rstudio  2518 Jan  6  2023 LICENSE.txt
+-rw-r--r--  1 504 rstudio  2884 Jan  6  2023 SHA256SUMS.txt</code></pre>
 </div>
 </div>
 </section>
 <section id="start-with-homework-1" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Start with homework 1</h1>
+<p>On your local machine:</p>
 <ul>
-<li><p>Create and switch to branch <code>develop</code>.</p></li>
-<li><p>Create folder <code>hw1</code>.</p></li>
-<li><p>Download <a href="https://raw.githubusercontent.com/UCLA-Biostat-203B/2024winter/main/hw/hw1/hw1.qmd"><code>hw1.qmd</code></a> to <code>hw1/</code> folder. Make a copy and rename it to <code>hw1sol.qmd</code>, which will be your homework solution file.</p></li>
-<li><p>Demonstrate Q2: include CITI completion report and completion certificate.</p></li>
-<li><p>Demonstrate Q3.2.</p></li>
-<li><p>Demonstrate Q5.</p></li>
+<li>Clone the repository, create <code>develop</code> branch, where your work on solutions.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># clone the project</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:<span class="pp">[</span><span class="ss">USERNAME</span><span class="pp">]</span>/biostat-203b-2024-winter.git</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># enter project folder</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> biostat-203b-2024-winter</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># what branches are there?</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create develop branch</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch develop</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># switch to the develop branch</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout develop</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># create folder for HW1</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> hw1</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> hw1</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># let&#39;s write solutions</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;sample solution&quot;</span> <span class="op">&gt;</span> hw1.Rmd</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;some bug&quot;</span> <span class="op">&gt;&gt;</span> hw1.Rmd</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># commit the code</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add hw1.Rmd</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">&quot;start working on problem #1&quot;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># push to remote repo</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Submit and tag HW1 solution to the <code>main</code> branch.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># which branch are we in?</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># change to the main branch</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># merge develop branch to main branch</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># git pull origin develop </span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge develop</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># push to the remote main branch</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># tag version hw1</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag hw1</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--tags</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>RStudio has good Git integration. But practice command line operations also.</li>
 </ul>
 </section>
 

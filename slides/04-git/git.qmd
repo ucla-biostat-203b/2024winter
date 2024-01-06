@@ -241,60 +241,7 @@ git clone git@github.com:[USERNAME]/biostat-203b-2024-winter.git
 
 ## Sample session | Getting started with homework | Lab 2
 
-On [GitHub.com](https://github.com):
-
-- Obtain [Student Developer Pack](https://education.github.com/pack).
-
-- Create a private repository `biostat-203b-2024-winter`. Add `Hua-Zhou` and TA team (`tomokiokuno0528` for Lec 1, ) as your collaborators with write permission.
-
-On your local machine: 
-
-- Clone the repository, create `develop` branch, where your work on solutions.
-
-```{{bash}}
-#| eval: false
-# clone the project
-git clone git@github.com:[USERNAME]/biostat-203b-2024-winter.git
-# enter project folder
-cd biostat-203b-2024-winter
-# what branches are there?
-git branch
-# create develop branch
-git branch develop
-# switch to the develop branch
-git checkout develop
-# create folder for HW1
-mkdir hw1
-cd hw1
-# let's write solutions
-echo "sample solution" > hw1.Rmd
-echo "some bug" >> hw1.Rmd
-# commit the code
-git add hw1.Rmd
-git commit -m "start working on problem #1"
-# push to remote repo
-git push
-```
-
-- Submit and tag HW1 solution to the `main` branch.
-
-```{{bash}}
-#| eval: false
-# which branch are we in?
-git branch
-# change to the main branch
-git checkout main
-# merge develop branch to main branch
-# git pull origin develop 
-git merge develop
-# push to the remote main branch
-git push
-# tag version hw1
-git tag hw1
-git push --tags
-```
-
-- RStudio has good Git integration. But practice command line operations also.    
+[Lab 2](https://ucla-biostat-203b.github.io/2024winter/labs/lab02/lab02.html)
 
 ## Etiquettes of using Git
 

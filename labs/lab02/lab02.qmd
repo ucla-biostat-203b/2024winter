@@ -47,15 +47,51 @@ ls -l ~/mimic/
 
 # Start with homework 1
 
-- Create and switch to branch `develop`.
+On your local machine: 
 
-- Create folder `hw1`.
+- Clone the repository, create `develop` branch, where your work on solutions.
 
-- Download [`hw1.qmd`](https://raw.githubusercontent.com/UCLA-Biostat-203B/2024winter/main/hw/hw1/hw1.qmd) to `hw1/` folder. Make a copy and rename it to `hw1sol.qmd`, which will be your homework solution file.
+```{{bash}}
+#| eval: false
+# clone the project
+git clone git@github.com:[USERNAME]/biostat-203b-2024-winter.git
+# enter project folder
+cd biostat-203b-2024-winter
+# what branches are there?
+git branch
+# create develop branch
+git branch develop
+# switch to the develop branch
+git checkout develop
+# create folder for HW1
+mkdir hw1
+cd hw1
+# let's write solutions
+echo "sample solution" > hw1.Rmd
+echo "some bug" >> hw1.Rmd
+# commit the code
+git add hw1.Rmd
+git commit -m "start working on problem #1"
+# push to remote repo
+git push
+```
 
-- Demonstrate Q2: include CITI completion report and completion certificate.
+- Submit and tag HW1 solution to the `main` branch.
 
-- Demonstrate Q3.2.
+```{{bash}}
+#| eval: false
+# which branch are we in?
+git branch
+# change to the main branch
+git checkout main
+# merge develop branch to main branch
+# git pull origin develop 
+git merge develop
+# push to the remote main branch
+git push
+# tag version hw1
+git tag hw1
+git push --tags
+```
 
-- Demonstrate Q5.
-
+- RStudio has good Git integration. But practice command line operations also.
