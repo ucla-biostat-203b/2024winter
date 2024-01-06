@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Docker (optional for Lec 1)"
+title: "Lab 3: Docker"
 subtitle: Biostat 203B
 author: "Dr. Hua Zhou @ UCLA"
 date: today
@@ -63,4 +63,59 @@ to push the new Docker image to Docker Hub.
 
 ## Run Docker container on Hoffman2 (TODO)
 
+Follow the instructions [here](https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#apptainer-workflow) to run the Docker container on Hoffman2.
+
+To pull the image:
+```{bash}
+#| eval: false
+apptainer pull docker://huazhou/ucla_biostat_203b_2024w
+```
+Run the container:
+```{bash}
+#| eval: false
+apptainer shell ucla-biostat-203b-2024w_latest.sif
+```
+Not worked out yet.
+
 ## Run Docker container on cloud (TODO)
+
+### Initial set up to push Docker image to GCR (Google Cloud Registry)
+
+- Install `Google Cloud CLI`. [link](https://cloud.google.com/sdk/docs/install-sdk)
+
+- Initialize the gcloud CLI:
+```{bash}
+#| eval: false
+gcloud init
+```
+
+- GCP authentication:
+```{bash}
+#| eval: false
+gcloud auth configure-docker -q
+```
+
+- List existing Docker images and tag for gcr:
+```{bash}
+#| eval: false
+docker image list
+docker tag huazhou/ucla-biostat-203b-2024w gcr.io/biostat-203b-2024-winter/ubuntu-rstudio-server
+```
+
+- Push the image to gcr:
+```{bash}
+#| eval: false
+docker push gcr.io/biostat-203b-2024-winter/ubuntu-rstudio-server 
+```
+
+### Run Docker container on GCP
+
+- Create a GCE (Google Compute Engine) instance
+
+- Create a firewall rule `rstudio-server` that opens the `8787` port and add Network tag `rstudio-server` to the GCE instance.
+
+- Paste the GCR image name `gcr.io/biostat-203b-2024-winter/ubuntu-rstudio-server` to the `Container image` field of the GCE instance.
+
+- Input Environment Variables: `PASSWORD: 203b`, `ROOT: true`, and `DISABLE_AUTH: true` to the GCE instance.
+
+- Add volume and disks to the GCE instance. I haven't got the permissions right yet. The `/mnt/mimic` and `/home/studio/203b-lecture` appear to be owned by `root` and not writable by `rstudio`. (TODO)

@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-01-04">
+<meta name="dcterms.date" content="2024-01-06">
 
-<title>Lab 3: Docker (optional for Lec 1)</title>
+<title>Lab 3: Docker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3030,7 +3030,11 @@ vertical-align: -.125em;
   <li><a href="#build-your-own-docker-image" id="toc-build-your-own-docker-image" class="nav-link" data-scroll-target="#build-your-own-docker-image"><span class="header-section-number">3</span> Build your own Docker image</a></li>
   <li><a href="#push-the-docker-image-to-docker-hub" id="toc-push-the-docker-image-to-docker-hub" class="nav-link" data-scroll-target="#push-the-docker-image-to-docker-hub"><span class="header-section-number">4</span> Push the Docker image to Docker Hub</a></li>
   <li><a href="#run-docker-container-on-hoffman2-todo" id="toc-run-docker-container-on-hoffman2-todo" class="nav-link" data-scroll-target="#run-docker-container-on-hoffman2-todo"><span class="header-section-number">5</span> Run Docker container on Hoffman2 (TODO)</a></li>
-  <li><a href="#run-docker-container-on-cloud-todo" id="toc-run-docker-container-on-cloud-todo" class="nav-link" data-scroll-target="#run-docker-container-on-cloud-todo"><span class="header-section-number">6</span> Run Docker container on cloud (TODO)</a></li>
+  <li><a href="#run-docker-container-on-cloud-todo" id="toc-run-docker-container-on-cloud-todo" class="nav-link" data-scroll-target="#run-docker-container-on-cloud-todo"><span class="header-section-number">6</span> Run Docker container on cloud (TODO)</a>
+  <ul>
+  <li><a href="#initial-set-up-to-push-docker-image-to-gcr-google-cloud-registry" id="toc-initial-set-up-to-push-docker-image-to-gcr-google-cloud-registry" class="nav-link" data-scroll-target="#initial-set-up-to-push-docker-image-to-gcr-google-cloud-registry"><span class="header-section-number">6.1</span> Initial set up to push Docker image to GCR (Google Cloud Registry)</a></li>
+  <li><a href="#run-docker-container-on-gcp" id="toc-run-docker-container-on-gcp" class="nav-link" data-scroll-target="#run-docker-container-on-gcp"><span class="header-section-number">6.2</span> Run Docker container on GCP</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -3040,7 +3044,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 3: Docker (optional for Lec 1)</h1>
+<h1 class="title">Lab 3: Docker</h1>
 <p class="subtitle lead">Biostat 203B</p>
 </div>
 
@@ -3058,7 +3062,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 4, 2024</p>
+      <p class="date">January 6, 2024</p>
     </div>
   </div>
   
@@ -3112,9 +3116,58 @@ vertical-align: -.125em;
 </section>
 <section id="run-docker-container-on-hoffman2-todo" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="run-docker-container-on-hoffman2-todo"><span class="header-section-number">5</span> Run Docker container on Hoffman2 (TODO)</h2>
+<p>Follow the instructions <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#apptainer-workflow">here</a> to run the Docker container on Hoffman2.</p>
+<p>To pull the image:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://huazhou/ucla_biostat_203b_2024w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Run the container:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell ucla-biostat-203b-2024w_latest.sif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Not worked out yet.</p>
 </section>
 <section id="run-docker-container-on-cloud-todo" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="run-docker-container-on-cloud-todo"><span class="header-section-number">6</span> Run Docker container on cloud (TODO)</h2>
+<section id="initial-set-up-to-push-docker-image-to-gcr-google-cloud-registry" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="initial-set-up-to-push-docker-image-to-gcr-google-cloud-registry"><span class="header-section-number">6.1</span> Initial set up to push Docker image to GCR (Google Cloud Registry)</h3>
+<ul>
+<li><p>Install <code>Google Cloud CLI</code>. <a href="https://cloud.google.com/sdk/docs/install-sdk">link</a></p></li>
+<li><p>Initialize the gcloud CLI:</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>GCP authentication:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gcloud</span> auth configure-docker <span class="at">-q</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>List existing Docker images and tag for gcr:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> image list</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> tag huazhou/ucla-biostat-203b-2024w gcr.io/biostat-203b-2024-winter/ubuntu-rstudio-server</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Push the image to gcr:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push gcr.io/biostat-203b-2024-winter/ubuntu-rstudio-server </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-docker-container-on-gcp" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="run-docker-container-on-gcp"><span class="header-section-number">6.2</span> Run Docker container on GCP</h3>
+<ul>
+<li><p>Create a GCE (Google Compute Engine) instance</p></li>
+<li><p>Create a firewall rule <code>rstudio-server</code> that opens the <code>8787</code> port and add Network tag <code>rstudio-server</code> to the GCE instance.</p></li>
+<li><p>Paste the GCR image name <code>gcr.io/biostat-203b-2024-winter/ubuntu-rstudio-server</code> to the <code>Container image</code> field of the GCE instance.</p></li>
+<li><p>Input Environment Variables: <code>PASSWORD: 203b</code>, <code>ROOT: true</code>, and <code>DISABLE_AUTH: true</code> to the GCE instance.</p></li>
+<li><p>Add volume and disks to the GCE instance. I haven’t got the permissions right yet. The <code>/mnt/mimic</code> and <code>/home/studio/203b-lecture</code> appear to be owned by <code>root</code> and not writable by <code>rstudio</code>. (TODO)</p></li>
+</ul>
+</section>
 </section>
 
 </main>
