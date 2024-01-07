@@ -22,7 +22,7 @@ This tutorial assumes that you have already installed R, RStudio, and Git on you
 
 # Set up GitHub repo for 203B homework
 
-- On <https://github.com/>, create a **private** repository `biostat-203b-2024-winter` and add `Hua-Zhou` and TA team (`tomokiokuno0528` for Lec 1; `jonathanhori` and `jasenzhang1` for Lec 80) as your collaborators with write permission. This repository is for submitting your 203B homework.
+- On <https://github.com/>, create a **private** repository `biostat-203b-2024-winter` and add `Hua-Zhou` and TA team (`Tomoki-Okuno` for Lec 1; `jonathanhori` and `jasenzhang1` for Lec 80) as your collaborators with write permission. This repository is for submitting your 203B homework.
 
 - You can use RStudio to git clone the `biostat-203b-2024-winter` repository to your local machine: `File` -> `New Project...` -> `Version Control` -> `Git` -> input `Repository URL:`, `Project directory name:` (203b-hw).
 
@@ -95,3 +95,7 @@ git push --tags
 ```
 
 - RStudio has good Git integration. But practice command line operations also.
+
+# Homework 1
+
+- Demo Q2, Q3.1, Q3.2, Q5, Q6.
