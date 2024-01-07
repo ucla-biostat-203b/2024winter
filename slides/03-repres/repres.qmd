@@ -81,8 +81,6 @@ Unless you reproduce the computing environment (algorithms, dataset, tuning para
 >
 > [Buckheit and Donoho (1995)](https://link.springer.com/chapter/10.1007/978-1-4612-2544-7_5)
 
-- A good example: <http://stanford.edu/~boyd/papers/admm_distr_stats.html>
-
 - I highly recommend the book _Reproducible Research with R and RStudio_ by Christopher Gandrud. In HW1, you are going to reproduce the whole book. 
 
     - [Amazon](https://www.amazon.com/Reproducible-Research-Studio-Chapman-Hall/dp/1466572841)
