@@ -21,7 +21,7 @@ Office: CHS 21-254A\
 Phone: (310)794-7835\
 Email: <huazhou@ucla.edu>  
 Office hours:  
-- Lec 1: Tue, Thu 2pm-3pm @ CHS 21-254A  
+- Lec 1: Tue, Thu 2pm-2:45pm @ CHS 21-254A  
 - Lec 80 (MDSH): The hour after each in-person and Zoom lecture     
 
 ## TA team
@@ -34,10 +34,10 @@ Office hours: Mon 4-5pm @ [Zoom](https://ucla.zoom.us/j/97770904876), Wed 5-6pm 
 - Lec 80 (MDSH)
 
 Jonathan Hori <jonhori@ucla.edu>\
-Office hours: TBD
+Office hours: Mon 5:30pm-7:30pm @ [Zoom](https://ucla.zoom.us/j/92254008592?pwd=QzdqZEJvZG1UeGxjTks5dy9ibjRVdz09).
 
 Jasen Zhang <jasenzhang@ucla.edu>\
-Office hours: TBD
+Office hours: Fri 1pm-3pm @ [Zoom](https://ucla.zoom.us/j/99045611288?pwd=cnJYQ1l3dlUvQm5KRFlqTzJxVHNMdz09) (Passcode: 669929).
 
 ## Course Description
 
