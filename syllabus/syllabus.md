@@ -29,7 +29,7 @@ Office hours:
 - Lec 1
 
 Tomoki Okuno <tomokiokuno0528@ucla.edu>\
-Office hours: Mon 4-5pm @ [Zoom](https://ucla.zoom.us/j/97770904876), Wed 5-6pm @ Biostat Library (CHS 51-254). 
+Office hours: Mon 4-5pm @ [Zoom](https://ucla.zoom.us/j/97770904876), Wed 5-6pm @ TBD. 
 
 - Lec 80 (MDSH)
 
