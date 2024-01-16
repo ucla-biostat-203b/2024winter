@@ -276,4 +276,6 @@ You can use Docker to run the course materials on your local machine. See [Lab 3
 
 You can also use Hoffman2 cluster at UCLA to run the course materials. See [Hoffman2 documentation](https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#rstudio-server) for instructions.
 
+Please note this RStudio Server container image lacks many tools such as SSH and Quarto. You need to install them by yourself.
+
 :::

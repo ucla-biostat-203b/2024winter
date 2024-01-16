@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-01-07">
+<meta name="dcterms.date" content="2024-01-16">
 
 <title>Lab 1: R, RStudio, Quarto, Git, and SSH Keys</title>
 <style>
@@ -3062,7 +3062,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 7, 2024</p>
+      <p class="date">January 16, 2024</p>
     </div>
   </div>
   
@@ -3139,7 +3139,7 @@ Enable GitHub Copilot in RStudio
 <p>Our first lectures and homework depend heavily on Linux. It is recommended to install the WSL (Windows Subsystem for Linux) program, which is a complete Linux solution for Windows users.</p>
 <ul>
 <li><p>Install WSL2 following <a href="https://learn.microsoft.com/en-us/windows/wsl/install">instructions</a>.</p></li>
-<li><p>A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon <img src="data:image/svg+xml;base64,MWwUACBXOrNqNQrQab2AD9gmRRP22PITyA80ddNDzu2/Lby1C2xti6OEomzpZBnbFki2Tm8w2d5VUq3uqN2a7o+6k+V2/33+NN7+o9sk7OX8YlyPdPTZgT+/nLb74/X6emM2e3h4gAeBq9ujGSPibLo/6rv7k/Hh4Opxu8cOu/AARffsQhKElKnf2VqOq2lna1o/nY87sDifBnpZnZyfb7wbyxDHzbet2bR+Oh93tmbLcTXtbC1ObhfnY/eO1YsszqeB+m7xuN0TFiB7ed8tnrZ70QQsJe67WwG3MzNocwFM8cIVrQkkk67n6+NxhuV2/0OLQZNKG4k4uFvEnN3A2NAamw4bNhooCTCIB5IErCRtZA6lkQ0qjFkCTEXUiEAt2ZqYQomxgkHz47IZmARLY1IgV7MmVsAYEYAaBRGgVFotoDw2TyMKSYc+f6gQFLP4UARk6n5ohMDqzI1EERCNrRkScIRYI5EE02zBif/suy8nylZXtxfbPd2C8/l6/DyQBJiTWTcEBlRU5ZfkKSXBGDX/2XEu4AwWjJMcEJWNuAKYsWxfzCEQzRuDMRsl1cCDU1pGQiDPyQJIVakBprmxEwhWWAuCRKHGHsAlE4rKE0I8s0ryNVP3yRxEPVICGbDq0NzVOZhqSvhOLAkUrtqyCoIK/UaBDG0A5ohqCYImMgCzmeyTBYg6e2PQ02LhAnIlb8UCKHW8dKGbdCg/wFSAgyVbYoJxuc/JEjBDgBHM9jcJYPiQCcrIfKhSwGpaLbCAjSKaoAOyMrVIBERqh9O5AqXZdH+0YwAD" class="img-fluid" width="25" alt="Ubuntu">.</p></li>
+<li><p>A standalone Ubuntu system (v22.04 Jammy) is available after WSL installation. Look for icon <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3NjcuNDA2NjggNzM4LjMxNDIxIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2U5NTAwZTt9PC9zdHlsZT48L2RlZnM+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSIxMDkuMDI2OTYiIGN5PSIzNDguMDk0MTIiIHI9IjEwOS4wMjY5NiIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTYzLjA4MzY5IiBjeT0iMTA5LjAyNjk4IiByPSIxMDkuMDI2OTgiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik00OTIuNDgxOTQsMTMzNi42NjU3N2EyNjUuNTI1MDUsMjY1LjUyNTA1LDAsMCwxLTE4MS4wNzEyLTEzOC4wOTgxNCwxNTYuOTQ3ODQsMTU2Ljk0Nzg0LDAsMCwxLTkzLjIxOTExLDExLjQ1ODI1LDM1NC45MzUyNCwzNTQuOTM1MjQsMCwwLDAsMjU1LjUzNzIzLDIxNC4xNjQ1NSwzNTkuMjA3NzcsMzU5LjIwNzc3LDAsMCwwLDc3LjQxOTQ5LDcuOTY3LDE1Ni4wMDMxMywxNTYuMDAzMTMsMCwwLDEtMzEuOTIyMzYtOTEuMTU0NjZDNTEwLjI0NjIyLDEzNDAuMDA1MjUsNTAxLjI3NzM1LDEzMzguNTQ4LDQ5Mi40ODE5NCwxMzM2LjY2NTc3WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzNy41NjE1NSAtNzA3Ljk3OTk4KSIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTM4LjUyMDQ2IiBjeT0iNjI5LjI4NzIzIiByPSIxMDkuMDI2OTgiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik04MjcuNzk4LDEyOTcuMjIwOTVBMzU2LjcwMDU2LDM1Ni43MDA1NiwwLDAsMCw4NDUuNjcyODMsODc4LjcwMmExNTcuMTQ0NDEsMTU3LjE0NDQxLDAsMCwxLTYxLjMwOTc1LDcxLjgwMzEsMjY3LjI5MywyNjcuMjkzLDAsMCwxLTguNzM2ODgsMjY1LjQ4ODRBMTU2LjM0Njc3LDE1Ni4zNDY3NywwLDAsMSw4MjcuNzk4LDEyOTcuMjIwOTVaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3LjU2MTU1IC03MDcuOTc5OTgpIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjM4LjE3NjQ0LDg5OS43MTkwNnE0LjE1MDUtLjIyNzc5LDguMzA1MzMtLjIyNTUzQTE1Ny4zNDYyNiwxNTcuMzQ2MjYsMCwwLDEsMzI5LjE2NDE2LDkyMy4wMzksMjY1LjkwNjUzLDI2NS45MDY1MywwLDAsMSw1NDMuMjcyMzgsODA4LjUyOTY2YTE1OC4wODc3LDE1OC4wODc3LDAsMCwxLDMzLjA3Ni04OC40MjAyMkM0MzkuMjQ1NDksNzA5LjI1MTc3LDMwNi4wMjQyMSw3ODAuMDAxLDIzOC4xNzY0NCw4OTkuNzE5MDZaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3LjU2MTU1IC03MDcuOTc5OTgpIi8+PC9zdmc+" class="img-fluid" width="25" alt="Ubuntu">.</p></li>
 <li><p>WSL is a full Linux system. It has its own Linux file system, separate from the Windows file system. The user home is at <code>/home/[USERNAME]</code> within the Linux file system.</p>
 <ul>
 <li><p>Within WSL, it is easy to access the files in Windows file system, which is mounted at <code>/mnt/c</code> on WSL. For example, the file <code>/c/Users/[USERNAME]/file</code> is available within WSL at <code>/mnt/c/Users/[USERNAME]/file</code>.</p></li>
@@ -3361,6 +3361,7 @@ Tip
 </div>
 <div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
 <p>You can also use Hoffman2 cluster at UCLA to run the course materials. See <a href="https://www.hoffman2.idre.ucla.edu/Using-H2/Software/Software.html#rstudio-server">Hoffman2 documentation</a> for instructions.</p>
+<p>Please note this RStudio Server container image lacks many tools such as SSH and Quarto. You need to install them by yourself.</p>
 </div>
 </div>
 </div>
