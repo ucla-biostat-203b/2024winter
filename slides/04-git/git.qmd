@@ -106,9 +106,9 @@ Git is a **distributed** version control system:
 
 - A **Git server** enabling multi-person collaboration through a centralized repository.
 
-    - [github.com](github.com): unlimited public repositories, private repositories costs $, but unlimited private repositories for free from [Student Developer Pack](https://education.github.com/pack).
+    - [github.com](https://github.com/): unlimited public repositories, private repositories costs $, but unlimited private repositories for free from [Student Developer Pack](https://education.github.com/pack).
 
-    - [bitbucket.org](bitbucket.org): unlimited public repositories, unlimited private repositories for academic account (register for free using your edu email).
+    - [bitbucket.org](https://bitbucket.org/): unlimited public repositories, unlimited private repositories for academic account (register for free using your edu email).
     
     - We use github.com in this course for developing and submitting homework.
 
