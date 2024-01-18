@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-01-06">
+<meta name="dcterms.date" content="2024-01-18">
 
 <title>Lab 3: Docker</title>
 <style>
@@ -3062,7 +3062,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 6, 2024</p>
+      <p class="date">January 18, 2024</p>
     </div>
   </div>
   
@@ -3095,8 +3095,8 @@ vertical-align: -.125em;
 <section id="build-your-own-docker-image" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="build-your-own-docker-image"><span class="header-section-number">3</span> Build your own Docker image</h2>
 <ul>
-<li><p>Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material. Modify the <code>Dockerfile.amd64</code> (Intel or AMD CPU) or <code>Dockerfile.arm64</code> (ARM CPU e.g. Apple M1/M2/M3 CPU) according to your computer architecture.</p></li>
-<li><p>Type</p></li>
+<li><p>Modify the <code>Dockerfile.amd64</code> (Intel or AMD CPU) or <code>Dockerfile.arm64</code> (ARM CPU e.g. Apple M1/M2/M3 CPU) according to your computer architecture.</p></li>
+<li><p>Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the <code>/Docker</code> folder of course material. Type</p></li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build Dockerfile.amd64 . <span class="at">-t</span> <span class="pp">[</span><span class="ss">DOCKERHUB_USERNAME</span><span class="pp">]</span>/ucla_biostat_203b_2024w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
