@@ -13,8 +13,10 @@ kernlab
 leaps
 mapproj
 pROC 
+pryr
 quantmod
 ranger
+R.utils
 tidymodels
 tfhub
 xgboost
