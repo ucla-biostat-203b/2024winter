@@ -49,7 +49,7 @@ versioninfo()
 We will spend the next few weeks studying some R packages for typical data science projects.
 
 * Data wrangling (import, tidy, visualization, transformation).
-  * [R for Data Science](http://r4ds.had.co.nz) by Garrett Grolemund and Hadley Wickham.
+  * [R for Data Science (2ed)](https://r4ds.hadley.nz/) by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund.
   * [_R Graphics Cookbook_](https://r-graphics.org) by Winston Chang. 
 
 * Interactive data visualization by Shiny.
@@ -147,6 +147,11 @@ in Julia REPL.
 ```{r}
 # By default, R displays ALL rows of a regular data frame!
 iris
+```
+
+```{r}
+# Display structure of this data frame
+str(iris)
 ```
 
 - Convert a regular data frame to tibble, which by default only displays the first 10 rows of data.
@@ -275,10 +280,16 @@ nycflights13::flights
 
 - To change number of rows and columns to display:
 ```{r}
-nycflights13::flights %>% 
+nycflights13::flights |> 
   print(n = 10, width = Inf)
 ```
-Here we see the **pipe operator** `%>%` pipes the output from previous command to the (first) argument of the next command.
+Here we see the **pipe operator** `|>` pipes the output from previous command to the (first) argument of the next command.
+
+::: {.callout-tip}
+## Pipe operator
+
+R 4.1.0 introduced a native pipe operator `|>`, which is mostly compatible with the pipe `%>%` offered by the tidyverse package magrittr. For some subtle differences, see this [post](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) by Hadley Wickham.
+:::
 
 - To change the default print setting globally:
     - `options(tibble.print_max = n, tibble.print_min = m)`: if more than `m` rows, print only `n` rows.
@@ -342,7 +353,7 @@ df[, 1]
 df[[1]] 
 ```
 
-- Pipe:
+- Pipe (it seems the base pipe `|>` does not support the following operations):
 ```{r}
 # Return a vector
 df %>% .$x
@@ -489,10 +500,9 @@ df[1:3, :]
 
 :::
 
-## Data import | r4ds chapter 11
+## Data import | r4ds2e chapter 7
 
 ### readr (R), pandas (Python) and CSV.jl (Julia)
-
 
 - readr package implements functions that turn flat files into tibbles.
 
@@ -502,7 +512,7 @@ df[1:3, :]
 
     - `read_log()` (Apache style log files). 
 
-- An example file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv):
+- An example file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv):
 ```{bash}
 head heights.csv
 ```
@@ -511,14 +521,14 @@ head heights.csv
 
 #### R
 
-- Read from a local file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv):
+- Read from a local file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv):
 ```{r}
-heights <- read_csv("heights.csv") %>% print(width = Inf)
+heights <- read_csv("heights.csv") |> print(width = Inf)
 ```
 
 - Read from a url:
 ```{r}
-heights <- read_csv("https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv") %>%
+heights <- read_csv("https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv") |>
   print(width = Inf)
 ```
 
@@ -567,7 +577,7 @@ read_csv("a,b,c\n1,2,.", na = ".")
 
 #### Python
 
-- Read from a local file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv):
+- Read from a local file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv):
 ```{python}
 heights = pd.read_csv("heights.csv")
 heights
@@ -578,7 +588,7 @@ heights
 import io
 import requests
 
-url = "https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv"
+url = "https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv"
 s = requests.get(url).content
 heights = pd.read_csv(io.StringIO(s.decode('utf-8')), index_col = 0)
 heights
@@ -646,7 +656,7 @@ pd.read_csv(
 
 #### Julia
 
-- Read from a local file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv):
+- Read from a local file [heights.csv](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv):
 ```{julia}
 using CSV
 
@@ -661,7 +671,7 @@ heights = CSV.read("heights.csv", DataFrame)
 ```{julia}
 using HTTP
 
-http_response = HTTP.get("https://raw.githubusercontent.com/ucla-biostat-203b/2023winter/master/slides/05-tidy/heights.csv");
+http_response = HTTP.get("https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/05-tidy/heights.csv");
 heights = CSV.File(http_response.body) |> DataFrame
 ```
 
@@ -1150,7 +1160,7 @@ rename!(table4b, Dict(:y1999 => Symbol("1999"), :y2000 => Symbol("2000")))
 - `gather` (deprecated command) columns into a new pair of variables.
 ```{r}
 # Deprecated command
-table4a %>%
+table4a |>
   gather(`1999`, `2000`, key = "year", value = "cases")
 ```
     
@@ -1163,7 +1173,7 @@ table4a %>%
 #### R
 
 ```{r}
-table4a %>%
+table4a |>
   pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
 ```
 
@@ -1195,10 +1205,10 @@ tidy4a = @pipe stack(table4a, ["1999", "2000"]) |>
 #### R
 
 ```{r}
-tidy4a <- table4a %>% 
+tidy4a <- table4a |> 
   pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")
 # gather(`1999`, `2000`, key = "year", value = "cases")
-tidy4b <- table4b %>% 
+tidy4b <- table4b |> 
   pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "population")
 # gather(`1999`, `2000`, key = "year", value = "population")
 left_join(tidy4a, tidy4b)
@@ -1243,7 +1253,7 @@ leftjoin!(tidy4a, tidy4b, on = [:country, :year])
 
 - Spreading is the opposite of gathering.
 ```{r}
-table2 %>%
+table2 |>
   spread(key = type, value = count)
 ```
 
@@ -1256,7 +1266,7 @@ table2 %>%
 #### R
 
 ```{r}
-table2 %>%
+table2 |>
   pivot_wider(names_from = type, values_from = count)
 ```
 
@@ -1292,19 +1302,19 @@ unstack(table2, :type, :count)
 # Before separation
 table3
 # After separation
-table3 %>% 
+table3 |> 
   separate(rate, into = c("cases", "population"))
 ```
 
 - Separate into numeric values:
 ```{r}
-table3 %>% 
+table3 |> 
   separate(rate, into = c("cases", "population"), convert = TRUE)
 ```
 
 - Separate at a fixed position:
 ```{r}
-table3 %>% 
+table3 |> 
   separate(year, into = c("century", "year"), sep = 2)
 ```
 
@@ -1349,7 +1359,7 @@ table5
 - `unite()` is the inverse of `separate()`. 
 ```{r}
 # After unite
-table5 %>% 
+table5 |> 
   unite(new, century, year, sep = "")
 ```
 
@@ -1402,7 +1412,7 @@ df = tibble(
   country = c("Afghanistan", "Afghanistan", "Brazil", "China"),
   year = c(1999, 1999, 1999, NA),
   cases = c(745, 745, NA, 212258)
-) %>% print()
+) |> print()
 ```
 
 #### Python
@@ -1435,7 +1445,7 @@ df = DataFrame(
 #### R
 
 ```{r}
-df %>% drop_na()
+df |> drop_na()
 ```
 
 #### Python
@@ -1459,7 +1469,7 @@ dropmissing(df)
 #### R
 
 ```{r}
-df %>%
+df |>
   distinct()
 ```
 
@@ -1476,3 +1486,13 @@ unique(df)
 ```
 
 :::
+
+## Some decisions when ingesting data
+
+- Normalize variable/column names.
+
+- Are missing value parsed correctly? 
+
+- Are data types parsed correctly? `chr` vs `fct`. data time. NA vs NaN.
+
+- Are there any duplicated rows?
