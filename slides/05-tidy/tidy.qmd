@@ -505,7 +505,7 @@ df[1:3, :]
 
 ### readr (R), pandas (Python), and CSV.jl (Julia)
 
-- readr package implements functions that ingest flat text files into tibbles.
+- [readr](https://github.com/tidyverse/readr) package implements functions that ingest flat text files into tibbles.
 
     - `read_csv()`, `read_csv2()` (semicolon seperated files), `read_tsv()`,  `read_delim()`.
 
@@ -526,6 +526,8 @@ head heights.csv
 ```{r}
 heights <- read_csv("heights.csv") |> print(width = Inf)
 ```
+
+- `read_csv` can read gz file directly (HW2).
 
 - Read from a url:
 ```{r}
@@ -981,6 +983,10 @@ XLSX.readdata("datasets.xlsx", "mtcars!C1:E4")
 - **xml2** reads XML files.
 
 - **tidyxl** reads non-tabular data from Excel.
+
+### Cheat sheet  
+
+[Posit readr cheat sheet](https://rstudio.github.io/cheatsheets/html/data-transformation.html) is extremely helpful. 
 
 ## Tidy data | r4ds2e chapter 5
 
@@ -1487,6 +1493,11 @@ unique(df)
 ```
 
 :::
+
+
+### Cheat sheet  
+
+[Posit readr cheat sheet](https://rstudio.github.io/cheatsheets/html/tidyr.html) is extremely helpful. 
 
 ## Some practical decisions when ingesting data
 
