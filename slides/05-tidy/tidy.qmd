@@ -17,6 +17,8 @@ knitr:
     fig.align: 'center'
 ---
 
+## Outline
+
 Display machine information for reproducibility.
 
 ::: {.panel-tabset}
@@ -44,7 +46,6 @@ versioninfo()
 
 :::
 
-## Outline
 
 We will spend the next few weeks studying some R packages for typical data science projects.
 
@@ -54,7 +55,7 @@ We will spend the next few weeks studying some R packages for typical data scien
 
 * Interactive data visualization by Shiny.
 
-* Interface with databases, e.g., SQL, Google BigQuery, and Apache Spark.
+* Interface with databases, e.g., SQL, DuckDB, Google BigQuery, and Apache Spark.
 
 * String and text data manipulation. 
 
@@ -502,9 +503,9 @@ df[1:3, :]
 
 ## Data import | r4ds2e chapter 7
 
-### readr (R), pandas (Python) and CSV.jl (Julia)
+### readr (R), pandas (Python), and CSV.jl (Julia)
 
-- readr package implements functions that turn flat files into tibbles.
+- readr package implements functions that ingest flat text files into tibbles.
 
     - `read_csv()`, `read_csv2()` (semicolon seperated files), `read_tsv()`,  `read_delim()`.
 
@@ -1487,12 +1488,37 @@ unique(df)
 
 :::
 
-## Some decisions when ingesting data
-
-- Normalize variable/column names.
+## Some practical decisions when ingesting data
 
 - Are missing value parsed correctly? 
 
 - Are data types parsed correctly? `chr` vs `fct`. data time. NA vs NaN.
 
 - Are there any duplicated rows?
+
+- Normalize variable/column names.
+
+Example CSV data file:
+```{bash}
+head students.txt
+```
+Initial ingestion:
+```{r}
+read_csv("students.txt") |> 
+  print(width = Inf)
+```
+Improved ingestion:
+```{r}
+read_csv(
+  "students.txt", 
+  na = c("N/A", ""),
+  show_col_types = FALSE
+  ) |> 
+  # normalize variable name
+  janitor::clean_names() |>
+  # meal_plan: fct
+  mutate(meal_plan = factor(meal_plan)) |>
+  # parse age as integer
+  mutate(age = parse_number(if_else(age == "five", "5", age))) |>
+  print(width = Inf)
+```
