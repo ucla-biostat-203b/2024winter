@@ -46,7 +46,7 @@ to run the Docker container. This can take up to 10 minutes for Docker to pull t
 - Open Terminal (Mac Terminal, Windows Git Bash, or Windows WSL) at the `/Docker` folder of course material. Type
 ```{bash}
 #| eval: false
-docker build Dockerfile.amd64 . -t [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
+docker build -f Dockerfile.amd64 . -t [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
 ```
 to build the new Docker image. 
 
@@ -57,7 +57,7 @@ to build the new Docker image.
 - Type
 ```{bash}
 #| eval: false
-docker push Dockerfile.amd64 [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
+docker push [DOCKERHUB_USERNAME]/ucla_biostat_203b_2024w
 ```
 to push the new Docker image to Docker Hub.
 
@@ -81,7 +81,7 @@ Not worked out yet.
 
 ### Initial set up to push Docker image to GCR (Google Cloud Registry)
 
-- Install `Google Cloud CLI`. [link](https://cloud.google.com/sdk/docs/install-sdk)
+- Install [`Google Cloud CLI`](https://cloud.google.com/sdk/docs/install-sdk) on local machine (laptop or desktop).
 
 - Initialize the gcloud CLI:
 ```{bash}
