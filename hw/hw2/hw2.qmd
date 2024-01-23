@@ -1,7 +1,7 @@
 ---
 title: "Biostat 203B Homework 2"
 subtitle: Due Feb 9 @ 11:59PM
-author: "Your Name and UID"
+author: "Your NAME and UID"
 format:
   html:
     theme: cosmo
@@ -20,7 +20,7 @@ knitr:
     fig.height: 4
     message: FALSE
 execute:
-  eval: false
+  eval: false    
 ---
 
 Display machine information for reproducibility:
@@ -84,6 +84,10 @@ zcat < ~/mimic/hosp/labevents.csv.gz | head -10
 
 ### Q2.1 Ingest `labevents.csv.gz` by `read_csv`
 
+<p align="center">
+  <img src="./readr_logo.png" width="20%">
+</p>
+
 Try to ingest `labevents.csv.gz` using `read_csv`. What happens? If it takes more than 5 minutes on your computer, then abort the program and report your findings. 
 
 ### Q2.2 Ingest selected columns of `labevents.csv.gz` by `read_csv`
@@ -91,6 +95,10 @@ Try to ingest `labevents.csv.gz` using `read_csv`. What happens? If it takes mor
 Try to ingest only columns `subject_id`, `itemid`, `charttime`, and `valuenum` in `labevents.csv.gz` using `read_csv`.  Does this solve the ingestion issue? (Hint: `col_select` argument in `read_csv`.)
 
 ### Q2.3 Ingest subset of `labevents.csv.gz`
+
+<p align="center">
+  <img src="./linux_logo.png" width="20%">
+</p>
 
 Our first strategy to handle this big data file is to make a subset of the `labevents` data.  Read the [MIMIC documentation](https://mimic.mit.edu/docs/iv/modules/hosp/labevents/) for the content in data file `labevents.csv`.
 
@@ -100,6 +108,10 @@ Display the first 10 lines of the new file `labevents_filtered.csv.gz`. How many
 
 ### Q2.4 Ingest `labevents.csv` by Apache Arrow
 
+<p align="center">
+  <img src="./arrow_logo.png" width="30%">
+</p>
+
 Our second strategy is to use [Apache Arrow](https://arrow.apache.org/) for larger-than-memory data analytics. Unfortunately Arrow does not work with gz files directly. First decompress `labevents.csv.gz` to `labevents.csv` and put it in the current working directory. To save render time, put `#| eval: false` at the beginning of this code chunk.
 
 Then use [`arrow::open_dataset`](https://arrow.apache.org/docs/r/reference/open_dataset.html) to ingest `labevents.csv`, select columns, and filter `itemid` as in Q2.3. How long does the ingest+select+filter process take? Display the number of rows and the first 10 rows of the result tibble, and make sure they match those in Q2.3. (Hint: use `dplyr` verbs for selecting columns and filtering rows.)
@@ -108,11 +120,19 @@ Write a few sentences to explain what is Apache Arrow. Imagine you want to expla
 
 ### Q2.5 Compress `labevents.csv` to Parquet format and ingest/select/filter
 
+<p align="center">
+  <img src="./parquet_logo.png" width="30%">
+</p>
+
 Re-write the csv file `labevents.csv` in the binary Parquet format (Hint: [`arrow::write_dataset`](https://arrow.apache.org/docs/r/reference/write_dataset.html).) How large is the Parquet file(s)? How long does the ingest+select+filter process of the Parquet file(s) take? Display the number of rows and the first 10 rows of the result tibble and make sure they match those in Q2.3. (Hint: use `dplyr` verbs for selecting columns and filtering rows.)
 
 Write a few sentences to explain what is the Parquet format. Imagine you want to explain it to a layman in an elevator.
 
 ### Q2.6 DuckDB
+
+<p align="center">
+  <img src="./duckdb_logo.png" width="20%">
+</p>
 
 Ingest the Parquet file, convert it to a DuckDB table by [`arrow::to_duckdb`](https://arrow.apache.org/docs/r/reference/to_duckdb.html), select columns, and filter rows as in Q2.5. How long does the ingest+convert+select+filter process take? Display the number of rows and the first 10 rows of the result tibble and make sure they match those in Q2.3. (Hint: use `dplyr` verbs for selecting columns and filtering rows.)
 
