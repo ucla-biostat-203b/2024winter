@@ -52,5 +52,6 @@ rsconnect/
 
 scripts/
 hw?sol*.*
+hwsol*.*
 
 .ipynb_checkpoints/
