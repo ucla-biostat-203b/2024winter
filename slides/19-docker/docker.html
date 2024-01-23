@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-01-06">
+<meta name="dcterms.date" content="2024-01-23">
 
 <title>Docker</title>
 <style>
@@ -3049,7 +3049,7 @@ vertical-align: -.125em;
   <li><a href="#scenario-run-a-linux-container-interactively" id="toc-scenario-run-a-linux-container-interactively" class="nav-link" data-scroll-target="#scenario-run-a-linux-container-interactively"><span class="header-section-number">5</span> Scenario: Run a Linux container interactively</a></li>
   <li><a href="#scenario-run-linuxr-on-your-macoswindows-laptop" id="toc-scenario-run-linuxr-on-your-macoswindows-laptop" class="nav-link" data-scroll-target="#scenario-run-linuxr-on-your-macoswindows-laptop"><span class="header-section-number">6</span> Scenario: Run Linux+R on your MacOS/Windows laptop</a></li>
   <li><a href="#scenario-deploy-a-shiny-app-to-cloud" id="toc-scenario-deploy-a-shiny-app-to-cloud" class="nav-link" data-scroll-target="#scenario-deploy-a-shiny-app-to-cloud"><span class="header-section-number">7</span> Scenario: Deploy a Shiny app to cloud</a></li>
-  <li><a href="#scenario-centos-r-rstudio-tidyverse-toolchain" id="toc-scenario-centos-r-rstudio-tidyverse-toolchain" class="nav-link" data-scroll-target="#scenario-centos-r-rstudio-tidyverse-toolchain"><span class="header-section-number">8</span> Scenario: CentOS + R + RStudio + tidyverse toolchain</a></li>
+  <li><a href="#scenario-ubuntu-r-rstudio-server-tidyverse-toolchain" id="toc-scenario-ubuntu-r-rstudio-server-tidyverse-toolchain" class="nav-link" data-scroll-target="#scenario-ubuntu-r-rstudio-server-tidyverse-toolchain"><span class="header-section-number">8</span> Scenario: Ubuntu + R + RStudio Server + tidyverse toolchain</a></li>
   </ul>
 </nav>
 </div>
@@ -3077,7 +3077,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 6, 2024</p>
+      <p class="date">January 23, 2024</p>
     </div>
   </div>
   
@@ -3416,7 +3416,7 @@ Redis</code></pre>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-ti</span> <span class="at">--rm</span> centos:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#| eval: false<code>-i</code> means interactive. <code>-t</code> allocates a pseudo-tty. <code>--rm</code> removes the container when it exits.</p>
+<p><code>-i</code> means interactive. <code>-t</code> allocates a pseudo-tty. <code>--rm</code> removes the container when it exits.</p>
 <p>Run <a href="https://hub.docker.com/_/ubuntu/">Ubuntu</a> interactively (as <code>root</code>):</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-ti</span> <span class="at">--rm</span> ubuntu:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3453,9 +3453,9 @@ Redis</code></pre>
 </div>
 <p>and then deploy to cloud.</p>
 </section>
-<section id="scenario-centos-r-rstudio-tidyverse-toolchain" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="scenario-centos-r-rstudio-tidyverse-toolchain"><span class="header-section-number">8</span> Scenario: CentOS + R + RStudio + tidyverse toolchain</h2>
-<p>To build an image with CentOS + R + RStudio + tidyverse toolchain, we can use a Dockerfile.</p>
+<section id="scenario-ubuntu-r-rstudio-server-tidyverse-toolchain" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="scenario-ubuntu-r-rstudio-server-tidyverse-toolchain"><span class="header-section-number">8</span> Scenario: Ubuntu + R + RStudio Server + tidyverse toolchain</h2>
+<p>To build an image with Ubuntu + R + RStudio Server + tidyverse toolchain, we can use a Dockerfile.</p>
 </section>
 
 </main>
