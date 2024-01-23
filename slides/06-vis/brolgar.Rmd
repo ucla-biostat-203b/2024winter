@@ -1,0 +1,129 @@
+---
+title: "Visualizing Longitudinal Data Using brolgar"
+author: "Dr. Hua Zhou @ UCLA"
+date: "Jan 20, 2022"
+subtitle: Biostat 203B
+output:
+  # ioslides_presentation: default
+  html_document:
+    toc: true
+    toc_depth: 4  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Adapted form the tutorial at <http://brolgar.njtierney.com>.
+
+## Longitudinal data
+
+[brolgar](http://brolgar.njtierney.com) is an R package that helps **br**owse **o**ver **l**ongitudinal **d**ata **g**raphically and **a**nalytically in **R**.
+
+## Installing `brolgar`
+
+```{r, eval=F}
+install.packages("brolgar")
+```
+
+## An example longitudinal data
+
+Load `tidyverse`, `brolgar` and `gghighlight`:
+```{r}
+library(tidyverse)
+library(brolgar)
+library(gghighlight)
+```
+
+The csv file `wages_pp.csv` contains a data set from the textbook _Applied Longitudinal Data Analysis_ (2003) by Singer and Willett. This data contains measurements on hourly wages by years in the workforce, with education and race as covariates. 
+```{bash}
+head wages_pp.csv
+```
+
+Read following variables into a tibble:  
+- `id`: 1-888, for each subject.  
+- `lnw`: natural log of wages, adjusted for inflation, to 1990 dollars.  
+- `exper`: Experience - the length of time in the workforce (in years). The number of time points and values of time points for each subject can differ.  
+- `ged`: when/if a graduate equivalency diploma is obtained.  
+- `postexp`: change in experience since getting a ged (if they get one).  
+- `black`: categorical indicator of race = black.  
+- `hispanic`: categorical indicator of race = hispanic.  
+- `hgc`: highest grade completed.  
+- `uerate`: unemployment rates in the local geographic region at each measurement time.
+```{r}
+wages <- read_csv("wages_pp.csv") %>% select(1:8, 10)
+wages %>% print(width = Inf)
+```
+
+## Turn data frame into a `tsibble`
+
+We turn a regular data frame/tibble into a tidy time series data frame `tsibble` by identifying  
+1. The **key** variable is the identifier of individuals.  
+2. The **index** variable is the time component of your data.  
+3. The **regularity** of the time interveral (index). Longitudinal data typically has irregular time periods between measurements, but can have regular measurements.
+
+```{r}
+wages <- wages %>% 
+  as_tsibble(key = id, index = exper, regular = FALSE)
+wages
+```
+
+## Display trajectories of a few individuals
+
+`sample_n_keys()` and `sample_frac_keys()` to take a random sample of keys.
+```{r}
+set.seed(203)
+wages %>%
+  sample_n_keys(size = 5) %>%
+  ggplot(aes(x = exper,
+             y = lnw,
+             group = id)) + 
+  geom_line()
+```
+
+`facet_sample()` allows you to specify the number of keys per facet, and the number of facets with `n_per_facet` and `n_facets`. By default, it splits the data into 12 facets with 3 per facet:
+```{r}
+set.seed(203)
+ggplot(wages,
+       aes(x = exper,
+           y = lnw,
+           group = id)) +
+  geom_line() +
+  facet_sample()
+```
+
+## Find features in longitudinal data
+
+Five number summaries of wages for each individual:
+```{r}
+wages %>%
+  features(lnw,
+           feat_five_num)
+```
+Other feature functions include `feat_monotonic`, `feat_ranges`, `feat_spread`, `feat_three_num`, `n_obs`. For example, find those whose wages only increase or decrease with feat_monotonic:
+```{r}
+wages %>%
+  features(lnw, feat_monotonic)
+```
+
+Find the number of observations per individual and summarize by bar plot:
+```{r}
+wages %>%
+  features(lnw, n_obs) %>%
+  ggplot(aes(x = n_obs)) + 
+    geom_bar()  
+```
+
+## Linking individuals back to the data
+
+Once you have created these features, you can join them back to the data with a `left_join`:
+```{r}
+wages %>%
+  features(lnw, feat_monotonic) %>%
+  left_join(wages, by = "id") %>%
+  ggplot(aes(x = exper,
+             y = lnw,
+             group = id)) +
+  geom_line() + 
+  gghighlight(increase)
+```
