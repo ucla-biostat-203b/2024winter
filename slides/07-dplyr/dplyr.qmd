@@ -260,7 +260,7 @@ filter(row -> (row.month == 11) | (row.month == 12), flights)
 distinct(flights, month, .keep_all = TRUE)
 ```
 
-- With `.keep_all = FALSE`, only distinct values of the variable are selected:
+- With `.keep_all = FALSE`, all variables/columns are kept:
 ```{r}
 distinct(flights, month)
 ```
