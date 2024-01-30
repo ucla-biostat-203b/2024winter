@@ -353,15 +353,21 @@ slice_tail(flights, n = 5)
 ```{r}
 # deprecated: top_n(flights, 5, wt = time_hour)
 # This function is quick
-slice_max(flights, n = 5, order_by = time_hour)
+slice_max(flights, n = 5, order_by = time_hour) %>%
+  print(width = Inf)
 ```
 
 - Bottom `n` rows with lowest values:
 ```{r}
 # deprecated: top_n(flights, -5, wt = time_hour)
 # Why it takes REALLY long???
-slice_max(flights, n = 5, order_by = desc(time_hour)) # is fast
+slice_max(flights, n = 5, order_by = desc(time_hour)) |> # is fast
+  print(width = Inf)
 # slice_min(flights, n = 5, order_by = time_hour) # very slow
+```
+
+```{r}
+slice_min(flights, n = 5, order_by = time_hour)
 ```
 
 - `slice_*` verbs apply to groups for grouped tibbles.
@@ -1610,9 +1616,9 @@ innerjoin(x, y, on = :key)
 
 - An **outer join** keeps observations that appear in at least one of the tables. 
 
-- Three types of outer joins:
+- Three types of outer joins: left join, right join, and full join.
 
-    - A **left join** keeps all observations in `x`.
+- A **left join** keeps all observations in `x`.
     
 ::: {.panel-tabset}    
 
@@ -1635,7 +1641,8 @@ leftjoin(x, y, on = :key)
 ```
 
 :::
-    - A **right join** keeps all observations in `y`.
+    
+- A **right join** keeps all observations in `y`.
     
 ::: {.panel-tabset}    
 
@@ -1658,7 +1665,8 @@ rightjoin(x, y, on = :key)
 ```
 
 :::
-    - A **full join** keeps all observations in `x` or `y`.
+    
+- A **full join** keeps all observations in `x` or `y`.
     
 ::: {.panel-tabset}
 
@@ -1683,7 +1691,7 @@ outerjoin(x, y, on = :key)
 :::
     
 <p align="center">
-<img src="./join-outer.png" height="275">
+<img src="./join-outer.png" width="50%">
 </p>
     
 ### Duplicate keys
