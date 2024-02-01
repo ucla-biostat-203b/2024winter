@@ -1145,7 +1145,7 @@ ggplot(nz, aes(long, lat, group = group)) +
 
 ## Maps
 
-More extensive mapping functions are provided in `ggmap` package in R.
+- More extensive mapping functions are provided in `ggmap` package in R.
 
 ```{r}
 library(ggmap)
@@ -1170,7 +1170,7 @@ qmap("california", zoom = 7) +
   )
 ```
 
-Python users check the [`Cartopy`](https://scitools.org.uk/cartopy/docs/latest/) package.
+- Python users check the [`Cartopy`](https://scitools.org.uk/cartopy/docs/latest/) package.
 
 ```{python}
 import cartopy.crs as ccrs
@@ -1181,7 +1181,7 @@ ax.stock_img()
 plt.show()
 ```
 
-For interactive maps, use `leaflet`!
+- For interactive maps, use `leaflet`!
 ```{r}
 library(leaflet)
 
@@ -1189,6 +1189,8 @@ leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
   addMarkers(lng = -118.44481, lat = 34.07104, popup = "Bruin")
 ```
+
+- See this [tutorial](https://nih-r25-modelersandstorytellers.github.io/2023/data-science-tutorials/00-la/00-la.html) more examples of pulling social-economic data from US Census and ACS (American Community Survey) and mapping them in R.
 
 ## Graphics for communications | r4ds chapter 28
 
