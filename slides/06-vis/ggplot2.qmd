@@ -1766,5 +1766,4 @@ sns.scatterplot(
 
 ## Cheat sheet  
 
-[RStudio cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf) is extremely helpful.
-
+[RStudio cheat sheet](https://rstudio.github.io/cheatsheets/html/data-visualization.html) is extremely helpful.
