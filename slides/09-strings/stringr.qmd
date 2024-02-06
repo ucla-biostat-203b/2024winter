@@ -200,17 +200,15 @@ x
 
 ## Matching patterns with regular expressions
 
-- `str_view_all()` shows all matches.
-
 - Match exact strings:
 ```{r}
 x <- c("apple", "banana", "pear")
-str_view_all(x, "an")
+str_view(x, "an")
 ```
 
 - `.` matches any character apart from a newline:
 ```{r}
-str_view_all(x, ".a.")
+str_view(x, ".a.")
 ```
 
 - **Regex escapes live on top of regular string escapes, so there needs to be two levels of escapes.**  
@@ -218,15 +216,15 @@ str_view_all(x, ".a.")
 ```{r}
 #| error: true
 # doesn't work because "a\.c" is treated as a regular expression
-str_view_all(c("abc", "a.c", "bef"), "a\.c")
+str_view(c("abc", "a.c", "bef"), "a\.c")
 ```
 ```{r}
 # regular expression needs double escape
-str_view_all(c("abc", "a.c", "bef"), "a\\.c")
+str_view(c("abc", "a.c", "bef"), "a\\.c")
 ```
 To match a literal `\`:
 ```{r}
-str_view_all("a\\b", "\\\\")
+str_view("a\\b", "\\\\")
 ```
 
 <p align="center">
@@ -238,31 +236,33 @@ str_view_all("a\\b", "\\\\")
 - `^` matches the start of the string:
 ```{r}
 x <- c("apple", "banana", "pear")
-str_view_all(x, "^a")
+str_view(x, "^a")
 ```
 
 - `$` matches the end of the string:
 ```{r}
-str_view_all(x, "a$")
+str_view(x, "a$")
 ```
 
 - To force a regular expression to only match a complete string:
 ```{r}
 x <- c("apple pie", "apple", "apple cake")
-str_view_all(x, "^apple$")
+str_view(x, "^apple$")
 ```
 
 ## Alternation  
 
 - `[abc]`: matches a, b, or c. Same as `(a|b|c)`.
+```{r}
+str_view(c("grey", "gray"), "gr(e|a)y")
+```
+```{r}
+str_view(c("grey", "gray"), "gr[ea]y")
+```
 
 - `[^abc]`: matches anything except a, b, or c.
-```{r}
-str_view_all(c("grey", "gray"), "gr(e|a)y")
-```
-```{r}
-str_view_all(c("grey", "gray"), "gr[ea]y")
-```
+
+- `[a-z]`: matches any lower case letter.
 
 ## Repetition
 
@@ -275,11 +275,11 @@ str_view_all(c("grey", "gray"), "gr[ea]y")
 ```{r}
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 # match either C or CC, being greedy here
-str_view_all(x, "CC?")
+str_view(x, "CC?")
 # greedy matches
-str_view_all(x, "CC+")
+str_view(x, "CC+")
 # greedy matches
-str_view_all(x, 'C[LX]+')
+str_view(x, 'C[LX]+')
 ```
 
 - Specify number of matches:  
@@ -290,19 +290,19 @@ str_view_all(x, 'C[LX]+')
 
 - Examples:
 ```{r}
-str_view_all(x, "C{2}")
+str_view(x, "C{2}")
 # greedy matches
-str_view_all(x, "C{2,}")
+str_view(x, "C{2,}")
 # greedy matches
-str_view_all(x, "C{2,3}")
+str_view(x, "C{2,3}")
 ```
 
 - Greedy (default) vs lazy (put `?` after repetition):
 ```{r}
 # lazy matches
-str_view_all(x, 'C{2,3}?')
+str_view(x, 'C{2,3}?')
 # lazy matches
-str_view_all(x, 'C[LX]+?')
+str_view(x, 'C[LX]+?')
 ```
 
 - What went wrong here?
@@ -339,7 +339,7 @@ fruit
 - Parentheses define groups, which can be back-referenced as `\1`, `\2`, ...
 ```{r}
 # with match = TRUE, only show matched strings
-str_view_all(fruit, "(..)\\1", match = TRUE)
+str_view(fruit, "(..)\\1")
 ```
 
 ## Detect matches
@@ -396,7 +396,7 @@ mean(str_count(words, "[aeiou]"))
 - Matches never overlap:
 ```{r}
 str_count("abababa", "aba")
-str_view_all("abababa", "aba")
+str_view("abababa", "aba")
 ```
 
 - Mutate a data frame:
@@ -439,7 +439,7 @@ head(sentences)
 - `str_extract()` only extracts the first match.
 ```{r}
 more <- sentences[str_count(sentences, colour_match) > 1]
-str_view_all(more, colour_match)
+str_view(more, colour_match)
 ```
 
 - `str_extract_all()` extracts all matches:
@@ -514,7 +514,7 @@ sentences %>%
 
 ## Splitting
 
-- Split a string up into pieces:
+- Split a string into pieces:
 ```{r}
 sentences %>%
   head(5) %>% 
@@ -582,4 +582,4 @@ str_replace_all(text, "[1-5a-ep]", "*")
 
 # Cheat sheet  
 
-[RStudio cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf) is extremely helpful.    
+[Posit cheat sheet](https://rstudio.github.io/cheatsheets/html/strings.html) is extremely helpful.

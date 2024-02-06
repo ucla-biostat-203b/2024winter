@@ -423,3 +423,7 @@ span <- date2 %--% date
 as.duration(span)
 as.period(span)
 ```
+
+## Cheat sheet
+
+[Poist cheat sheet](https://rstudio.github.io/cheatsheets/html/lubridate.html) is extremely useful.
