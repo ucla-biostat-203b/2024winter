@@ -353,21 +353,15 @@ slice_tail(flights, n = 5)
 ```{r}
 # deprecated: top_n(flights, 5, wt = time_hour)
 # This function is quick
-slice_max(flights, n = 5, order_by = time_hour) %>%
+slice_max(flights, n = 5, order_by = time_hour) |>
   print(width = Inf)
 ```
 
 - Bottom `n` rows with lowest values:
 ```{r}
-# deprecated: top_n(flights, -5, wt = time_hour)
-# Why it takes REALLY long???
-slice_max(flights, n = 5, order_by = desc(time_hour)) |> # is fast
+# same as slice_max(flights, n = 5, order_by = desc(time_hour))
+slice_min(flights, n = 5, order_by = time_hour) |>
   print(width = Inf)
-# slice_min(flights, n = 5, order_by = time_hour) # very slow
-```
-
-```{r}
-slice_min(flights, n = 5, order_by = time_hour)
 ```
 
 - `slice_*` verbs apply to groups for grouped tibbles.
