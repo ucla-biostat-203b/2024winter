@@ -1,0 +1,315 @@
+---
+title: "Web Scraping"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    fig.width: 6
+    fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+Display machine information for reproducibility.
+```{r}
+sessionInfo()
+```
+Load tidyverse and other packages for this lecture.
+```{r}
+library("tidyverse")
+library("rvest")
+library("quantmod")
+```
+
+## Web scraping
+
+There is a wealth of data on internet. How to scrape them and analyze them?
+
+## rvest
+
+[rvest](https://github.com/hadley/rvest) is an R package written by Hadley Wickham which makes web scraping easy.
+
+## Example: Scraping from webpage
+
+- We follow instructions in a [Blog by SAURAV KAUSHIK](https://www.analyticsvidhya.com/blog/2017/03/beginners-guide-on-web-scraping-in-r-using-rvest-with-hands-on-knowledge/) to find the most popular feature films of 2020.
+
+- Install the [SelectorGadget](https://selectorgadget.com/) extension for Chrome.
+
+- The 100 most popular feature films released in 2020 can be accessed at page <https://www.imdb.com/search/title/?title_type=feature&release_date=2020-01-01,2020-12-31&count=100>.
+
+```{r}
+# Specifying the url for desired website to be scraped
+url <- "https://www.imdb.com/search/title/?title_type=feature&release_date=2020-01-01,2020-12-31&count=100"
+# Reading the HTML code from the website
+(webpage <- read_html(url))
+```
+
+- Suppose we want to scrape following 11 features from this page:
+    - Rank (popularity)
+    - Title
+    - Description
+    - Runtime
+    - Film rating
+    - User rating
+    - Metascore
+    - Votes
+
+<p align="center">
+  <img src="./imdb.png" height="350">
+</p>
+
+### Rank and title
+
+- Use SelectorGadget to find the CSS selector `.ipc-title-link-wrapper .ipc-title__text`.
+```{r}
+# Using CSS selectors to scrap the title section
+(title_data_html <- html_nodes(webpage, '.ipc-title-link-wrapper .ipc-title__text'))
+# Converting the title data to text
+(ranktitle_data <- html_text(title_data_html))
+```
+
+```{r}
+# rank
+rank_data <- str_extract(ranktitle_data, "^[0-9]+") |> as.integer() |> print()
+```
+```{r}
+# title
+title_data <- str_remove(ranktitle_data, "^[0-9]+. ") |> print()   
+```    
+### Description
+
+```{r}
+# Using CSS selectors to scrap the description section
+(description_data_html <- html_nodes(webpage, '.ipc-html-content-inner-div'))
+# Converting the description data to text
+description_data <- html_text(description_data_html)
+# take a look at first few
+head(description_data)
+```
+
+### Runtime
+
+- Retrieve runtime strings
+```{r}
+# Using CSS selectors to scrap the Movie runtime section
+runtime_text <- webpage |>
+  html_nodes('.dli-title-metadata-item:nth-child(2)') |>
+  html_text() |>
+  print()
+```
+- Hours and minutes:
+```{r}
+# hours
+runtime_hour <- runtime_text |>
+  str_extract("\\d+(?=h)") |>
+  as.integer() |>
+  print()
+```
+
+```{r}
+# minutes
+runtime_min <- runtime_text |>
+  str_extract("\\d+(?=m)") |>
+  # replace NA by 0
+  str_replace_na("0") |>
+  as.integer() |>
+  print()
+```
+
+- Runtime in minutes
+```{r}
+runtime_data <- (runtime_hour * 60 + runtime_min) |> print()
+```
+
+### Film rating
+
+- Film rating:
+```{r}
+filmrating_data <- webpage |>
+  html_nodes('.dli-title-metadata-item:nth-child(3)') %>%
+  html_text() |>
+  str_replace("Unrated", "Not Rated") |>
+  print()
+```
+
+### Votes
+
+- Vote data
+```{r}
+votes_data <- webpage |>
+  html_nodes('.cPpOqU') |>
+  html_text() |>
+  str_remove("Votes") |>
+  str_remove(",") |>
+  as.numeric() |>
+  print()
+```
+
+### User rating
+
+- User rating:
+```{r}
+userrating_data <- webpage |>
+  html_nodes('.ratingGroup--imdb-rating') |>
+  html_text() |>
+  str_extract("^\\d+\\.\\d+") |>
+  as.numeric() |>
+  print()
+```
+
+### Metascore
+
+- We encounter the issue of missing data when scraping metascore. 
+
+- We see there are only 91 meta scores. 9 movies don't have meta scores. We may manually find which movies don't have meta scores but that's tedious and not reproducible.
+```{r}
+# Using CSS selectors to scrap the metascore section
+ms_data <- html_nodes(webpage, '.metacritic-score-box') |>
+  html_text() |>
+  as.integer() |>
+  print()
+```
+
+- First let's tally title (no missingness) and corresponding metascore (if present).
+```{r}
+rank_and_metascore <- webpage |>
+  html_nodes('.ipc-title-link-wrapper .ipc-title__text , .metacritic-score-box') |>
+  html_text() |>
+  # remove anything after the space
+  str_remove(" .*") |>  
+  print()
+```
+```{r}
+# logical vector indicating if the element is a rank
+isrank <- str_detect(rank_and_metascore, "\\.$")
+# a rank followed by another rank is a missing metascore
+ismissing <- isrank[1:(length(rank_and_metascore) - 1)] & isrank[2:(length(rank_and_metascore))]
+# last entry is missing or not
+ismissing[length(ismissing) + 1] <- isrank[length(isrank)]
+# which ranks are missing metascore
+missingpos <- as.integer(rank_and_metascore[ismissing])
+metascore_data <- rep(NA, 100)
+metascore_data[-missingpos] <- ms_data |> print()
+```
+
+### Visualizing movie data
+
+- Form a tibble:
+```{r}
+# Combining all the lists to form a data frame
+movies <- tibble(
+  poprank = rank_data, 
+  title = title_data,
+  description = description_data, 
+  runtime = runtime_data,
+  filmrating = filmrating_data,
+  userrating = userrating_data,
+  metascore = metascore_data, 
+  votes = votes_data,
+) |>
+  print(width=Inf)
+```
+
+- Top 5 popular movies:
+```{r}
+movies |>
+  slice_min(order_by = poprank, n = 5) |>
+  print(width=Inf)
+```
+
+- Top 5 user rated movies:
+```{r}
+movies |>
+  slice_max(order_by = userrating, n = 5) |>
+  print(width = Inf)
+```
+
+- Top 5 meta scores:
+```{r}
+movies |>
+  slice_max(order_by = metascore, n = 5) |>
+  print(width = Inf)
+```
+
+- How many top 100 movies are in each film rating category?
+```{r}
+movies %>%
+  count(filmrating)
+```
+```{r}
+# bar plot
+ggplot(data = movies) +
+  geom_bar(mapping = aes(x = fct_infreq(filmrating))) + 
+  labs(y = "count") +
+  labs(x = "Film rating", y = "Count")
+```
+
+- Is there a relationship between user rating and metascore (critics rating)? How to inform the number of votes? Stratify by film rating?
+```{r}
+ggplot(data = movies, mapping = aes(x = userrating, y = metascore)) +
+  geom_point(mapping = aes(size = votes, color = filmrating)) + 
+  geom_smooth() +
+  labs(y = "Metascore", x = "User rating")
+```
+
+## Example: Scraping finance data
+
+- `quantmod` package contains many utility functions for retrieving and plotting finance data. E.g.,
+```{r}
+library(quantmod)
+stock <- getSymbols("TSLA", src = "yahoo", auto.assign = FALSE, from = "2020-01-01")
+head(stock)
+chartSeries(stock, theme = chartTheme("white"),
+            type = "line", log.scale = FALSE, TA = NULL)
+```
+
+## Example: Pull tweets into R
+
+- Read blog: <https://towardsdatascience.com/pulling-tweets-into-r-e17d4981cfe2>
+
+- [`twitteR` package](https://www.rdocumentation.org/packages/twitteR) is useful for pulling tweets text data into R.
+```{r, eval=F}
+library(twitteR) #load package
+```
+
+- Step 1: apply for a [Twitter developer account](https://developer.twitter.com). It takes some time to get approved.
+
+- Step 2: Generate and copy the Twitter App Keys.
+```
+consumer_key <- 'XXXXXXXXXX'
+consumer_secret <- 'XXXXXXXXXX'
+access_token <- 'XXXXXXXXXX'
+access_secret <- 'XXXXXXXXXX'
+```
+```{r include=FALSE, eval=F}
+consumer_key <- 'P952Y45yrM1Xu9ez3r00AUH57'
+consumer_secret <- 'KVmvwfL3dmc0TsY81fo3CPwCMTRldS5CzceM2JhyO3xSjZpwEH'
+access_token <- '783517197012504576-B5Q1D0whnX2KzpHnJJwUHErU8ttGtGQ'
+access_secret <- 'oZoUWWZ7JD1aT3BOAc92zC98dYa1nVETbBHnUoquaKjvO'
+```
+
+- Step 3. Set up authentication
+```{r, eval=F}
+setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
+```
+
+- Step 4: Pull tweets
+```{r, eval=F}
+virus <- searchTwitter('#China + #Coronavirus', 
+                       n = 1000, 
+                       since = '2020-01-01', 
+                       retryOnRateLimit = 1e3)
+virus_df <- as_tibble(twListToDF(virus))
+virus_df %>% print(width = Inf)
+```
