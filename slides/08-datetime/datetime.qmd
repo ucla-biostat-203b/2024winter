@@ -21,6 +21,8 @@ knitr:
     cache: false
 ---
 
+## Preamble
+
 Display machine information for reproducibility.
 
 ::: {.panel-tabset}
@@ -183,6 +185,7 @@ mdy("Feb 2nd, 2023")
 dmy("02-Feb-2023")
 ```
 ```{r}
+# default time zone is UTC
 ymd_hms("2023-02-02 14:57:25")
 ymd_hm("2023-02-02 14:57")
 ```
@@ -275,19 +278,27 @@ flights_dt <- flights |>
 Now we can visualize the distribution of departure times across the year  
 ```{r}
 flights_dt |> 
-  ggplot(aes(x= dep_time)) + 
+  ggplot(aes(x = dep_time)) + 
   geom_freqpoly(binwidth = 86400) + # 86400 seconds = 1 day
   labs(
     x = "Departure Time",
     y = "Number of Flights"
-  )
+  ) +
+  xlim(
+    ymd_hms("2013-01-01 00:00:00"),
+    ymd_hms("2014-01-01 00:00:00")
+    )
 ```
 or within a single day:
 ```{r}
 flights_dt |> 
   filter(dep_time < ymd(20130102)) |> 
   ggplot(aes(dep_time)) + 
-  geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
+  geom_freqpoly(binwidth = 600) + # 600 s = 10 minutes
+  xlim(
+    ymd_hms("2013-01-01 00:00:00"),
+    ymd_hms("2013-01-02 00:00:00")
+    )  
 ```
 
 #### Python
