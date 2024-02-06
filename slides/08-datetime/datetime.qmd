@@ -1,0 +1,414 @@
+---
+title: "Dates and Times | r4ds Chapter 16"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    fig.width: 6
+    fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+Display machine information for reproducibility.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### Julia
+
+```{julia}
+using InteractiveUtils
+versioninfo()
+```
+
+:::
+
+Load tidyverse and lubridate (R), Pandas (Python), and DataFrames.jl (Julia).
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+library(lubridate)
+library(nycflights13)
+library(tidyverse)
+```
+
+#### Python
+
+```{python}
+# Load the pandas library
+import pandas as pd
+# Load numpy for array manipulation
+import numpy as np
+```
+
+#### Julia
+
+```{julia}
+using DataFrames, Pipe, StatsBase
+```
+
+:::
+
+
+## Basics
+
+Three types of data/time data:  
+
+- **date**. Tibbles print it as `<date>`.  
+- **time**. Tibbles print it as `<time>`.  
+- **date-time**. Tibbles print it as `<dttm>`.  
+
+In the `flights` tibble, the last variable `time_hour` is in the data-time format:
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+flights |> print(width = Inf)
+```
+
+#### Python
+
+The nycflights13 data is available from the nycflights13 package in Python.
+```{python}
+from nycflights13 import flights
+
+flights
+```
+
+Note there are some differences of this `flights` data from that in tidyverse. The data types for some variables are different. There are no natural ways in Pandas to hold integer column with missing values; so `dep_time` , `arr_time` are `float64` instead of `int64`.  
+```{python}
+flights.info()
+```
+
+To be more consistent with `nycflights13` in tidyverse, we cast `time_hour` to `datetime` type.
+```{python}
+flights['time_hour'] = pd.to_datetime(flights['time_hour'])
+```
+
+#### Julia
+
+Let's use RCall.jl to retrieve the nycflights13 data from R.
+```{julia}
+using RCall
+
+R"""
+library(nycflights13)
+"""
+
+flights = rcopy(R"flights")
+```
+
+:::
+
+
+## Create date/times
+
+### `today` and `now`
+
+::: {.panel-tabset}
+
+#### R
+
+Today:
+```{r}
+# current date
+today()
+# current date-time
+now()
+```
+
+#### Python
+
+Today:
+```{python}
+from datetime import date, datetime
+
+# Current date
+date.today()
+# Current date-time
+datetime.now()
+```
+
+
+#### Julia
+
+```{julia}
+using Dates
+# Current date
+today()
+# Current date-time
+now()
+```
+
+:::
+
+### From strings
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+ymd("2023-02-02")
+mdy("Feb 2nd, 2023")
+dmy("02-Feb-2023")
+```
+```{r}
+ymd_hms("2023-02-02 14:57:25")
+ymd_hm("2023-02-02 14:57")
+```
+
+#### Python
+
+```{python}
+from dateutil.parser import parse
+
+datetime.strptime('2023-02-02', '%Y-%m-%d').date()
+# I have to use the package python-dateutils to parse Feb 2nd
+parse('Feb 2nd, 2023').date()
+datetime.strptime('02-Feb-2023', '%d-%b-%Y').date()
+```
+
+```{python}
+datetime.strptime('2023-02-02 14:57:25', '%Y-%m-%d %H:%M:%S')
+datetime.strptime('2023-02-02 14:57', '%Y-%m-%d %H:%M')
+```
+
+#### Julia
+
+```{julia}
+Date("2023-02-02", dateformat"y-m-d")
+# Not sure how to parse "Feb 2nd, 2023" ???
+# Date("Feb 2nd, 2023", dateformat"u d, y")
+Date("02-Feb-2023", dateformat"d-u-y")
+```
+
+```{julia}
+DateTime("2023-02-02 14:57:25", dateformat"y-m-d H:M:S")
+DateTime("2023-02-02 14:57", dateformat"y-m-d H:M")
+```
+
+:::
+
+### From unquoated numbers
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+ymd(20200202)
+```
+
+#### Python
+
+```{python}
+datetime(2022, 2, 2).date()
+```
+
+#### Julia
+
+```{julia}
+Date(2020, 2, 2)
+```
+
+:::
+
+
+### From variables/columns in a tibble
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+flights |> 
+  select(year, month, day, hour, minute) |>
+  mutate(departure = make_datetime(year, month, day, hour, minute))
+```
+
+```{r}
+make_datetime_100 <- function(year, month, day, time) {
+  make_datetime(year, month, day, time %/% 100, time %% 100)
+}
+
+flights_dt <- flights |> 
+  filter(!is.na(dep_time), !is.na(arr_time)) |> 
+  mutate(
+    dep_time = make_datetime_100(year, month, day, dep_time),
+    arr_time = make_datetime_100(year, month, day, arr_time),
+    sched_dep_time = make_datetime_100(year, month, day, sched_dep_time),
+    sched_arr_time = make_datetime_100(year, month, day, sched_arr_time)
+  ) |> 
+  select(origin, dest, ends_with("delay"), ends_with("time")) |>
+  print(width = Inf)
+```
+Now we can visualize the distribution of departure times across the year  
+```{r}
+flights_dt |> 
+  ggplot(aes(x= dep_time)) + 
+  geom_freqpoly(binwidth = 86400) + # 86400 seconds = 1 day
+  labs(
+    x = "Departure Time",
+    y = "Number of Flights"
+  )
+```
+or within a single day:
+```{r}
+flights_dt |> 
+  filter(dep_time < ymd(20130102)) |> 
+  ggplot(aes(dep_time)) + 
+  geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
+```
+
+#### Python
+
+#### Julia
+
+:::
+
+## Getting components
+
+```{r}
+datetime <- ymd_hms("2023-02-02 15:34:56")
+year(datetime)
+month(datetime)
+mday(datetime)
+yday(datetime)
+wday(datetime)
+```
+More information in `month()` and `wday()`:
+```{r}
+month(datetime, label = TRUE, abbr = FALSE)
+wday(datetime, label = TRUE, abbr = FALSE)
+```
+Visualize number of departures during a week:
+```{r}
+flights_dt |> 
+  mutate(wday = wday(dep_time, label = TRUE)) |> 
+  ggplot(aes(x = wday)) +
+  geom_bar()
+```
+
+## Rounding
+
+`floor_date()`, `round_date()`, `ceiling_date()`:
+```{r}
+flights_dt |> 
+  count(week = floor_date(dep_time, "week")) |> 
+  ggplot(aes(x = week, y = n)) +
+  geom_line()
+```
+
+## Time spans
+
+### Durations
+
+Substract two dates we get a `difftime` object:
+```{r}
+# How old is Hadley?
+h_age <- today() - ymd(19791014)
+h_age
+```
+lubridate provides the **duration** object that always uses seconds:
+```{r}
+as.duration(h_age)
+```
+
+Constructors for duration:
+```{r}
+dseconds(5)
+dminutes(10)
+dhours(c(12, 24))
+ddays(0:5)
+dweeks(3)
+dyears(1)
+```
+
+### Periods
+
+Durations represent an exact number of seconds:
+```{r}
+one_pm <- ymd_hms("2016-03-12 13:00:00", tz = "America/New_York")
+one_pm
+one_pm + ddays(1)
+```
+
+Periods are time spans but don’t have a fixed length in seconds, instead they work with “human” times, like days and months.
+```{r}
+one_pm
+one_pm + days(1)
+```
+
+Constructors for period:
+```{r}
+seconds(15)
+minutes(10)
+hours(c(12, 24))
+days(7)
+months(1:6)
+weeks(3)
+years(1)
+```
+
+Some planes appear to have arrived at their destination before they departed from New York City.
+```{r}
+flights_dt |> 
+  filter(arr_time < dep_time) |>
+  print(width = Inf)
+```
+These are the overnight flights. Let's fix this:
+```{r}
+flights_dt <- flights_dt |> 
+  mutate(
+    overnight = arr_time < dep_time,
+    arr_time = arr_time + days(overnight * 1),
+    sched_arr_time = sched_arr_time + days(overnight * 1)
+  ) |>
+  print(width = Inf)
+```
+
+### Intervals
+
+Intervals are time spans bound by two real date-times. Intervals can be accurately converted to periods and durations.
+
+```{r}
+interval(ymd_hms("2009-08-09 13:01:30"), ymd_hms("2009-08-09 12:00:00"))
+```
+
+```{r}
+date <- ymd_hms("2009-03-08 01:59:59") # DST boundary
+date2 <- ymd_hms("2000-02-29 12:00:00")
+span <- date2 %--% date
+as.duration(span)
+as.period(span)
+```
