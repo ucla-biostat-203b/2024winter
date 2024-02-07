@@ -426,4 +426,4 @@ as.period(span)
 
 ## Cheat sheet
 
-[Poist cheat sheet](https://rstudio.github.io/cheatsheets/html/lubridate.html) is extremely useful.
+[Posit cheat sheet](https://rstudio.github.io/cheatsheets/html/lubridate.html) is extremely useful.

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-02-06">
+<meta name="dcterms.date" content="2024-02-07">
 
 <title>Dates and Times | r4ds Chapter 16</title>
 <style>
@@ -3070,7 +3070,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 6, 2024</p>
+      <p class="date">February 7, 2024</p>
     </div>
   </div>
   
@@ -3363,12 +3363,12 @@ memory usage: 48.8+ MB</code></pre>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># current date</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;2024-02-06&quot;</code></pre>
+<pre><code>[1] &quot;2024-02-07&quot;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># current date-time</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;2024-02-06 19:44:48 UTC&quot;</code></pre>
+<pre><code>[1] &quot;2024-02-07 23:48:00 UTC&quot;</code></pre>
 </div>
 </div>
 </div>
@@ -3380,12 +3380,12 @@ memory usage: 48.8+ MB</code></pre>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Current date</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>date.today()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>datetime.date(2024, 2, 6)</code></pre>
+<pre><code>datetime.date(2024, 2, 7)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Current date-time</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>datetime.now()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>datetime.datetime(2024, 2, 6, 19, 44, 48, 712753)</code></pre>
+<pre><code>datetime.datetime(2024, 2, 7, 23, 48, 0, 987348)</code></pre>
 </div>
 </div>
 </div>
@@ -3395,12 +3395,12 @@ memory usage: 48.8+ MB</code></pre>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Current date</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2024-02-06</code></pre>
+<pre><code>2024-02-07</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Current date-time</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2024-02-06T19:44:48.852</code></pre>
+<pre><code>2024-02-07T23:48:01.125</code></pre>
 </div>
 </div>
 </div>
@@ -3734,14 +3734,14 @@ memory usage: 48.8+ MB</code></pre>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>h_age <span class="ot">&lt;-</span> <span class="fu">today</span>() <span class="sc">-</span> <span class="fu">ymd</span>(<span class="dv">19791014</span>)</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>h_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time difference of 16186 days</code></pre>
+<pre><code>Time difference of 16187 days</code></pre>
 </div>
 </div>
 <p>lubridate provides the <strong>duration</strong> object that always uses seconds:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.duration</span>(h_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;1398470400s (~44.31 years)&quot;</code></pre>
+<pre><code>[1] &quot;1398556800s (~44.32 years)&quot;</code></pre>
 </div>
 </div>
 <p>Constructors for duration:</p>
@@ -3929,7 +3929,7 @@ memory usage: 48.8+ MB</code></pre>
 </section>
 <section id="cheat-sheet" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="cheat-sheet"><span class="header-section-number">7</span> Cheat sheet</h2>
-<p><a href="https://rstudio.github.io/cheatsheets/html/lubridate.html">Poist cheat sheet</a> is extremely useful.</p>
+<p><a href="https://rstudio.github.io/cheatsheets/html/lubridate.html">Posit cheat sheet</a> is extremely useful.</p>
 </section>
 
 </main>
