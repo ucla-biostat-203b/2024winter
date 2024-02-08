@@ -1768,4 +1768,4 @@ sns.scatterplot(
 
 ## Cheat sheet  
 
-[RStudio cheat sheet](https://rstudio.github.io/cheatsheets/html/data-visualization.html) is extremely helpful.
+[Posit cheat sheet](https://rstudio.github.io/cheatsheets/html/data-visualization.html) is extremely helpful.
