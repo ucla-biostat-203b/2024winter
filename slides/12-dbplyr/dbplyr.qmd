@@ -1,0 +1,266 @@
+---
+title: "Working with Databases - Part II"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    fig.width: 6
+    fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+## Introduction
+
+In this lecture we will demonstrate:
+
+- Import data from bigish csv files (MIMIC-IV).
+
+- Deposit data into an SQLite database.
+
+- Query SQLite database. 
+
+- Transform in database and plot in R.
+
+## Machine information
+
+Display machine information for reproducibility.
+```{r}
+sessionInfo()
+```
+Load necessary R packages
+```{r}
+library(tidyverse)
+library(DBI)
+library(RSQLite)
+library(dbplyr)
+```
+
+```{bash}
+# display version of SQLite
+sqlite3 --version
+```
+
+## CSV file
+
+The `/mnt/mimiciv/1.0` folder on the teaching server contains the MIMIC-IV data. On my Mac, it's at `/Users/huazhou/Documents/Box Sync/MIMIC/mimic-iv-1.0`.
+
+Code in this lecture assumes that the MIMIC-IV data is available at `~/mimic`.
+
+Display content of MIMIC-IV data folder:
+```{bash}
+ls -l ~/mimic
+```
+
+## Read CSVs and deposit to an SQLite database
+
+Here, we will import only one csv file `icustays.csv.gz` for demonstration purpose. Motivated students can write a Bash script for loading all MIMIC-IV data files into a SQLite database and contribute to <https://github.com/MIT-LCP/mimic-code>.
+
+Create an empty database file `mimiciv.sqlite`:
+```{bash}
+# bash command
+touch mimiciv.sqlite
+```
+
+Deposit the `icu/icustatys.csv.gz` file:
+```{bash}
+# bash command
+# delete icustays table if exists
+sqlite3 mimiciv.sqlite 'DROP TABLE IF EXISTS icustays;'
+```
+Create an empty `icustays` table with data types. Because SQLite does not support date-time data type (<https://www.sqlite.org/datatype3.html>), we store `intime` and `outtime` as TEXT.
+```{bash}
+# bash command
+sqlite3 mimiciv.sqlite 'CREATE TABLE icustays (
+  subject_id INTEGER,
+  hadm_id INTEGER,
+  stay_id INTEGER,
+  first_careunit TEXT,
+  last_careunit TEXT,
+  intime TEXT,
+  outtime TEXT,
+  los REAL
+  )'
+```
+
+```{bash}
+# bash command
+zcat < ~/mimic/icu/icustays.csv.gz | \
+  tail -n +2 | \
+  sqlite3 mimiciv.sqlite -csv '.import /dev/stdin icustays'
+```
+
+## Read data from database
+
+Connect to the database `mimiciii.sqlite` and list the tables:
+```{r}
+con <- dbConnect(
+  RSQLite::SQLite(), 
+  dbname = "./mimiciv.sqlite"
+)
+dbListTables(con)
+```
+
+Read the table `icustays`:
+```{r}
+icustays_tble <- tbl(con, "icustays") %>% 
+  print(width = Inf)
+```
+How many rows?
+```{r}
+icustays_tble %>% 
+  show_query() %>%
+  summarise(n = n())
+```
+
+## Use dplyr with SQLite
+
+Keep the first ICU stay for each patient:
+```{r}
+icustays_subset <- icustays_tble %>%
+  # first ICU stay of each unique `subject_id`
+  group_by(subject_id) %>%
+  slice_min(intime) %>%
+  ungroup() %>%
+  # arrange(intime, .by_group = TRUE) %>%
+  # slice_head(n = 1) %>%
+  # left_join(icustays_tble, by = c("subject_id", "intime")) %>%
+  # show_query() %>%
+  print(width = Inf)
+```
+
+How many rows in `icustays_subset`?
+```{r}
+icustays_subset %>%
+  show_query() %>%
+  summarise(n = n())
+```
+
+## SQL query
+
+`show_query` usefully shows the SQL query translated from dplyr query.
+```{r}
+class(icustays_subset)
+show_query(icustays_subset)
+```
+
+## Transform in database, plot in R
+
+```{r}
+icustays_tble %>%
+  group_by(subject_id) %>%
+  summarise(n = n()) %>%
+  ggplot() +
+  geom_bar(mapping = aes(x = n)) + 
+  labs(x = "# ICU stays of a patient")
+```
+
+## SQL translation
+
+dbplyr package (a dplyr backend for databases) has a function, `translate_sql`, that lets you experiment with how R functions are translated to SQL:
+```{r}
+#| eval: false
+translate_sql(x == 1 & (y < 2 | z > 3))
+translate_sql(x ^ 2 < 10)
+translate_sql(x %% 2 == 10)
+translate_sql(paste(x, y))
+translate_sql(mean(x))
+translate_sql(mean(x, na.rm = TRUE))
+```
+
+## Timings
+
+Let's compare the timings of dplyr (in-memory) and dbplyr (on disk database).
+
+- dplyr using tibble:
+```{r}
+csvfile <- "~/mimic/icu/icustays.csv.gz"
+icustays_tibble <- read_csv(csvfile)
+timing_tibble <- system.time(
+  icustays_tibble %>%
+    group_by(subject_id) %>%
+    summarize(n = n())
+)
+timing_tibble
+```
+
+- dbplyr using SQLite:
+```{r}
+icustays_sql <- tbl(con, "icustays")
+timing_sql <- system.time(
+  icustays_sql %>%
+    group_by(subject_id) %>%
+    summarize(n = n())
+)
+timing_sql
+```
+
+SQLite (`r timing_sql[3]` seconds) was much faster than tibble (`r timing_tibble[3]` seconds). But SQLite is disk-based, while the tibble is in memory. Why is the discrepancy?
+
+## Laziness
+
+dplyr/dbplyr uses lazy evaluation as much as possible, particularly when working with non-local backends.
+
+- When building a query, often we don’t want the entire table. We want just enough to check if our query is working.
+
+- Since we would prefer to run one complex query over many simple queries, laziness allows for verbs to be strung together.
+
+- Therefore, by default dbplyr
+
+    - won’t connect and query the database until absolutely necessary (e.g. show output),
+
+    - and unless explicitly told to, will only query a handful of rows to give a sense of what the result will look like
+    
+```{r}
+icustays_sql %>%
+  group_by(subject_id) %>%
+  summarize(n = n())
+```
+
+## Full query
+
+To force a full query and return a complete table it is necessary to use the `collect` function.
+```{r}
+system.time(
+  icustays_sql %>%
+    group_by(subject_id) %>%
+    summarize(n = n()) %>%
+    collect()
+)
+```
+
+## Old ggplot2 doesn't do ``Transform in database, plot in R"
+
+Earlier we see dbplyr connects with ggplot2 (v3.3.5) seamlessly. Remember ggplot2 needs to `collect` the query results for plotting.
+```{r}
+icustays_sql %>%
+  count(subject_id) %>%
+  ggplot() + 
+  geom_boxplot(mapping = aes(y = n))
+```
+
+Older version of ggplot2, e.g., v2.2.1, will output error. This is because ggplot2 needed to compute the count per bin by going through all the rows. But here `icustays_sql` is just a pointer to the SQLite table. We had to use the **transform in database, plot in R** strategy.
+```{r}
+icustays_sql %>%
+  count(subject_id) %>%
+  collect() %>%
+  ggplot() + 
+  geom_boxplot(mapping = aes(y = n))
+```
+
+## Close connection to database
+
+```{r}
+dbDisconnect(con)
+```
