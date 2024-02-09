@@ -240,27 +240,15 @@ system.time(
 )
 ```
 
-## Old ggplot2 doesn't do ``Transform in database, plot in R"
-
-Earlier we see dbplyr connects with ggplot2 (v3.3.5) seamlessly. Remember ggplot2 needs to `collect` the query results for plotting.
-```{r}
-icustays_sql %>%
-  count(subject_id) %>%
-  ggplot() + 
-  geom_boxplot(mapping = aes(y = n))
-```
-
-Older version of ggplot2, e.g., v2.2.1, will output error. This is because ggplot2 needed to compute the count per bin by going through all the rows. But here `icustays_sql` is just a pointer to the SQLite table. We had to use the **transform in database, plot in R** strategy.
-```{r}
-icustays_sql %>%
-  count(subject_id) %>%
-  collect() %>%
-  ggplot() + 
-  geom_boxplot(mapping = aes(y = n))
-```
-
 ## Close connection to database
 
 ```{r}
 dbDisconnect(con)
 ```
+
+## DuckDB vs SQLite
+
+BTW, as modern data scientists, we should all start using DuckDB (<https://duckdb.org/>) instead of SQLite. DuckDB is a modern, embeddable SQL OLAP database management system. It is designed to handle analytical workloads (OLAP) on read-only data. It is based on a column-store architecture and is designed to be very fast to query, highly compressible, and run on modern hardware. It is a great alternative to SQLite for analytical workloads.
+
+See this [blog](https://dirk-petersen.medium.com/researchers-please-replace-sqlite-with-duckdb-now-f038044a2702).
+```{bash}
