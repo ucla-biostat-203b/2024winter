@@ -32,6 +32,7 @@ library("rvest")
 library("quantmod")
 ```
 
+
 ## Web scraping
 
 There is a wealth of data on internet. How to scrape them and analyze them?
@@ -44,7 +45,7 @@ There is a wealth of data on internet. How to scrape them and analyze them?
 
 - We follow instructions in a [Blog by SAURAV KAUSHIK](https://www.analyticsvidhya.com/blog/2017/03/beginners-guide-on-web-scraping-in-r-using-rvest-with-hands-on-knowledge/) to find the most popular feature films of 2020.
 
-- Install the [SelectorGadget](https://selectorgadget.com/) extension for Chrome.
+- Install the [SelectorGadget](javascript:(function()%7Bvar%20s=document.createElement('div');s.innerHTML='Loading...';s.style.color='black';s.style.padding='20px';s.style.position='fixed';s.style.zIndex='9999';s.style.fontSize='3.0em';s.style.border='2px%20solid%20black';s.style.right='40px';s.style.top='40px';s.setAttribute('class','selector_gadget_loading');s.style.background='white';document.body.appendChild(s);s=document.createElement('script');s.setAttribute('type','text/javascript');s.setAttribute('src','https://dv0akt2986vzh.cloudfront.net/unstable/lib/selectorgadget.js');document.body.appendChild(s);%7D)();) by dragging the link to your bookmark.
 
 - The 100 most popular feature films released in 2020 can be accessed at page <https://www.imdb.com/search/title/?title_type=feature&release_date=2020-01-01,2020-12-31&count=100>.
 
