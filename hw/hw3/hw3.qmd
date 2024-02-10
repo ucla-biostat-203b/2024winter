@@ -68,7 +68,7 @@ zcat < ~/mimic/icu/icustays.csv.gz | head
 
 ### Q2.1 Ingestion
 
-Import `icustatys.csv.gz` as a tibble `icustays_tble`. 
+Import `icustays.csv.gz` as a tibble `icustays_tble`. 
 
 ### Q2.2 Summary and visualization
 
