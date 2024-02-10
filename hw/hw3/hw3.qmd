@@ -12,7 +12,7 @@ format:
     toc-location: left
     code-fold: false
 execute:
-  eval: false
+  eval: false    
 ---
 
 Display machine information for reproducibility:
@@ -51,9 +51,7 @@ Hint: We need to pull information from data files `patients.csv.gz`, `admissions
 
 ### Q1.2 ICU stays
 
-ICU stays are a subset of ADT history. We will visualize the vitals of a patient during ICU stays. 
-
-This figure shows the vitals of the patient `10001217` during ICU stays. The x-axis is the calendar time, and the y-axis is the value of the vital. The color of the line represents the type of vital. The facet grid shows the abbreviation of the vital and the stay ID.
+ICU stays are a subset of ADT history. This figure shows the vitals of the patient `10001217` during ICU stays. The x-axis is the calendar time, and the y-axis is the value of the vital. The color of the line represents the type of vital. The facet grid shows the abbreviation of the vital and the stay ID.
 
 ![](10001217_icu.png)
 
