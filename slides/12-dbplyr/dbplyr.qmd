@@ -41,10 +41,13 @@ sessionInfo()
 ```
 Load necessary R packages
 ```{r}
+library(bigrquery)
 library(tidyverse)
 library(DBI)
 library(RSQLite)
 library(dbplyr)
+library(duckdb)
+library(arrow)
 ```
 
 ```{bash}
@@ -251,4 +254,73 @@ dbDisconnect(con)
 BTW, as modern data scientists, we should all start using DuckDB (<https://duckdb.org/>) instead of SQLite. DuckDB is a modern, embeddable SQL OLAP database management system. It is designed to handle analytical workloads (OLAP) on read-only data. It is based on a column-store architecture and is designed to be very fast to query, highly compressible, and run on modern hardware. It is a great alternative to SQLite for analytical workloads.
 
 See this [blog](https://dirk-petersen.medium.com/researchers-please-replace-sqlite-with-duckdb-now-f038044a2702).
-```{bash}
+
+## DuckDB vs BigQuery
+
+Let's now compare DuckDB with BigQuery. We will use the MIMIC-IV data for this comparison: count the total number of measurements for 5 vitals.
+```{r}
+open_dataset(
+  sources = "chartevents_pq", 
+  format = "parquet"
+  ) |>
+  # create a virtual table in DuckDB
+  to_duckdb() |>
+  # filter rows
+  filter(itemid %in% c(220045L, 220179L, 220180L, 223761L, 220210L)) |>
+  # group by and count
+  count(itemid) |>
+  # force computation
+  collect() |>
+  # pull item info
+  left_join(
+    read_csv("~/mimic/icu/d_items.csv.gz", show_col_types = FALSE) |> 
+      select(itemid, label),
+    by = "itemid"
+  ) |>
+  # print results
+  print() |>
+  system.time()
+```
+Achieving this task under 3 seconds is impressive.
+
+How about BigQuery? We use the `bigrquery` package to connect to BigQuery and run the same query.
+```{r}
+# BigQuery authentication using service account token
+bq_auth(path = "biostat-203b-2024-winter-313290ce47a6.json")
+```
+
+```{r}
+# Connect to the BigQuery database `biostat-203b-2024-winter.mimic4_v2_2_icu`
+con_icu <- dbConnect(
+    bigrquery::bigquery(),
+    project = "biostat-203b-2024-winter",
+    dataset = "mimic4_v2_2_icu",
+    billing = "biostat-203b-2024-winter"
+)
+
+dbListTables(con_icu)
+```
+```{r}
+tbl(con_icu, "chartevents") |>
+  # filter rows
+  filter(itemid %in% c(220045L, 220179L, 220180L, 223761L, 220210L)) |>
+  # group by and count
+  count(itemid) |>
+  # force computation
+  collect() |>
+  # pull item info
+  left_join(
+    read_csv("~/mimic/icu/d_items.csv.gz", show_col_types = FALSE) |> 
+      select(itemid, label),
+    by = "itemid"
+  ) |>
+  # print results
+  print() |>
+  system.time()
+```
+
+```{r}
+if (exists("con_icu")) {
+  dbDisconnect(con_icu)
+}
+```
