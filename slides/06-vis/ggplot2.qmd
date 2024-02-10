@@ -922,7 +922,7 @@ plt.show()
 
 :::
 
-## Box plots, violin plots
+## Box and violin plots
 
 - Recall the mpg data:
 
@@ -1190,7 +1190,7 @@ leaflet() %>%
   addMarkers(lng = -118.44481, lat = 34.07104, popup = "Bruin")
 ```
 
-- See this [tutorial](https://nih-r25-modelersandstorytellers.github.io/2023/data-science-tutorials/00-la/00-la.html) more examples of pulling social-economic data from US Census and ACS (American Community Survey) and mapping them in R.
+- See this [tutorial](https://nih-r25-modelersandstorytellers.github.io/2023/data-science-tutorials/00-la/00-la.html) for more examples of pulling social-economic data from US Census and ACS (American Community Survey) and mapping them in R.
 
 ## Graphics for communications | r4ds chapter 28
 
@@ -1665,7 +1665,7 @@ ggplot(mpg, aes(displ, hwy)) +
     axis.text.x = element_text(angle = 0, size = 12), 
     axis.text.y = element_text(angle=0, size = 12), 
     axis.ticks = element_blank(), 
-    legend.text=element_text(size = 8),
+    legend.text = element_text(size = 8),
     panel.grid.major = element_blank(), 
     panel.border = element_blank(), 
     panel.grid.minor = element_blank(), 
@@ -1710,23 +1710,27 @@ You may want to manually enter colors instead of relying on default colors. Ther
 Manually select colors to use 
 
 ```{r, message = FALSE}
-ggplot(filter(mpg, class == "suv" | class== "compact" |
-                class == "pickup" | class == "minivan"), 
-       aes(displ, hwy)) +
+ggplot(
+  filter(mpg, class %in% c("suv", "compact", "pickup", "minivan")), 
+  aes(displ, hwy)
+  ) +
   geom_point(aes(color = class)) +
   theme_bw() + 
-  scale_color_manual(values = c("#24aad8",
-  "#cb6450",
-  "#80a14b",
-  "#aa65ba")) 
+  scale_color_manual(values = c(
+    "#24aad8",
+    "#cb6450",
+    "#80a14b",
+    "#aa65ba"
+    )) 
 ```
 
 Manually assign labels to each color
 
 ```{r, message = FALSE}
-ggplot(filter(mpg, class == "suv" | class== "compact" |
-                class == "pickup" | class == "minivan"), 
-       aes(displ, hwy)) +
+ggplot(
+  filter(mpg, class %in% c("suv", "compact", "pickup", "minivan")), 
+  aes(displ, hwy)
+  ) +
   geom_point(aes(color = class)) +
   theme_bw() + 
   scale_color_manual(values = c(suv = "#24aad8",
