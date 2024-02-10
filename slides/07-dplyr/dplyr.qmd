@@ -187,10 +187,17 @@ verb          meaning
 filter()      subset observations (or rows)
 arrange()     re-order the observations
 distinct()    remove duplicate entries
+slice_*()     select rows by position
+sample_*()    sample rows
+--------------------------------------------
 select()      select variables (or columns)
 mutate()      add new variables (or columns)
+relocate()    move variables (or columns) to new positions
+rename()      rename variables (or columns)
+--------------------------------------------
 group_by()    aggregate
 summarise()   reduce to a single row
+--------------------------------------------
 left_join()   merge two data objects
 collect()     force computation and bring data back into R
 ```
@@ -956,9 +963,10 @@ not_cancelled |>
   group_by(year, month, day) |> 
   summarise(
     avg_delay1 = mean(arr_delay),
-    avg_delay2 = mean(arr_delay[arr_delay > 0]) # the average positive delay
+    avg_delay2 = mean(arr_delay[arr_delay > 0]), # the average positive delay
   )
 ```
+Question: why is the `day` group dropped?
 
 #### Python
 
@@ -1336,7 +1344,7 @@ popular_dests
 #### R
 
 ```{r}
-popular_dests = popular_dests |> 
+popular_dests <- popular_dests |> 
   filter(arr_delay > 0) |>
   mutate(prop_delay = arr_delay / sum(arr_delay)) |>
   select(year:day, dest, arr_delay, prop_delay) |>
@@ -1969,8 +1977,8 @@ leftjoin(
 ```{r}
 top_dest <- flights |>
   count(dest, sort = TRUE) |>
-  head(10)
-top_dest
+  head(10) |>
+  print()
 ```
 
 #### Python
