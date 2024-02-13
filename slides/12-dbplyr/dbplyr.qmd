@@ -33,6 +33,8 @@ In this lecture we will demonstrate:
 
 - Transform in database and plot in R.
 
+- Comparing SQLite, DuckDB, and BigQuery.
+
 ## Machine information
 
 Display machine information for reproducibility.
@@ -56,8 +58,6 @@ sqlite3 --version
 ```
 
 ## CSV file
-
-The `/mnt/mimiciv/1.0` folder on the teaching server contains the MIMIC-IV data. On my Mac, it's at `/Users/huazhou/Documents/Box Sync/MIMIC/mimic-iv-1.0`.
 
 Code in this lecture assumes that the MIMIC-IV data is available at `~/mimic`.
 
@@ -106,7 +106,7 @@ zcat < ~/mimic/icu/icustays.csv.gz | \
 
 ## Read data from database
 
-Connect to the database `mimiciii.sqlite` and list the tables:
+Connect to the database `mimiciv.sqlite` and list the tables:
 ```{r}
 con <- dbConnect(
   RSQLite::SQLite(), 
@@ -117,37 +117,39 @@ dbListTables(con)
 
 Read the table `icustays`:
 ```{r}
-icustays_tble <- tbl(con, "icustays") %>% 
+icustays_tble <- tbl(con, "icustays") |> 
   print(width = Inf)
 ```
 How many rows?
 ```{r}
-icustays_tble %>% 
-  show_query() %>%
-  summarise(n = n())
+icustays_tble |> 
+  summarise(n = n()) |>
+  show_query() |>
+  print()
 ```
 
 ## Use dplyr with SQLite
 
 Keep the first ICU stay for each patient:
 ```{r}
-icustays_subset <- icustays_tble %>%
+icustays_subset <- icustays_tble |>
   # first ICU stay of each unique `subject_id`
-  group_by(subject_id) %>%
-  slice_min(intime) %>%
-  ungroup() %>%
-  # arrange(intime, .by_group = TRUE) %>%
-  # slice_head(n = 1) %>%
-  # left_join(icustays_tble, by = c("subject_id", "intime")) %>%
-  # show_query() %>%
+  group_by(subject_id) |>
+  slice_min(intime) |>
+  ungroup() |>
+  # arrange(intime, .by_group = TRUE) |>
+  # slice_head(n = 1) |>
+  # left_join(icustays_tble, by = c("subject_id", "intime")) |>
+  show_query() |>
   print(width = Inf)
 ```
 
 How many rows in `icustays_subset`?
 ```{r}
-icustays_subset %>%
-  show_query() %>%
-  summarise(n = n())
+icustays_subset |>
+  summarise(n = n()) |>
+  show_query() |>
+  print()
 ```
 
 ## SQL query
@@ -160,10 +162,11 @@ show_query(icustays_subset)
 
 ## Transform in database, plot in R
 
+ggplot will compute the plot in R, but the data transformation is done in the database. Always make sure to do data wrangling (filter, select, group by, summarise) in the database if possible.
 ```{r}
-icustays_tble %>%
-  group_by(subject_id) %>%
-  summarise(n = n()) %>%
+icustays_tble |>
+  group_by(subject_id) |>
+  summarise(n = n()) |>
   ggplot() +
   geom_bar(mapping = aes(x = n)) + 
   labs(x = "# ICU stays of a patient")
@@ -190,22 +193,20 @@ Let's compare the timings of dplyr (in-memory) and dbplyr (on disk database).
 ```{r}
 csvfile <- "~/mimic/icu/icustays.csv.gz"
 icustays_tibble <- read_csv(csvfile)
-timing_tibble <- system.time(
-  icustays_tibble %>%
-    group_by(subject_id) %>%
-    summarize(n = n())
-)
+timing_tibble <-icustays_tibble |>
+    group_by(subject_id) |>
+    summarize(n = n()) |>
+    system.time()
 timing_tibble
 ```
 
 - dbplyr using SQLite:
 ```{r}
 icustays_sql <- tbl(con, "icustays")
-timing_sql <- system.time(
-  icustays_sql %>%
-    group_by(subject_id) %>%
-    summarize(n = n())
-)
+timing_sql <- icustays_sql |>
+  group_by(subject_id) |>
+  summarize(n = n()) |>
+  system.time()
 timing_sql
 ```
 
@@ -226,8 +227,8 @@ dplyr/dbplyr uses lazy evaluation as much as possible, particularly when working
     - and unless explicitly told to, will only query a handful of rows to give a sense of what the result will look like
     
 ```{r}
-icustays_sql %>%
-  group_by(subject_id) %>%
+icustays_sql |>
+  group_by(subject_id) |>
   summarize(n = n())
 ```
 
@@ -235,12 +236,11 @@ icustays_sql %>%
 
 To force a full query and return a complete table it is necessary to use the `collect` function.
 ```{r}
-system.time(
-  icustays_sql %>%
-    group_by(subject_id) %>%
-    summarize(n = n()) %>%
-    collect()
-)
+icustays_sql |>
+  group_by(subject_id) |>
+  summarize(n = n()) |>
+  collect() |>
+  system.time()
 ```
 
 ## Close connection to database
@@ -251,13 +251,11 @@ dbDisconnect(con)
 
 ## DuckDB vs SQLite
 
-BTW, as modern data scientists, we should all start using DuckDB (<https://duckdb.org/>) instead of SQLite. DuckDB is a modern, embeddable SQL OLAP database management system. It is designed to handle analytical workloads (OLAP) on read-only data. It is based on a column-store architecture and is designed to be very fast to query, highly compressible, and run on modern hardware. It is a great alternative to SQLite for analytical workloads.
-
-See this [blog](https://dirk-petersen.medium.com/researchers-please-replace-sqlite-with-duckdb-now-f038044a2702).
+BTW, as modern data scientists, we should all [start using DuckDB](https://dirk-petersen.medium.com/researchers-please-replace-sqlite-with-duckdb-now-f038044a2702) (<https://duckdb.org/>) instead of SQLite. DuckDB is a modern, embeddable SQL OLAP database management system. It is designed to handle analytical workloads (OLAP) on read-only data. It is based on a column-store architecture and is designed to be very fast to query, highly compressible, and run on modern hardware. It is a great alternative to SQLite for analytical workloads.
 
 ## DuckDB vs BigQuery
 
-Let's now compare DuckDB with BigQuery. We will use the MIMIC-IV data for this comparison: calculate the average measurements for 5 vitals.
+Let's now compare DuckDB with BigQuery. We will use the MIMIC-IV data for this comparison: calculate the average measurements for 5 vitals: 220045 (heart rate), 220179 (systolic BP), 220180 (diastolic BP), 223761 (respiratory rate), and 220210 (temperature in F).
 ```{r}
 open_dataset(
   sources = "chartevents_pq", 
@@ -285,7 +283,7 @@ open_dataset(
 ```
 Achieving this task under 4 seconds is impressive.
 
-How about BigQuery? We use the `bigrquery` package to connect to BigQuery and run the same query. BigQuery is able to achieve this task under 3 seconds.
+How about BigQuery? We use the `bigrquery` package to connect to BigQuery and run the same query. BigQuery is able to achieve this task under 3 seconds. But this may not be fair. BigQuery may cache this particular query if it's been run before.
 ```{r}
 # BigQuery authentication using service account token
 bq_auth(path = "biostat-203b-2024-winter-313290ce47a6.json")
