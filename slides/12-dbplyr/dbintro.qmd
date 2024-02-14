@@ -251,7 +251,7 @@ Following we demonstrate some common SQL commands, although all task can be achi
 ```{r}
 con <- dbConnect(RSQLite::SQLite(), dbname = "employee.sqlite")
 dbListTables(con)
-knitr::opts_chunk$set(connection = "con")
+knitr::opts_chunk$set(connection = con)
 ```
 
 Below we demonstrate some common SQL queries. 
