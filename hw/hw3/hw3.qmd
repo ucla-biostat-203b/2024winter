@@ -23,6 +23,7 @@ sessionInfo()
 Load necessary libraries (you can add more as needed).
 ```{r setup}
 library(arrow)
+library(gtsummary)
 library(memuse)
 library(pryr)
 library(R.utils)
