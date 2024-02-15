@@ -1,0 +1,208 @@
+---
+title: "Interactive Documents With Shiny"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou / Tomoki Okuno @ UCLA"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+format:
+  html:
+    theme: cosmo
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+bibliography: "../bib-HZ.bib"
+csl: "../apa.csl"
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    fig.width: 6
+    fig.height: 4
+    message: FALSE
+    cache: false
+runtime: shiny
+---
+
+Display machine information for reproducibility.
+```{r}
+sessionInfo()
+```
+
+## Why Shiny?
+
+<p align="center">
+<img src="./data-science.png" height="275">
+</p>
+
+- Better presentations of data and ideas!
+    - One of the most critical skills for data scientists.
+
+- Browse the [Gallery](http://shiny.rstudio.com/gallery/) of Shiny apps.
+
+- Josh Katz's [dialect quiz on NYT](https://www.nytimes.com/interactive/2014/upshot/dialect-quiz-map.html).
+
+- [Another good presentation of data](https://research.hackerrank.com/student-developer/2020).
+
+## Inputs and outputs 
+
+Recall Diamonds is a data set available from ggplot2.
+```{r}
+library(tidyverse)
+library(shiny)
+diamonds
+```
+
+### Numeric input, table output
+
+To dynamically display the first rows:
+```{r}
+#| echo: false
+numericInput("rows", "How many diamonds?", 5)
+
+renderTable({
+  head(diamonds, input$rows)
+})
+```
+
+### Slider input, plot output
+
+To dynamically tune the histogram of variable `carat`:
+```{r}
+#| echo: false
+sliderInput("bins", "Number of bins:", min = 1, max = 300, value = 30)
+
+renderPlot({
+  ggplot(data = diamonds) +
+    geom_histogram(mapping = aes(x = carat), bins = input$bins)
+})
+```
+
+----
+
+- Check the [Shiny cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/shiny.pdf) for a list of inputs and outputs.
+
+## Building a Shiny app
+
+Shiny app is a standalone app. 
+
+- Basic parts of a shiny app: <http://shiny.rstudio.com/articles/basics.html>
+
+- How to build a shiny app: <http://shiny.rstudio.com/articles/build.html>
+
+- How to launch a shiny app: <http://shiny.rstudio.com/articles/running.html>
+
+- Skeleton of a Shiny app:
+```{r}
+#| echo: false
+#| eval: false
+library(shiny)
+ui <- fluidPage()
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
+```
+
+- A Shiny app has 3 components:
+
+    1. `ui`: assemble the HTML user interface for your app.
+
+    2. `server`: a function with instructions on how to build and rebuild the R objects displayed in the UI.
+
+    3. `shinyApp`: combines `ui` and `server` into an app.
+
+## Shiny app: first example
+
+1. `MyFirstShinyApp` folder. Recall the `faithful` data
+```{r}
+head(faithful)
+```
+
+2. Deploy your Shiny app to [shinyapps.io](https://www.shinyapps.io).
+
+## Shiny app: censusVis
+
+- This example is from tutorial: <http://shiny.rstudio.com/tutorial/written-tutorial/lesson5/>
+
+- `counties.rds` contains demographic data for each county in the United States from 2010 census:
+```{r}
+counties <- readRDS("census-app/data/counties.rds")
+head(counties)
+```
+
+- Use `maps` package, `mapproj` package and `helpers.R` file to plot maps:
+```{r}
+#| message: false
+library(maps)
+library(mapproj)
+source("census-app/helpers.R")
+percent_map(counties$white, "darkgreen", "% White")
+```
+
+- Shiny app.
+```{r}
+#| echo: false
+#| eval: false
+#setwd("census-app")
+#shinyAppDir(getwd())
+#shinyAppDir("census-app")
+#source("./census-app/app.R")
+runApp("census-app")
+```
+
+- [Code](https://github.com/ucla-biostat-203b/2023winter/tree/master/slides/11-shiny/census-app) for the Shiny app `census-app`.
+
+- The `shinyApp` function is run once, when you launch your app.  
+
+- The `server` function is run once each time a user visits your app.  
+
+- The R expressions inside `render*` functions are run many times. Shiny runs them once each time a user change the value of a widget. 
+
+- Source scripts, load libraries, and read data sets at the beginning of `app.R` outside of the `server` function. Shiny will only run this code once, which is all you need to set your server up to run the R expressions contained in server.  
+
+- Define user specific objects inside `server` function, but outside of any `render*` calls. These would be objects that you think each user will need their own personal copy of. For example, an object that records the user’s session information. This code will be run once per user.
+
+## Shiny app: reactive expressions
+
+- This example is from tutorial: <http://shiny.rstudio.com/tutorial/written-tutorial/lesson6/>
+
+- [Code](https://github.com/ucla-biostat-203b/2023winter/tree/master/slides/11-shiny/stockVis) for the Shiny app `stockVis`.
+
+- Without using reactive expression:
+```{r}
+#| eval: false
+output$plot <- renderPlot({
+  data <- getSymbols(input$symb, src = "yahoo",
+                     from = input$dates[1],
+                     to = input$dates[2],
+                     auto.assign = FALSE)
+  
+  chartSeries(data, theme = chartTheme("white"),
+              type = "line", log.scale = input$log, TA = NULL)
+})
+```
+Each time `renderPlot` re-runs:  
+1. it re-fetches the data from Yahoo Finance with `getSymbols`, and
+2. it re-draws the chart with the correct axis.
+
+- With **reactive expression**:
+```{r}
+#| eval: false
+dataInput <- reactive({
+  getSymbols(input$symb, src = "yahoo", 
+             from = input$dates[1],
+             to = input$dates[2],
+             auto.assign = FALSE)
+})
+
+output$plot <- renderPlot({
+  chartSeries(dataInput(), theme = chartTheme("white"), 
+              type = "line", log.scale = input$log, TA = NULL)
+})
+```
+
+- A reactive expression saves its result the first time you run it.
+
+- The next time the reactive expression is called, it checks if the saved value has become out of date (i.e., whether the widgets it depends on have changed).
+
+- If the value is out of date, the reactive object will recalculate it (and then save the new result).
+
+- If the value is up-to-date, the reactive expression will return the saved value without doing any computation.
