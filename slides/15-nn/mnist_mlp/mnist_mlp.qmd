@@ -1,0 +1,453 @@
+---
+title: "MLP on the MNIST Digit Data"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+engine: knitr
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    # fig.width: 6
+    # fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+Display system information for reproducibility.
+
+:::  {.panel-tabset}
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+:::
+
+
+Load some libraries.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Load the pandas library
+import pandas as pd
+# Load numpy for array manipulation
+import numpy as np
+# Load seaborn plotting library
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Set font sizes in plots
+sns.set(font_scale = 1.2)
+# Display all columns
+pd.set_option('display.max_columns', None)
+
+# Load Tensorflow and Keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+```
+
+#### R
+
+```{r}
+library(keras)
+```
+
+:::
+
+In this example, we train an MLP (multi-layer perceptron) on the [MNIST](https://en.wikipedia.org/wiki/MNIST_database) data set. Achieve testing accuracy 98.11% after 30 epochs.
+
+- The **MNIST** database (Modified National Institute of Standards and Technology database) is a large database of handwritten digits ($28 \times 28$) that is commonly used for training and testing machine learning algorithms.
+
+- 60,000 training images, 10,000 testing images. 
+
+## Prepare data
+
+Acquire data:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Load the data and split it between train and test sets
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+# Training set
+x_train.shape
+y_train.shape
+# Test set
+x_test.shape
+y_test.shape
+```
+Display the first training instance and its label:
+```{python}
+import matplotlib.pyplot as plt
+
+# Feature: digit
+plt.figure()
+plt.gray()
+plt.imshow(x_train[0]);
+plt.show()
+# Label
+y_train[0]
+```
+
+#### R
+
+```{r}
+mnist <- dataset_mnist()
+x_train <- mnist$train$x
+y_train <- mnist$train$y
+x_test <- mnist$test$x
+y_test <- mnist$test$y
+```
+Training set:
+```{r}
+dim(x_train)
+dim(y_train)
+```
+```{r}
+image(
+  t(x_train[1, 28:1,]), 
+  useRaster = TRUE, 
+  axes = FALSE, 
+  col = grey(seq(0, 1, length = 256))
+  )
+y_train[1]
+```
+Testing set:
+```{r}
+dim(x_test)
+dim(y_test)
+```
+
+:::
+
+Vectorize $28 \times 28$ images into $784$-vectors and scale entries to [0, 1]:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Reshape
+x_train = np.reshape(x_train, [x_train.shape[0], 784])
+x_test = np.reshape(x_test, [x_test.shape[0], 784])
+# Rescale
+x_train = x_train / 255
+x_test = x_test / 255
+# Train
+x_train.shape
+# Test
+x_test.shape
+```
+
+#### R
+
+```{r}
+# reshape
+x_train <- array_reshape(x_train, c(nrow(x_train), 784))
+x_test <- array_reshape(x_test, c(nrow(x_test), 784))
+# rescale
+x_train <- x_train / 255
+x_test <- x_test / 255
+dim(x_train)
+dim(x_test)
+```
+
+:::
+
+Encode $y$ as binary class matrix:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+y_train = keras.utils.to_categorical(y_train, 10)
+y_test = keras.utils.to_categorical(y_test, 10)
+# Train
+y_train.shape
+# Test
+y_test.shape
+# First train instance
+y_train[0]
+```
+
+#### R
+
+```{r}
+y_train <- to_categorical(y_train, 10)
+y_test <- to_categorical(y_test, 10)
+dim(y_train)
+dim(y_test)
+head(y_train)
+```
+
+:::
+
+## Define the model
+
+Define a **sequential model** (a linear stack of layers) with 2 fully-connected hidden layers (256 and 128 neurons):
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model = keras.Sequential(
+  [
+    keras.Input(shape = (784,)),
+    layers.Dense(units = 256, activation = 'relu'),
+    layers.Dropout(rate = 0.4),
+    layers.Dense(units = 128, activation = 'relu'),
+    layers.Dropout(rate = 0.3),
+    layers.Dense(units = 10, activation = 'softmax')
+]
+)
+
+model.summary()
+```
+
+Plot the model:
+```{python}
+tf.keras.utils.plot_model(
+    model,
+    to_file = "model.png",
+    show_shapes = True,
+    show_dtype = False,
+    show_layer_names = True,
+    rankdir = "TB",
+    expand_nested = False,
+    dpi = 96,
+    layer_range = None,
+    show_layer_activations = False,
+)
+```
+
+<p align="center">
+![](./model.png){width=500px}
+</p>
+
+#### R
+
+```{r}
+model <- keras_model_sequential() 
+model %>% 
+  layer_dense(units = 256, activation = 'relu', input_shape = c(784)) %>% 
+  layer_dropout(rate = 0.4) %>% 
+  layer_dense(units = 128, activation = 'relu') %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 10, activation = 'softmax')
+summary(model)
+```
+
+:::
+
+Compile the model with appropriate loss function, optimizer, and metrics:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model.compile(
+  loss = "categorical_crossentropy",
+  optimizer = "rmsprop",
+  metrics = ["accuracy"]
+)
+```
+
+#### R
+
+```{r}
+model %>% compile(
+  loss = 'categorical_crossentropy',
+  optimizer = optimizer_rmsprop(),
+  metrics = c('accuracy')
+)
+```
+
+:::
+
+## Training and validation
+
+80%/20% split for the train/validation set.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+#| output: false
+
+batch_size = 128
+epochs = 30
+
+history = model.fit(
+  x_train,
+  y_train,
+  batch_size = batch_size,
+  epochs = epochs,
+  validation_split = 0.2
+)
+```
+
+Plot training history:
+```{python}
+#| code-fold: true
+hist = pd.DataFrame(history.history)
+hist['epoch'] = np.arange(1, epochs + 1)
+hist = hist.melt(
+  id_vars = ['epoch'],
+  value_vars = ['loss', 'accuracy', 'val_loss', 'val_accuracy'],
+  var_name = 'type',
+  value_name = 'value'
+)
+hist['split'] = np.where(['val' in s for s in hist['type']], 'validation', 'train')
+hist['metric'] = np.where(['loss' in s for s in hist['type']], 'loss', 'accuracy')
+
+# Accuracy trace plot
+plt.figure()
+sns.relplot(
+  data = hist[hist['metric'] == 'accuracy'],
+  kind = 'scatter',
+  x = 'epoch',
+  y = 'value',
+  hue = 'split'
+).set(
+  xlabel = 'Epoch',
+  ylabel = 'Accuracy'
+);
+plt.show()
+
+# Loss trace plot
+plt.figure()
+sns.relplot(
+  data = hist[hist['metric'] == 'loss'],
+  kind = 'scatter',
+  x = 'epoch',
+  y = 'value',
+  hue = 'split'
+).set(
+  xlabel = 'Epoch',
+  ylabel = 'Loss'
+);
+plt.show()
+```
+
+#### R
+
+```{r}
+system.time({
+history <- model %>% fit(
+  x_train, y_train, 
+  epochs = 30, batch_size = 128, 
+  validation_split = 0.2
+)
+})
+plot(history)
+```
+
+:::
+
+## Testing
+
+Evaluate model performance on the test data:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+score = model.evaluate(x_test, y_test, verbose = 0)
+print("Test loss:", score[0])
+print("Test accuracy:", score[1])
+```
+
+#### R
+
+```{r}
+model %>% evaluate(x_test, y_test)
+```
+Generate predictions on new data:
+```{r}
+model %>% predict(x_test) %>% k_argmax()
+```
+
+:::
+
+## Exercise
+
+Suppose we want to fit a multinomial-logit model and use it as a baseline method to neural networks. How to do that? Of course we can use `mlogit` or other packages. Instead we can fit the same model using keras, since multinomial-logit is just an MLP with (1) one input layer with linear activation and (2) one output layer with softmax link function.
+
+::: {.panel-tabset}
+
+#### Python
+
+#### R
+
+```{r}
+# set up model
+library(keras)
+mlogit <- keras_model_sequential() 
+mlogit %>% 
+#  layer_dense(units = 256, activation = 'linear', input_shape = c(784)) %>% 
+#  layer_dropout(rate = 0.4) %>% 
+  layer_dense(units = 10, activation = 'softmax', input_shape = c(784))
+summary(mlogit)
+```
+```{r}
+# compile model
+mlogit %>% compile(
+  loss = 'categorical_crossentropy',
+  optimizer = optimizer_rmsprop(),
+  metrics = c('accuracy')
+)
+mlogit
+```
+```{r}
+# fit model
+mlogit_history <- mlogit %>% 
+  fit(
+    x_train, 
+    y_train, 
+    epochs = 20, 
+    batch_size = 128, 
+    validation_split = 0.2
+  )
+```
+
+```{r}
+# Evaluate model performance on the test data:
+mlogit %>% evaluate(x_test, y_test)
+```
+Generate predictions on new data:
+```{r}
+mlogit %>% predict(x_test) %>% k_argmax()
+```
+
+:::
+
+Experiment: Change the `linear` activation to `relu` in the multinomial-logit model and see the change in classification accuracy.

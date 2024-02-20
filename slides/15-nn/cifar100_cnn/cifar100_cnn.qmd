@@ -1,0 +1,460 @@
+---
+title: "CNN on the CIFAR100 Data"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+engine: knitr
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    # fig.width: 6
+    # fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+Display system information for reproducibility.
+
+:::  {.panel-tabset}
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+:::
+
+
+Load some libraries.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Load the pandas library
+import pandas as pd
+# Load numpy for array manipulation
+import numpy as np
+# Load seaborn plotting library
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Set font sizes in plots
+sns.set(font_scale = 1.2)
+# Display all columns
+pd.set_option('display.max_columns', None)
+
+# Load Tensorflow and Keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+```
+
+#### R
+
+```{r}
+library(keras)
+library(jpeg)
+```
+
+:::
+
+In this example, we train a CNN (convolution neural network) on the [CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html) data set. Achieve testing accuracy 44.5% after 30 epochs. Random guess would have an accuracy of about 1%.
+
+- The **CIFAR100** database is a large database of $32 \times 32$ color images that is commonly used for training and testing machine learning algorithms.
+
+- 50,000 training images, 10,000 testing images. 
+
+## Prepare data
+
+Acquire data:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Load the data and split it between train and test sets
+(x_train, y_train), (x_test, y_test) = keras.datasets.cifar100.load_data()
+# Training set
+x_train.shape
+y_train.shape
+# Test set
+x_test.shape
+y_test.shape
+```
+
+
+#### R
+
+```{r}
+cifar100 <- dataset_cifar100()
+x_train <- cifar100$train$x
+y_train <- cifar100$train$y
+x_test <- cifar100$test$x
+y_test <- cifar100$test$y
+```
+
+Training set:
+```{r}
+dim(x_train)
+dim(y_train)
+```
+
+
+Testing set:
+```{r}
+dim(y_train)
+dim(y_test)
+```
+
+:::
+
+For CNN, we keep the $32 \times 32 \times 3$ tensor structure, instead of vectorizing into a long vector.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Rescale
+x_train = x_train / 255
+x_test = x_test / 255
+# Train
+x_train.shape
+# Test
+x_test.shape
+```
+
+#### R
+
+```{r}
+# rescale
+x_train <- x_train / 255
+x_test <- x_test / 255
+dim(x_train)
+dim(x_test)
+```
+
+:::
+
+Encode $y$ as binary class matrix:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+y_train = keras.utils.to_categorical(y_train, 100)
+y_test = keras.utils.to_categorical(y_test, 100)
+# Train
+y_train.shape
+# Test
+y_test.shape
+# First train instance
+y_train[0]
+```
+
+#### R
+
+```{r}
+y_train <- to_categorical(y_train, 100)
+y_test <- to_categorical(y_test, 100)
+dim(y_train)
+dim(y_test)
+# head(y_train)
+```
+
+:::
+
+Show a few images:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+import matplotlib.pyplot as plt
+
+# Feature: 32x32 color image
+for i in range(25):
+  plt.figure()
+  plt.imshow(x_train[i]);
+  plt.show()
+```
+
+#### R
+
+```{r}
+par(mar = c(0, 0, 0, 0), mfrow = c(5, 5))
+index <- sample(seq(50000), 25)
+for (i in index) plot(as.raster(x_train[i,,, ]))
+```
+
+:::
+
+## Define the model
+
+Define a **sequential model** (a linear stack of layers) with 2 fully-connected hidden layers (256 and 128 neurons):
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model = keras.Sequential(
+  [
+    keras.Input(shape = (32, 32, 3)),
+    layers.Conv2D(
+      filters = 32, 
+      kernel_size = (3, 3),
+      padding = 'same',
+      activation = 'relu',
+      # input_shape = (32, 32, 3)
+      ),
+    layers.MaxPooling2D(pool_size = (2, 2)),
+    layers.Conv2D(
+      filters = 64, 
+      kernel_size = (3, 3),
+      padding = 'same',
+      activation = 'relu'
+      ),
+    layers.MaxPooling2D(pool_size = (2, 2)),
+    layers.Conv2D(
+      filters = 128, 
+      kernel_size = (3, 3),
+      padding = 'same',
+      activation = 'relu'
+      ),
+    layers.MaxPooling2D(pool_size = (2, 2)),
+    layers.Conv2D(
+      filters = 256, 
+      kernel_size = (3, 3),
+      padding = 'same',
+      activation = 'relu'
+      ),
+    layers.MaxPooling2D(pool_size = (2, 2)),
+    layers.Flatten(),
+    layers.Dropout(rate = 0.5),
+    layers.Dense(units = 512, activation = 'relu'),
+    layers.Dense(units = 100, activation = 'softmax')
+]
+)
+
+model.summary()
+```
+
+Plot the model:
+```{python}
+tf.keras.utils.plot_model(
+    model,
+    to_file = "model.png",
+    show_shapes = True,
+    show_dtype = False,
+    show_layer_names = True,
+    rankdir = "TB",
+    expand_nested = False,
+    dpi = 96,
+    layer_range = None,
+    show_layer_activations = False,
+)
+```
+
+<p align="center">
+![](./model.png){width=500px}
+</p>
+
+#### R
+
+```{r}
+model <- keras_model_sequential()  %>% 
+  layer_conv_2d(
+    filters = 32, 
+    kernel_size = c(3, 3),
+    padding = "same", 
+    activation = "relu",
+    input_shape = c(32, 32, 3)
+    ) %>%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+  layer_conv_2d(
+    filters = 64, 
+    kernel_size = c(3, 3),
+    padding = "same", 
+    activation = "relu"
+    ) %>%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+  layer_conv_2d(
+    filters = 128, 
+    kernel_size = c(3, 3),
+    padding = "same", 
+    activation = "relu"
+    ) %>%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+  layer_conv_2d(
+    filters = 256, 
+    kernel_size = c(3, 3),
+    padding = "same", 
+    activation = "relu"
+    ) %>%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+  layer_flatten() %>%
+  layer_dropout(rate = 0.5) %>%
+  layer_dense(units = 512, activation = "relu") %>%
+  layer_dense(units = 100, activation = "softmax")
+  
+summary(model)
+```
+
+:::
+
+Compile the model with appropriate loss function, optimizer, and metrics:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model.compile(
+  loss = "categorical_crossentropy",
+  optimizer = "rmsprop",
+  metrics = ["accuracy"]
+)
+```
+
+#### R
+
+```{r}
+model %>% compile(
+  loss = 'categorical_crossentropy',
+  optimizer = optimizer_rmsprop(),
+  metrics = c('accuracy')
+)
+```
+
+:::
+
+## Training and validation
+
+80%/20% split for the train/validation set. On my laptop, each epoch takes about half minute.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+#| output: false
+
+batch_size = 128
+epochs = 30
+
+history = model.fit(
+  x_train,
+  y_train,
+  batch_size = batch_size,
+  epochs = epochs,
+  validation_split = 0.2
+)
+```
+
+Plot training history:
+```{python}
+#| code-fold: true
+hist = pd.DataFrame(history.history)
+hist['epoch'] = np.arange(1, epochs + 1)
+hist = hist.melt(
+  id_vars = ['epoch'],
+  value_vars = ['loss', 'accuracy', 'val_loss', 'val_accuracy'],
+  var_name = 'type',
+  value_name = 'value'
+)
+hist['split'] = np.where(['val' in s for s in hist['type']], 'validation', 'train')
+hist['metric'] = np.where(['loss' in s for s in hist['type']], 'loss', 'accuracy')
+
+# Accuracy trace plot
+plt.figure()
+sns.relplot(
+  data = hist[hist['metric'] == 'accuracy'],
+  kind = 'scatter',
+  x = 'epoch',
+  y = 'value',
+  hue = 'split'
+).set(
+  xlabel = 'Epoch',
+  ylabel = 'Accuracy'
+);
+plt.show()
+
+# Loss trace plot
+plt.figure()
+sns.relplot(
+  data = hist[hist['metric'] == 'loss'],
+  kind = 'scatter',
+  x = 'epoch',
+  y = 'value',
+  hue = 'split'
+).set(
+  xlabel = 'Epoch',
+  ylabel = 'Loss'
+);
+plt.show()
+```
+
+#### R
+
+```{r}
+system.time({
+history <- model %>% fit(
+  x_train, y_train, 
+  epochs = 30, batch_size = 128, 
+  validation_split = 0.2
+)
+})
+plot(history)
+```
+
+:::
+
+## Testing
+
+Evaluate model performance on the test data:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+score = model.evaluate(x_test, y_test, verbose = 0)
+print("Test loss:", score[0])
+print("Test accuracy:", score[1])
+```
+
+#### R
+
+```{r}
+model %>% evaluate(x_test, y_test)
+```
+Generate predictions on new data:
+```{r}
+model %>% predict(x_test) %>% k_argmax()
+```
+
+:::
+
