@@ -2,24 +2,16 @@
 title: "Interactive Documents With Shiny"
 subtitle: Biostat 203B
 author: "Dr. Hua Zhou / Tomoki Okuno @ UCLA"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: today
 format:
   html:
     theme: cosmo
+    embed-resources: true
     number-sections: true
     toc: true
     toc-depth: 4
     toc-location: left
     code-fold: false
-bibliography: "../bib-HZ.bib"
-csl: "../apa.csl"
-knitr:
-  opts_chunk: 
-    fig.align: 'center'
-    fig.width: 6
-    fig.height: 4
-    message: FALSE
-    cache: false
 runtime: shiny
 ---
 
@@ -148,7 +140,7 @@ percent_map(counties$white, "darkgreen", "% White")
 runApp("census-app")
 ```
 
-- [Code](https://github.com/ucla-biostat-203b/2023winter/tree/master/slides/11-shiny/census-app) for the Shiny app `census-app`.
+- [Code](https://github.com/ucla-biostat-203b/2024winter/tree/master/slides/11-shiny/census-app) for the Shiny app `census-app`.
 
 - The `shinyApp` function is run once, when you launch your app.  
 
@@ -164,7 +156,7 @@ runApp("census-app")
 
 - This example is from tutorial: <http://shiny.rstudio.com/tutorial/written-tutorial/lesson6/>
 
-- [Code](https://github.com/ucla-biostat-203b/2023winter/tree/master/slides/11-shiny/stockVis) for the Shiny app `stockVis`.
+- [Code](https://github.com/ucla-biostat-203b/2024winter/tree/master/slides/11-shiny/stockVis) for the Shiny app `stockVis`.
 
 - Without using reactive expression:
 ```{r}
@@ -206,3 +198,7 @@ output$plot <- renderPlot({
 - If the value is out of date, the reactive object will recalculate it (and then save the new result).
 
 - If the value is up-to-date, the reactive expression will return the saved value without doing any computation.
+
+## Cheat sheet
+
+[Posit cheat sheet](https://rstudio.github.io/cheatsheets/html/shiny.html) is extremely useful.
