@@ -1,0 +1,66 @@
+---
+title: "tidymodels"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+engine: knitr
+knitr:
+  opts_chunk: 
+    fig.align: 'center'
+    # fig.width: 6
+    # fig.height: 4
+    message: FALSE
+    cache: false
+---
+
+# Overview
+
+- A typical data science project:
+
+<p align="center">
+<img src="./data-science.png" height="200">
+</p>
+
+- [tidymodels](https://www.tidymodels.org/) is an ecosystem for:
+
+    1. Build and fit a model;
+    2. Feature engineering: coding qualitative predictors, transformation of predictors (e.g., log), extracting key features from raw variables (e.g., getting the day of the week out of a date variable), interaction terms, ...;
+    3. Evaluate model using resampling (such as cross-validation).  
+    4. Tuning model parameters.
+
+<p align="center">
+<img src="https://rviews.rstudio.com/2020/04/21/the-case-for-tidymodels/tidymodels.png" height="300">
+</p>
+
+# Heart data example
+
+We illustrate a binary classification example using a dataset from the Cleveland Clinic Foundation for Heart Disease.
+
+## Logistic regression (with enet regularization) workflow
+
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_logit_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_logit_heart.html)
+
+## Random forest workflow
+
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_rf_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_rf_heart.html)
+
+## Boosting (XGBoost) workflow
+
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_xgboost_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_xgboost_heart.html)
+
+## SVM (with radial basis kernel) workflow
+
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_svmrbf_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_svmrbf_heart.html)
+
+## Multi-layer perceptron (MLP) workflow
+
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_mlp_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_mlp_heart.html)
