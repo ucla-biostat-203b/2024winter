@@ -12,7 +12,7 @@ format:
     toc-location: left
     code-fold: false
 execute:
-  eval: false    
+  eval: false
 ---
 
 Display machine information for reproducibility:
@@ -171,7 +171,7 @@ Summarize the following information about the ICU stay cohort `mimic_icu_cohort`
 
 - Length of ICU stay `los` vs the last available lab measurements before ICU stay
 
-- Length of ICU stay `los` vs the average vital measurements within the first hour of ICU stay
+- Length of ICU stay `los` vs the first vital measurements within the ICU stay
 
 - Length of ICU stay `los` vs first ICU unit
 
