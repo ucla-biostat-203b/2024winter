@@ -291,17 +291,17 @@ bq_auth(path = "biostat-203b-2024-winter-313290ce47a6.json")
 
 ```{r}
 # Connect to the BigQuery database `biostat-203b-2024-winter.mimic4_v2_2_icu`
-con_icu <- dbConnect(
+con_bq <- dbConnect(
     bigrquery::bigquery(),
     project = "biostat-203b-2024-winter",
-    dataset = "mimic4_v2_2_icu",
+    dataset = "mimic4_v2_2",
     billing = "biostat-203b-2024-winter"
 )
 
-dbListTables(con_icu)
+dbListTables(con_bq)
 ```
 ```{r}
-tbl(con_icu, "chartevents") |>
+tbl(con_bq, "chartevents") |>
   # filter rows
   filter(itemid %in% c(220045L, 220179L, 220180L, 223761L, 220210L)) |>
   # group by and count
@@ -322,7 +322,7 @@ tbl(con_icu, "chartevents") |>
 ```
 
 ```{r}
-if (exists("con_icu")) {
-  dbDisconnect(con_icu)
+if (exists("con_bq")) {
+  dbDisconnect(con_bq)
 }
 ```

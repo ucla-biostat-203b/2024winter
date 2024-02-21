@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-02-13">
+<meta name="dcterms.date" content="2024-02-21">
 
 <title>Working with Databases - Part II</title>
 <style>
@@ -3067,7 +3067,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 13, 2024</p>
+      <p class="date">February 21, 2024</p>
     </div>
   </div>
   
@@ -3119,8 +3119,8 @@ attached base packages:
 loaded via a namespace (and not attached):
  [1] htmlwidgets_1.6.4 compiler_4.3.2    fastmap_1.1.1     cli_3.6.2        
  [5] tools_4.3.2       htmltools_0.5.7   rstudioapi_0.15.0 yaml_2.3.8       
- [9] rmarkdown_2.25    knitr_1.45        jsonlite_1.8.8    xfun_0.41        
-[13] digest_0.6.33     rlang_1.1.2       evaluate_0.23    </code></pre>
+ [9] rmarkdown_2.25    knitr_1.45        jsonlite_1.8.8    xfun_0.42        
+[13] digest_0.6.34     rlang_1.1.3       evaluate_0.23    </code></pre>
 </div>
 </div>
 <p>Load necessary R packages</p>
@@ -3455,7 +3455,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>timing_tibble</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.159   0.004   0.164 </code></pre>
+  0.159   0.009   0.168 </code></pre>
 </div>
 </div>
 <ul>
@@ -3470,10 +3470,10 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>timing_sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.012   0.000   0.012 </code></pre>
+  0.012   0.000   0.013 </code></pre>
 </div>
 </div>
-<p>SQLite (0.012 seconds) was much faster than tibble (0.164 seconds). But SQLite is disk-based, while the tibble is in memory. Why is the discrepancy?</p>
+<p>SQLite (0.013 seconds) was much faster than tibble (0.168 seconds). But SQLite is disk-based, while the tibble is in memory. Why is the discrepancy?</p>
 </section>
 <section id="laziness" class="level2" data-number="11">
 <h2 data-number="11" class="anchored" data-anchor-id="laziness"><span class="header-section-number">11</span> Laziness</h2>
@@ -3521,7 +3521,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.035   0.002   0.036 </code></pre>
+  0.034   0.001   0.035 </code></pre>
 </div>
 </div>
 </section>
@@ -3574,7 +3574,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 10.687   2.067   3.806 </code></pre>
+ 12.791   2.579   3.756 </code></pre>
 </div>
 </div>
 <p>Achieving this task under 4 seconds is impressive.</p>
@@ -3585,22 +3585,30 @@ WHERE (`col01` &lt;= 1)</code></pre>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the BigQuery database `biostat-203b-2024-winter.mimic4_v2_2_icu`</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>con_icu <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>con_bq <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    bigrquery<span class="sc">::</span><span class="fu">bigquery</span>(),</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">project =</span> <span class="st">&quot;biostat-203b-2024-winter&quot;</span>,</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset =</span> <span class="st">&quot;mimic4_v2_2_icu&quot;</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">dataset =</span> <span class="st">&quot;mimic4_v2_2&quot;</span>,</span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">billing =</span> <span class="st">&quot;biostat-203b-2024-winter&quot;</span></span>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con_icu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con_bq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;caregiver&quot;        &quot;chartevents&quot;      &quot;d_items&quot;          &quot;datetimeevents&quot;  
-[5] &quot;icustays&quot;         &quot;ingredientevents&quot; &quot;inputevents&quot;      &quot;outputevents&quot;    
-[9] &quot;procedureevents&quot; </code></pre>
+<pre><code> [1] &quot;admissions&quot;         &quot;caregiver&quot;          &quot;chartevents&quot;       
+ [4] &quot;d_hcpcs&quot;            &quot;d_icd_diagnoses&quot;    &quot;d_icd_procedures&quot;  
+ [7] &quot;d_items&quot;            &quot;d_labitems&quot;         &quot;datetimeevents&quot;    
+[10] &quot;diagnoses_icd&quot;      &quot;drgcodes&quot;           &quot;emar&quot;              
+[13] &quot;emar_detail&quot;        &quot;hcpcsevents&quot;        &quot;icustays&quot;          
+[16] &quot;ingredientevents&quot;   &quot;inputevents&quot;        &quot;labevents&quot;         
+[19] &quot;microbiologyevents&quot; &quot;omr&quot;                &quot;outputevents&quot;      
+[22] &quot;patients&quot;           &quot;pharmacy&quot;           &quot;poe&quot;               
+[25] &quot;poe_detail&quot;         &quot;prescriptions&quot;      &quot;procedureevents&quot;   
+[28] &quot;procedures_icd&quot;     &quot;provider&quot;           &quot;services&quot;          
+[31] &quot;transfers&quot;         </code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con_icu, <span class="st">&quot;chartevents&quot;</span>) <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con_bq, <span class="st">&quot;chartevents&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter rows</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(itemid <span class="sc">%in%</span> <span class="fu">c</span>(220045L, 220179L, 220180L, 223761L, 220210L)) <span class="sc">|&gt;</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group by and count</span></span>
@@ -3630,12 +3638,12 @@ WHERE (`col01` &lt;= 1)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.328   0.007   1.936 </code></pre>
+  0.367   0.006   2.360 </code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">&quot;con_icu&quot;</span>)) {</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dbDisconnect</span>(con_icu)</span>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">&quot;con_bq&quot;</span>)) {</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dbDisconnect</span>(con_bq)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
