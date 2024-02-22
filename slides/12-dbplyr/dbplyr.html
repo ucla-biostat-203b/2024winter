@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr. Hua Zhou @ UCLA">
-<meta name="dcterms.date" content="2024-02-21">
+<meta name="dcterms.date" content="2024-02-22">
 
 <title>Working with Databases - Part II</title>
 <style>
@@ -3067,7 +3067,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 21, 2024</p>
+      <p class="date">February 22, 2024</p>
     </div>
   </div>
   
@@ -3455,7 +3455,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>timing_tibble</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.159   0.009   0.168 </code></pre>
+  0.153   0.005   0.158 </code></pre>
 </div>
 </div>
 <ul>
@@ -3470,10 +3470,10 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>timing_sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.012   0.000   0.013 </code></pre>
+  0.011   0.000   0.011 </code></pre>
 </div>
 </div>
-<p>SQLite (0.013 seconds) was much faster than tibble (0.168 seconds). But SQLite is disk-based, while the tibble is in memory. Why is the discrepancy?</p>
+<p>SQLite (0.011 seconds) was much faster than tibble (0.158 seconds). But SQLite is disk-based, while the tibble is in memory. Why is the discrepancy?</p>
 </section>
 <section id="laziness" class="level2" data-number="11">
 <h2 data-number="11" class="anchored" data-anchor-id="laziness"><span class="header-section-number">11</span> Laziness</h2>
@@ -3521,7 +3521,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.034   0.001   0.035 </code></pre>
+  0.035   0.001   0.036 </code></pre>
 </div>
 </div>
 </section>
@@ -3574,7 +3574,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 12.791   2.579   3.756 </code></pre>
+ 10.761   2.707   3.480 </code></pre>
 </div>
 </div>
 <p>Achieving this task under 4 seconds is impressive.</p>
@@ -3584,7 +3584,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bq_auth</span>(<span class="at">path =</span> <span class="st">&quot;biostat-203b-2024-winter-313290ce47a6.json&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the BigQuery database `biostat-203b-2024-winter.mimic4_v2_2_icu`</span></span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the BigQuery database `biostat-203b-2024-winter.mimic4_v2_2`</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>con_bq <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    bigrquery<span class="sc">::</span><span class="fu">bigquery</span>(),</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">project =</span> <span class="st">&quot;biostat-203b-2024-winter&quot;</span>,</span>
@@ -3638,7 +3638,7 @@ WHERE (`col01` &lt;= 1)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.367   0.006   2.360 </code></pre>
+  0.305   0.010   4.005 </code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
