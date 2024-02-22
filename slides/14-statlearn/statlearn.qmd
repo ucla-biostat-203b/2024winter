@@ -35,12 +35,13 @@ In this class, we use the phrases **statistical learning**, **machine learning**
 ## Supervised vs unsupervised learning
 
 - **Supervised learning**: input(s) -> output. 
-    - Prediction: the output is continuous (income, weight, bmi, ...).
+    - Prediction (or regression): the output is continuous (income, weight, bmi, ...).
     - Classification: the output is categorical (disease or not, pattern recognition, ...).
 
 - **Unsupervised learning**: no output. We learn relationships and structure in the data. 
     - Clustering.   
     - Dimension reduction. 
+    - Embedding.
 
 ## Supervised learning
 
@@ -264,8 +265,8 @@ SP500 <- getSymbols(
   "^GSPC", 
   src = "yahoo", 
   auto.assign = FALSE, 
-  from = "2022-01-01",
-  to = "2022-12-31")
+  from = "2023-01-01",
+  to = "2024-02-21")
 
 chartSeries(SP500, theme = chartTheme("white"),
             type = "line", log.scale = FALSE, TA = NULL)
@@ -292,7 +293,8 @@ help(Smarket)
 Smarket <- as_tibble(Smarket) |> print(width = Inf)
 
 # Summary statistics
-summary(Smarket)
+# summary(Smarket)
+tbl_summary(Smarket)
 
 # Plot Direction ~ Lag1, Direction ~ Lag2, ...
 Smarket |>
@@ -350,11 +352,11 @@ plt.clf()
 ::: {#fig-handwritten-digits}
 
 <p align="center">
-![](./ISL_fig_10_3a.pdf){width=600px height=300px}
+![](./ISL_fig_10_3a.pdf){width=75%}
 </p>
 
 <p align="center">
-![](./ISL_fig_10_3b.pdf){width=600px height=250px}
+![](./ISL_fig_10_3b.pdf){width=75%}
 </p>
 
 Examples of handwritten digits from the MNIST corpus (ISL Figure 10.3).
@@ -604,3 +606,19 @@ Image source: <https://people.idsia.ch/~juergen/deep-learning-history.html>
 - Classification problems: logistic regression (possibly with regularization and nonlinear features), discriminant analysis (LDA, QDA, NB), KNN classifier, classification tree, random forest, SVM, boosting, neural network.
 
 - Unsupervised learning: clustering, PCA, CCA, ICA, t-SNE, UMAP, neural network (auto encoder).
+
+::: {.panel-tabset}
+
+#### R
+
+Supported models in tidymodels ecosystem. [link](https://www.tidymodels.org/find/parsnip/#models)
+
+#### Python 
+
+scikit-learn in Python. [link](https://scikit-learn.org/stable/)
+
+#### Julia
+
+Supported models in Julia MLJ ecosystem. [link](https://alan-turing-institute.github.io/MLJ.jl/dev/model_browser/#Model-Browser)
+
+:::
