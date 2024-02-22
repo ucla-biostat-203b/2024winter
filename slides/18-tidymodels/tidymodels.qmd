@@ -32,14 +32,16 @@ knitr:
 
 - [tidymodels](https://www.tidymodels.org/) is an ecosystem for:
 
-    1. Build and fit a model;
-    2. Feature engineering: coding qualitative predictors, transformation of predictors (e.g., log), extracting key features from raw variables (e.g., getting the day of the week out of a date variable), interaction terms, ...;
-    3. Evaluate model using resampling (such as cross-validation).  
+    1. Feature engineering: coding qualitative predictors, transformation of predictors (e.g., log), extracting key features from raw variables (e.g., getting the day of the week out of a date variable), interaction terms, ... ([recipes](https://recipes.tidymodels.org/reference/index.html) package);  
+    2. Build and fit a model ([parsnip](https://parsnip.tidymodels.org/index.html) package);  
+    3. Evaluate model using resampling (such as cross-validation) ([tune](https://tune.tidymodels.org/) and [dial](https://dials.tidymodels.org/) packages);  
     4. Tuning model parameters.
 
 <p align="center">
 <img src="https://rviews.rstudio.com/2020/04/21/the-case-for-tidymodels/tidymodels.png" height="300">
 </p>
+
+- tidymodels is analog of [sklearn.pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html) in Python and [MLJ.jl](https://alan-turing-institute.github.io/MLJ.jl/dev/) in Julia.
 
 # Heart data example
 

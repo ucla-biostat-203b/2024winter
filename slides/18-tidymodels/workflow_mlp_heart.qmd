@@ -24,6 +24,8 @@ knitr:
     cache: false
 ---
 
+## Setup
+
 Display system information for reproducibility.
 
 ::: {.panel-tabset}
@@ -390,7 +392,7 @@ mlp_fit %>%
   collect_metrics() %>%
   print(width = Inf) %>%
   filter(.metric == "roc_auc") %>%
-  ggplot(mapping = aes(x = dropout, y = mean, alpha = hidden_units)) +
+  ggplot(mapping = aes(x = dropout, y = mean, color = factor(hidden_units))) +
   geom_point() +
   labs(x = "Dropout Rate", y = "CV AUC") +
   scale_x_log10()

@@ -22,6 +22,8 @@ knitr:
     cache: false
 ---
 
+## Setup
+
 Display system information for reproducibility.
 
 ::: {.panel-tabset}
@@ -388,7 +390,7 @@ logit_fit |>
   collect_metrics() |>
   print(width = Inf) |>
   filter(.metric == "roc_auc") |>
-  ggplot(mapping = aes(x = penalty, y = mean, color = mixture)) +
+  ggplot(mapping = aes(x = penalty, y = mean, color = factor(mixture))) +
   geom_point() +
   labs(x = "Penalty", y = "CV AUC") +
   scale_x_log10()
