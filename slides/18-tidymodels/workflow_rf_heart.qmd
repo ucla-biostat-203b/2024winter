@@ -22,6 +22,8 @@ knitr:
     cache: false
 ---
 
+## Setup
+
 Display system information for reproducibility.
 
 ::: {.panel-tabset}
@@ -333,9 +335,9 @@ Here we tune the number of trees `trees` and the number of features to use in ea
 
 ```{r}
 param_grid <- grid_regular(
-  trees(range = c(100L, 300L)), 
+  trees(range = c(100L, 500L)), 
   mtry(range = c(1L, 5L)),
-  levels = c(3, 5)
+  levels = c(5, 5)
   )
 param_grid
 ```
@@ -390,7 +392,7 @@ rf_fit %>%
   collect_metrics() %>%
   print(width = Inf) %>%
   filter(.metric == "roc_auc") %>%
-  ggplot(mapping = aes(x = trees, y = mean, color = mtry)) +
+  ggplot(mapping = aes(x = trees, y = mean, color = factor(mtry))) +
   geom_point() + 
   # geom_line() + 
   labs(x = "Num. of Trees", y = "CV AUC")
