@@ -161,8 +161,6 @@ We can do much better if we are careful about how we structure our data, specifi
 
 - dbplyr package is the backend that translates dplyr verbs to database SQL queries.
 
-- To install database drivers, follow instructions at <https://db.rstudio.com/best-practices/drivers/>.
-
 # A sample session using SQLite
 
 ## Create an SQLite database
