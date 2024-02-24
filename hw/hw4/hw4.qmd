@@ -1,0 +1,147 @@
+---
+title: "Biostat 203B Homework 4"
+subtitle: "Due Mar 8 @ 11:59PM"
+author: "Your Name and UID"
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: false
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+execute:
+  eval: false
+---
+
+Display machine information:
+```{r}
+sessionInfo()
+```
+Display my machine memory.
+```{r}
+memuse::Sys.meminfo()
+```
+
+Load database libraries and the tidyverse frontend:
+```{r}
+library(bigrquery)
+library(dbplyr)
+library(DBI)
+library(gt)
+library(gtsummary)
+library(tidyverse)
+```
+
+## Q1. Compile the ICU cohort in HW3 from the Google BigQuery database 
+
+Below is an outline of steps. In this homework, we exclusively work with the BigQuery database and should not use any MIMIC data files stored on our local computer. Transform data as much as possible in BigQuery database and `collect()` the tibble only at the end of Q1.7.
+
+### Q1.1 Connect to BigQuery
+
+Authenticate with BigQuery using the service account token. Please place the service account token (shared via BruinLearn) in the working directory (same folder as your qmd file). Do **not** add this token to your git repository.
+```{r}
+# path to the service account token 
+satoken <- "biostat-203b-2024-winter-313290ce47a6.json"
+# BigQuery authentication using service account
+bq_auth(path = satoken)
+```
+Connect to BigQuery database `mimic4_v2_2` in GCP (Google Cloud Platform), using the project billing account `biostat-203b-2024-winter`.
+```{r}
+# connect to the BigQuery database `biostat-203b-2024-winter.mimic4_v2_2`
+con_bq <- dbConnect(
+    bigrquery::bigquery(),
+    project = "biostat-203b-2024-winter",
+    dataset = "mimic4_v2_2",
+    billing = "biostat-203b-2024-winter"
+)
+con_bq
+```
+List all tables in the `mimic4_v2_2` database.
+```{r}
+dbListTables(con_bq)
+```
+### Q1.2 `icustays` data
+
+Connect to the `icustays` table.
+```{r}
+# full ICU stays table
+icustays_tble <- tbl(con_bq, "icustays") |>
+  # show_query() |>
+  print(width = Inf)
+```
+
+### Q1.3 `admissions` data
+
+Connect to the `admissions` table.
+```{r}
+# # TODO
+# admissions_tble <- 
+```
+
+### Q1.4 `patients` data
+
+Connect to the `patients` table.
+```{r}
+# # TODO
+# patients_tble <-
+```
+
+### Q1.5 `labevents` data
+
+Connect to the `labevents` table and retrieve a subset that only contain subjects who appear in `icustays_tble` and the lab items listed in HW3. Only keep the last lab measurements before the ICU stay and pivot lab items to become variables/columns. Write all steps in _one_ chain of pipes.
+```{r}
+# # TODO
+# labevents_tble <- 
+```
+
+### Q1.6 `chartevents` data
+
+Connect to `chartevents` table and retrieve a subset that only contain subjects who appear in `icustays_tble` and the chart events listed in HW3. Only keep the first chart events during ICU stay and pivot chart events to become variables/columns. Write all steps in _one_ chain of pipes.
+```{r}
+# # TODO
+# chartevents_tble <- 
+```
+
+### Q1.7 Put things together
+
+This step is similar to Q7 of HW3. Using _one_ chain of pipes `|>` to perform following data wrangling steps: (i) start with the `icustays_tble`, (ii) merge in admissions and patients tables, (iii) keep adults only (age at ICU intime >= 18), (iv) merge in the labevents and chartevents tables, (v) `collect` the tibble.
+
+```{r}
+# # TODO
+# mimic_icu_cohort <- 
+```
+
+### Q1.8 Preprocessing
+
+Perform the following preprocessing steps. (i) Lump infrequent levels into "Other" level for `first_careunit`, `last_careunit`, `admission_type`, `admission_location`, and `discharge_location`. (ii) Collapse the levels of `race` into `ASIAN`, `BLACK`, `HISPANIC`, `WHITE`, and `Other`. (iii) Create a new variable `los_long` that is `TRUE` when `los` is greater than or equal to 2 days. (iv) Summarize the data using `tbl_summary()`, stratified by `los_long`. Hint: `fct_lump` and `fct_collapse` from the `forcats` package can be useful.
+
+Hint: Below is a numerical summary of my tibble after preprocessing:
+
+<iframe width=95% height="500" src="./mimic_icu_cohort_gtsummary.html"></iframe>
+
+### Q1.9 Save the final tibble
+
+Save the final tibble to an R data file `mimic_icu_cohort.rds` in the `mimiciv_shiny` folder.
+```{r}
+# make a directory mimiciv_shiny
+if (!dir.exists("mimiciv_shiny")) {
+  dir.create("mimiciv_shiny")
+}
+# save the final tibble
+mimic_icu_cohort |>
+  write_rds("mimiciv_shiny/mimic_icu_cohort.rds", compress = "gz")
+```
+Close database connection and clear workspace.
+```{r}
+if (exists("con_bq")) {
+  dbDisconnect(con_bq)
+}
+rm(list = ls())
+```
+Although it is not a good practice to add big data files to git, for grading purpose, please add `mimic_icu_cohort.rds` to your git repository.
+
+## Q2. Shiny app
+
+Develop a Shiny app for exploring the ICU cohort data created in Q1. The app should reside in the `mimiciv_shiny` folder. The app should contains at least two tabs. One tab provides easy access to the graphical and numerical summaries of variables (demographics, lab measurements, vitals) in the ICU cohort. The other allows user to choose a specific patient in the cohort and display the patient's ADT and ICU stay information as we did in Q1 of HW3.
