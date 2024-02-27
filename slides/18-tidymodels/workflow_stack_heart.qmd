@@ -1,0 +1,561 @@
+---
+title: "Machine Learning Workflow: Model Stacking (Heart Data)"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+---
+
+## Setup
+
+Display system information for reproducibility.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+#### Python
+
+```{python}
+#| eval: false
+import IPython
+print(IPython.sys_info())
+```
+
+#### Julia
+
+```{julia}
+#| eval: false
+using InteractiveUtils
+versioninfo()
+```
+
+:::
+
+## Overview
+
+![](https://www.tidymodels.org/start/resampling/img/resampling.svg)
+
+
+We illustrate the typical machine learning workflow for model stacking using the `Heart` data set. The outcome is `AHD` (`Yes` or `No`), using the [`stacks`](https://stacks.tidymodels.org/) package.
+
+> Model stacking is an ensembling method that takes the outputs of many models and combines them to generate a new model—referred to as an ensemble in this package—that generates predictions informed by each of its members.
+
+1. Initial splitting to test and non-test sets.
+
+2. Pre-processing of data: dummy coding categorical variables, standardizing numerical variables, imputing missing values, ...
+
+3. Tune the gradient boosting algorithm using 5-fold cross-validation (CV) on the non-test data.
+
+4. Choose the best model by CV and refit it on the whole non-test data.
+
+5. Final classification on the test data.
+
+## Heart data
+
+The goal is to predict the binary outcome `AHD` (`Yes` or `No`) of patients.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+# Load libraries
+library(GGally)
+library(gtsummary)
+library(keras)
+library(ranger)
+library(stacks)
+library(tidyverse)
+library(tidymodels)
+library(xgboost)
+
+# Load the `Heart.csv` data.
+Heart <- read_csv("Heart.csv") |> 
+  # first column is patient ID, which we don't need
+  select(-1) |>
+  # RestECG is categorical with value 0, 1, 2
+  mutate(RestECG = as.character(RestECG)) |>
+  mutate(AHD = as.factor(AHD)) |>
+  print(width = Inf)
+
+# Numerical summaries stratified by the outcome `AHD`.
+Heart |> tbl_summary(by = AHD)
+
+# Graphical summary:
+# Heart |> ggpairs()
+```
+
+#### Python
+
+TODO
+
+### Julia
+
+TODO
+
+:::
+
+## Initial split into test and non-test sets
+
+We randomly split the data into 25% test data and 75% non-test data. Stratify on `AHD`.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+# For reproducibility
+set.seed(203)
+
+data_split <- initial_split(
+  Heart, 
+  # stratify by AHD
+  strata = "AHD", 
+  prop = 0.75
+  )
+data_split
+
+Heart_other <- training(data_split)
+dim(Heart_other)
+
+Heart_test <- testing(data_split)
+dim(Heart_test)
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+
+## Recipe (R) and Preprocessing (Python)
+
+- A data dictionary (roughly) is at <https://keras.io/examples/structured_data/structured_data_classification_with_feature_space/>.
+
+- We have following features: 
+
+    - Numerical features: `Age`, `RestBP`, `Chol`, `Slope` (1, 2 or 3), `MaxHR`, `ExAng`, `Oldpeak`, `Ca` (0, 1, 2 or 3).
+
+    - Categorical features coded as integer: `Sex` (0 or 1), `Fbs` (0 or 1), `RestECG` (0, 1 or 2).
+
+    - Categorical features coded as string: `ChestPain`, `Thal`.
+
+- There are missing values in `Ca` and `Thal`. Since missing proportion is not high, we will use simple mean (for numerical feature `Ca`) and mode (for categorical feature `Thal`) imputation.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+heart_recipe <- 
+  recipe(
+    AHD ~ ., 
+    data = Heart_other
+  ) |>
+  # mean imputation for Ca
+  step_impute_mean(Ca) |>
+  # mode imputation for Thal
+  step_impute_mode(Thal) |>
+  # create traditional dummy variables (necessary for xgboost)
+  step_dummy(all_nominal_predictors()) |>
+  # zero-variance filter
+  step_zv(all_predictors())
+  # estimate the means and standard deviations
+  # prep(training = Heart_other, retain = TRUE)
+heart_recipe
+```
+
+#### Python
+
+TODO
+
+### Julia
+
+TODO
+
+:::
+
+## Base models
+
+We will use three different model definitions to try to classify the outcome `AHD`: logistic regression, random forest, and neural network.
+
+First we set up the cross-validation folds to be shared by all models.
+```{r}
+set.seed(203)
+folds <- vfold_cv(Heart_other, v = 5)
+```
+
+### Logistic regression
+
+Set up model.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+logit_mod <- 
+  logistic_reg(
+    penalty = tune(), 
+    mixture = tune()
+  ) |> 
+  set_engine("glmnet", standardize = TRUE)
+logit_mod
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+Bundle the recipe (R) and model into workflow.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+logit_wf <- workflow() |>
+  add_recipe(heart_recipe) |>
+  add_model(logit_mod)
+logit_wf
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+Set up tuning grid
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+logit_grid <- grid_regular(
+  penalty(range = c(-6, 3)), 
+  mixture(),
+  levels = c(100, 5)
+  )
+
+logit_res <- 
+  tune_grid(
+    object = logit_wf, 
+    resamples = folds, 
+    grid = logit_grid,
+    control = control_stack_grid()
+  )
+logit_res
+```
+
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+### Random forest
+
+Set up model.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+rf_mod <- 
+  rand_forest(
+    mode = "classification",
+    # Number of predictors randomly sampled in each split
+    mtry = tune(),
+    # Number of trees in ensemble
+    trees = tune()
+  ) |>
+  set_engine("ranger")
+rf_mod
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+Bundle the recipe (R) and model into workflow.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+rf_wf <- workflow() |>
+  add_recipe(heart_recipe) |>
+  add_model(rf_mod)
+rf_wf
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+Set up tuning grid
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+rf_grid <- grid_regular(
+  trees(range = c(100L, 500L)), 
+  mtry(range = c(1L, 5L)),
+  levels = c(5, 5)
+  )
+
+rf_res <- 
+  tune_grid(
+    object = rf_wf, 
+    resamples = folds, 
+    grid = rf_grid,
+    control = control_stack_grid()
+  )
+rf_res
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+### Neural network
+
+Set up model.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+mlp_mod <- 
+  mlp(
+    mode = "classification",
+    hidden_units = tune(),
+    dropout = tune(),
+    epochs = 50,
+  ) |> 
+  set_engine("keras", verbose = 0)
+mlp_mod
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+Bundle the recipe (R) and model into workflow.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+mlp_wf <- workflow() |>
+  add_recipe(heart_recipe) |>
+  add_model(mlp_mod)
+mlp_wf
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+Set up tuning grid
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+mlp_grid <- grid_regular(
+  hidden_units(range = c(1, 20)),
+  dropout(range = c(0, 0.6)),
+  levels = 5
+  )
+
+mlp_res <- 
+  tune_grid(
+    object = mlp_wf, 
+    resamples = folds, 
+    grid = mlp_grid,
+    control = control_stack_grid()
+  )
+mlp_res
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+TODO
+
+:::
+
+## Model stacking
+
+Build the stacked ensemble.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+heart_model_st <- 
+  # initialize the stack
+  stacks() |>
+  # add candidate members
+  add_candidates(logit_res) |>
+  add_candidates(rf_res) |>
+  add_candidates(mlp_res) |>
+  # determine how to combine their predictions
+  blend_predictions(
+    penalty = 10^(-6:2),
+    metrics = c("roc_auc")
+    ) |>
+  # fit the candidates with nonzero stacking coefficients
+  fit_members()
+
+heart_model_st
+```
+
+Plot the result.
+```{r}
+autoplot(heart_model_st)
+```
+To show the relationship more directly:
+```{r}
+autoplot(heart_model_st, type = "members")
+```
+
+To see the top results:
+```{r}
+autoplot(heart_model_st, type = "weights")
+```
+
+To identify which model configurations were assigned what stacking coefficients, we can make use of the `collect_parameters()` function:
+```{r}
+collect_parameters(heart_model_st, "rf_res")
+```
+
+#### Python
+
+TODO
+
+#### Julia
+
+:::
+
+## Final classification
+
+```{r}
+heart_pred <-
+  Heart_test %>%
+  bind_cols(predict(heart_model_st, ., type = "prob"))
+heart_pred
+```
+
+Computing the ROC AUC for the model:
+```{r}
+yardstick::roc_auc(
+  heart_pred,
+  truth = AHD,
+  contains(".pred_No")
+  )
+```
+
+
+We can use the members argument to generate predictions from each of the ensemble members.
+```{r}
+heart_pred <-
+  Heart_test |>
+  select(AHD) |>
+  bind_cols(
+    predict(
+      heart_model_st,
+      Heart_test,
+      type = "class",
+      members = TRUE
+      )
+    )
+heart_pred
+```
+
+```{r}
+map(
+  colnames(heart_pred),
+  ~mean(heart_pred$AHD == pull(heart_pred, .x))
+) |>
+  set_names(colnames(heart_pred)) |>
+  as_tibble() |>
+  pivot_longer(c(everything(), -AHD))
+```

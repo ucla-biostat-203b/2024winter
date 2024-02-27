@@ -66,3 +66,7 @@ We illustrate a binary classification example using a dataset from the Cleveland
 ## Multi-layer perceptron (MLP) workflow
 
 [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_mlp_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_mlp_heart.html)
+
+## Ensemble (model stacking) workflow
+
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_stack_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_stack_heart.html)
