@@ -14,6 +14,8 @@ Slack channel (required): fill out [this form](https://forms.gle/eC6RNTGoQTFNt1J
 
 Recommended readings:  
 
+* [_Data Science at the Singularity_](https://arxiv.org/abs/2310.00865) (2023) by David Donoho.  
+* [_50 Years of Data Science_](https://doi.org/10.1080/10618600.2017.1384734) (2017) by David Donoho.  
 * _Reproducible Research with R and RStudio_ (3rd ed) by Christopher Gandrud: [Amazon](https://www.amazon.com/Reproducible-Research-RStudio-Chapman-Hall-dp-0367144026/dp/0367144026/ref=dp_ob_title_bk), [GitHub repo](https://github.com/christophergandrud/Rep-Res-Book).  
 * [_Happy Git with R_](http://happygitwithr.com) by Jenny Bryan.  
 * [_Quarto documentation_](https://quarto.org/docs/guide/).  
