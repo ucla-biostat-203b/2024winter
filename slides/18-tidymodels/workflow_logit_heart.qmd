@@ -220,8 +220,8 @@ logit_recipe <-
   # center and scale numeric data
   step_normalize(all_numeric_predictors()) |>
   # estimate the means and standard deviations
-  prep(training = Heart_other, retain = TRUE)
-logit_recipe
+  prep(training = Heart_other, retain = TRUE) |>
+  print()
 ```
 
 #### Python
@@ -271,8 +271,8 @@ logit_mod <-
     penalty = tune(), 
     mixture = tune()
   ) |> 
-  set_engine("glmnet", standardize = FALSE)
-logit_mod
+  set_engine("glmnet", standardize = FALSE) |>
+  print()
 ```
 
 #### Python
@@ -305,8 +305,8 @@ Here we bundle the preprocessing step (Python) or recipe (R) and model.
 ```{r}
 logit_wf <- workflow() |>
   add_recipe(logit_recipe) |>
-  add_model(logit_mod)
-logit_wf
+  add_model(logit_mod) |>
+  print()
 ```
 
 #### Python
@@ -336,8 +336,8 @@ param_grid <- grid_regular(
   penalty(range = c(-6, 3)), 
   mixture(),
   levels = c(100, 5)
-  )
-param_grid
+  ) |>
+  print()
 ```
 
 #### Python
@@ -373,20 +373,20 @@ folds
 
 Fit cross-validation.
 ```{r}
-system.time({
-logit_fit <- logit_wf |>
+(logit_fit <- logit_wf |>
   tune_grid(
     resamples = folds,
     grid = param_grid,
     metrics = metric_set(roc_auc, accuracy)
-    )
-})
+    )) |>
+  system.time()
 logit_fit
 ```
 
 Visualize CV results:
 ```{r}
 logit_fit |>
+  # aggregate metrics from K folds
   collect_metrics() |>
   print(width = Inf) |>
   filter(.metric == "roc_auc") |>

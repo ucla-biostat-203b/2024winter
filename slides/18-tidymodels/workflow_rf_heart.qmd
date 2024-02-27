@@ -77,18 +77,18 @@ library(tidyverse)
 library(tidymodels)
 
 # Load the `Heart.csv` data.
-Heart <- read_csv("Heart.csv") %>% 
+Heart <- read_csv("Heart.csv") |> 
   # first column is patient ID, which we don't need
-  select(-1) %>%
+  select(-1) |>
   # RestECG is categorical with value 0, 1, 2
-  mutate(RestECG = as.factor(RestECG)) %>%
+  mutate(RestECG = as.factor(RestECG)) |>
   print(width = Inf)
 
 # Numerical summaries stratified by the outcome `AHD`.
-Heart %>% tbl_summary(by = AHD)
+Heart |> tbl_summary(by = AHD)
 
 # Graphical summary:
-# Heart %>% ggpairs()
+# Heart |> ggpairs()
 ```
 
 #### Python
@@ -207,17 +207,17 @@ rf_recipe <-
   recipe(
     AHD ~ ., 
     data = Heart_other
-  ) %>%
+  ) |>
   # # create traditional dummy variables (not necessary for random forest in R)
-  # step_dummy(all_nominal()) %>%
+  # step_dummy(all_nominal()) |>
   # mean imputation for Ca
-  step_impute_mean(Ca) %>%
+  step_impute_mean(Ca) |>
   # mode imputation for Thal
-  step_impute_mode(Thal) %>%
+  step_impute_mode(Thal) |>
   # zero-variance filter
-  step_zv(all_numeric_predictors()) %>% 
+  step_zv(all_numeric_predictors()) |> 
   # # center and scale numeric data (not necessary for random forest)
-  # step_normalize(all_numeric_predictors()) %>%
+  # step_normalize(all_numeric_predictors()) |>
   # estimate the means and standard deviations
   prep(training = Heart_other, retain = TRUE)
 rf_recipe
@@ -273,7 +273,7 @@ rf_mod <-
     mtry = tune(),
     # Number of trees in ensemble
     trees = tune()
-  ) %>% 
+  ) |> 
   set_engine("ranger")
 rf_mod
 ```
@@ -305,8 +305,8 @@ Here we bundle the preprocessing step (Python) or recipe (R) and model.
 #### R
 
 ```{r}
-rf_wf <- workflow() %>%
-  add_recipe(rf_recipe) %>%
+rf_wf <- workflow() |>
+  add_recipe(rf_recipe) |>
   add_model(rf_mod)
 rf_wf
 ```
@@ -377,7 +377,7 @@ folds
 
 Fit cross-validation.
 ```{r}
-rf_fit <- rf_wf %>%
+rf_fit <- rf_wf |>
   tune_grid(
     resamples = folds,
     grid = param_grid,
@@ -388,10 +388,10 @@ rf_fit
 
 Visualize CV results:
 ```{r}
-rf_fit %>%
-  collect_metrics() %>%
-  print(width = Inf) %>%
-  filter(.metric == "roc_auc") %>%
+rf_fit |>
+  collect_metrics() |>
+  print(width = Inf) |>
+  filter(.metric == "roc_auc") |>
   ggplot(mapping = aes(x = trees, y = mean, color = factor(mtry))) +
   geom_point() + 
   # geom_line() + 
@@ -400,12 +400,12 @@ rf_fit %>%
 
 Show the top 5 models.
 ```{r}
-rf_fit %>%
+rf_fit |>
   show_best("roc_auc")
 ```
 Let's select the best model.
 ```{r}
-best_rf <- rf_fit %>%
+best_rf <- rf_fit |>
   select_best("roc_auc")
 best_rf
 ```
@@ -486,7 +486,7 @@ Now we are done tuning. Finally, let’s fit this final model to the whole train
 
 ```{r}
 # Final workflow
-final_wf <- rf_wf %>%
+final_wf <- rf_wf |>
   finalize_workflow(best_rf)
 final_wf
 ```
@@ -494,14 +494,14 @@ final_wf
 ```{r}
 # Fit the whole training set, then predict the test cases
 final_fit <- 
-  final_wf %>%
+  final_wf |>
   last_fit(data_split)
 final_fit
 ```
 
 ```{r}
 # Test metrics
-final_fit %>% 
+final_fit |> 
   collect_metrics()
 ```
 

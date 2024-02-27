@@ -41,7 +41,7 @@ knitr:
 <img src="https://rviews.rstudio.com/2020/04/21/the-case-for-tidymodels/tidymodels.png" height="300">
 </p>
 
-- tidymodels is analog of [sklearn.pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html) in Python and [MLJ.jl](https://alan-turing-institute.github.io/MLJ.jl/dev/) in Julia.
+- tidymodels is the R analog of [sklearn.pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html) in Python and [MLJ.jl](https://alan-turing-institute.github.io/MLJ.jl/dev/) in Julia.
 
 # Heart data example
 

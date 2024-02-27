@@ -77,18 +77,18 @@ library(tidyverse)
 library(tidymodels)
 
 # Load the `Heart.csv` data.
-Heart <- read_csv("Heart.csv") %>% 
+Heart <- read_csv("Heart.csv") |> 
   # first column is patient ID, which we don't need
-  select(-1) %>%
+  select(-1) |>
   # RestECG is categorical with value 0, 1, 2
-  mutate(RestECG = as.character(RestECG)) %>%
+  mutate(RestECG = as.character(RestECG)) |>
   print(width = Inf)
 
 # Numerical summaries stratified by the outcome `AHD`.
-Heart %>% tbl_summary(by = AHD)
+Heart |> tbl_summary(by = AHD)
 
 # Graphical summary:
-# Heart %>% ggpairs()
+# Heart |> ggpairs()
 ```
 
 #### Python
@@ -208,17 +208,17 @@ svm_recipe <-
   recipe(
     AHD ~ ., 
     data = Heart_other
-  ) %>%
+  ) |>
   # mean imputation for Ca
-  step_impute_mean(Ca) %>%
+  step_impute_mean(Ca) |>
   # mode imputation for Thal
-  step_impute_mode(Thal) %>%
+  step_impute_mode(Thal) |>
   # create traditional dummy variables (necessary for svm)
-  step_dummy(all_nominal_predictors()) %>%
+  step_dummy(all_nominal_predictors()) |>
   # zero-variance filter
-  step_zv(all_numeric_predictors()) %>% 
+  step_zv(all_numeric_predictors()) |> 
   # center and scale numeric data
-  step_normalize(all_numeric_predictors()) %>%
+  step_normalize(all_numeric_predictors()) |>
   # estimate the means and standard deviations
   prep(training = Heart_other, retain = TRUE)
 svm_recipe
@@ -271,7 +271,7 @@ svm_mod <-
     mode = "classification",
     cost = tune(),
     rbf_sigma = tune()
-  ) %>% 
+  ) |> 
   set_engine("kernlab")
 svm_mod
 ```
@@ -301,8 +301,8 @@ Here we bundle the preprocessing step (Python) or recipe (R) and model.
 #### R
 
 ```{r}
-svm_wf <- workflow() %>%
-  add_recipe(svm_recipe) %>%
+svm_wf <- workflow() |>
+  add_recipe(svm_recipe) |>
   add_model(svm_mod)
 svm_wf
 ```
@@ -372,7 +372,7 @@ folds
 
 Fit cross-validation.
 ```{r}
-svm_fit <- svm_wf %>%
+svm_fit <- svm_wf |>
   tune_grid(
     resamples = folds,
     grid = param_grid,
@@ -383,10 +383,10 @@ svm_fit
 
 Visualize CV results:
 ```{r}
-svm_fit %>%
-  collect_metrics() %>%
-  print(width = Inf) %>%
-  filter(.metric == "roc_auc") %>%
+svm_fit |>
+  collect_metrics() |>
+  print(width = Inf) |>
+  filter(.metric == "roc_auc") |>
   ggplot(mapping = aes(x = cost, y = mean, color = factor(rbf_sigma))) +
   geom_point() +
   labs(x = "Cost", y = "CV AUC") +
@@ -395,12 +395,12 @@ svm_fit %>%
 
 Show the top 5 models.
 ```{r}
-svm_fit %>%
+svm_fit |>
   show_best("roc_auc")
 ```
 Let's select the best model.
 ```{r}
-best_svm <- svm_fit %>%
+best_svm <- svm_fit |>
   select_best("roc_auc")
 best_svm
 ```
@@ -482,7 +482,7 @@ Now we are done tuning. Finally, let’s fit this final model to the whole train
 
 ```{r}
 # Final workflow
-final_wf <- svm_wf %>%
+final_wf <- svm_wf |>
   finalize_workflow(best_svm)
 final_wf
 ```
@@ -490,14 +490,14 @@ final_wf
 ```{r}
 # Fit the whole training set, then predict the test cases
 final_fit <- 
-  final_wf %>%
+  final_wf |>
   last_fit(data_split)
 final_fit
 ```
 
 ```{r}
 # Test metrics
-final_fit %>% 
+final_fit |> 
   collect_metrics()
 ```
 
