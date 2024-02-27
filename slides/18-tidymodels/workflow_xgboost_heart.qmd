@@ -220,8 +220,8 @@ gb_recipe <-
   # zero-variance filter
   step_zv(all_numeric_predictors()) |> 
   # estimate the means and standard deviations
-  prep(training = Heart_other, retain = TRUE)
-gb_recipe
+  # prep(training = Heart_other, retain = TRUE) |>
+  print()
 ```
 
 #### Python

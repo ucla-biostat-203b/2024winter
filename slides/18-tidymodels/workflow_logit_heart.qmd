@@ -220,7 +220,7 @@ logit_recipe <-
   # center and scale numeric data
   step_normalize(all_numeric_predictors()) |>
   # estimate the means and standard deviations
-  prep(training = Heart_other, retain = TRUE) |>
+  # prep(training = Heart_other, retain = TRUE) |>
   print()
 ```
 

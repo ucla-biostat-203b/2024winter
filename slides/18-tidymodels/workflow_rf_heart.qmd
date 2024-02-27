@@ -215,12 +215,12 @@ rf_recipe <-
   # mode imputation for Thal
   step_impute_mode(Thal) |>
   # zero-variance filter
-  step_zv(all_numeric_predictors()) |> 
+  step_zv(all_numeric_predictors()) |>
   # # center and scale numeric data (not necessary for random forest)
   # step_normalize(all_numeric_predictors()) |>
   # estimate the means and standard deviations
-  prep(training = Heart_other, retain = TRUE)
-rf_recipe
+  # prep(training = Heart_other, retain = TRUE) |>
+  print()
 ```
 
 #### Python
