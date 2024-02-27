@@ -518,10 +518,9 @@ TODO
 ## Final classification
 
 ```{r}
-heart_pred <-
-  Heart_test %>%
-  bind_cols(predict(heart_model_st, ., type = "prob"))
-heart_pred
+heart_pred <- Heart_test %>%
+  bind_cols(predict(heart_model_st, ., type = "prob")) %>%
+  print(width = Inf)
 ```
 
 Computing the ROC AUC for the model:
@@ -546,15 +545,15 @@ heart_pred <-
       type = "class",
       members = TRUE
       )
-    )
-heart_pred
+    ) |>
+  print(width = Inf)
 ```
 
 ```{r}
 map(
   colnames(heart_pred),
   ~mean(heart_pred$AHD == pull(heart_pred, .x))
-) |>
+  ) |>
   set_names(colnames(heart_pred)) |>
   as_tibble() |>
   pivot_longer(c(everything(), -AHD))
