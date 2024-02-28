@@ -12,14 +12,6 @@ format:
     toc-depth: 4
     toc-location: left
     code-fold: false
-engine: knitr
-knitr:
-  opts_chunk: 
-    fig.align: 'center'
-    # fig.width: 6
-    # fig.height: 4
-    message: FALSE
-    cache: false
 ---
 
 Display system information for reproducibility.
@@ -76,7 +68,7 @@ library(keras)
 
 :::
 
-In this example, we train an MLP (multi-layer perceptron) on the [MNIST](https://en.wikipedia.org/wiki/MNIST_database) data set. Achieve testing accuracy 98.11% after 30 epochs.
+In this example, we train an MLP (multi-layer perceptron) on the [MNIST](https://en.wikipedia.org/wiki/MNIST_database) data set. Achieve testing accuracy 98% after 30 epochs.
 
 - The **MNIST** database (Modified National Institute of Standards and Technology database) is a large database of handwritten digits ($28 \times 28$) that is commonly used for training and testing machine learning algorithms.
 

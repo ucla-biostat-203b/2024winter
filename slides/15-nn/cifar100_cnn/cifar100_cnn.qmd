@@ -12,15 +12,9 @@ format:
     toc-depth: 4
     toc-location: left
     code-fold: false
-engine: knitr
-knitr:
-  opts_chunk: 
-    fig.align: 'center'
-    # fig.width: 6
-    # fig.height: 4
-    message: FALSE
-    cache: false
 ---
+
+## Setup
 
 Display system information for reproducibility.
 
