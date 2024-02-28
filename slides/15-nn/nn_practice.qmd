@@ -73,7 +73,7 @@ Source: <https://www.simplilearn.com/keras-vs-tensorflow-vs-pytorch-article>
 
 - TensorFlow supports [distributed training](https://www.tensorflow.org/guide/distributed_training).
 
-- TensorFlow does not support Apple Silicon (M1/M2) directly, but Apple provides the `tensorflow-macos` package for running on M1/M2 GPUs.
+- TensorFlow does not support Apple Silicon (M1/M2/M3) directly, but Apple provides the [`tensorflow-macos`](https://developer.apple.com/metal/tensorflow-plugin/) package for running on M1/M2 GPUs.
 
 - Used in variety of Google apps: speech recognition (Google assistant), Gmail (Smart Reply), search, translate, self-driving car, ...
 
@@ -175,34 +175,34 @@ Following are selected examples from the collection of [Keras code examples](htt
 
 ## Example: MNIST - MLP
 
-[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/10-nn/mnist_mlp/mnist_mlp.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/mnist_mlp/mnist_mlp.html).
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/15-nn/mnist_mlp/mnist_mlp.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/mnist_mlp/mnist_mlp.html).
 
 ## Example: CIFAR100 - CNN
 
-[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/10-nn/cifar100_cnn/cifar100_cnn.qmd), [html](https://ucla-biostat-203b.github.io/2023winter/slides/10-nn/cifar100_cnn/cifar100_cnn.html).
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/15-nn/cifar100_cnn/cifar100_cnn.qmd), [html](https://ucla-biostat-203b.github.io/2023winter/slides/15-nn/cifar100_cnn/cifar100_cnn.html).
 
 ## Example: Using Pretrained Resnet50 to classify natural images
 
-[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/10-nn/pretrained_resnet50/pretrained_resnet50.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/pretrained_resnet50/pretrained_resnet50.html).
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/15-nn/pretrained_resnet50/pretrained_resnet50.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/pretrained_resnet50/pretrained_resnet50.html).
 
 ## Example: IMDB review sentiment analysis - Lasso, MLP, RNN, LSTM, fransformer
 
-- [Lasso penalized logistic regression](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/imdb/imdb_lasso.html)
+- [Lasso penalized logistic regression](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_lasso.html)
 
-- [MLP](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/imdb/imdb_mlp.html)
+- [MLP](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_mlp.html)
 
-- [RNN](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/imdb/imdb_rnn.html)
+- [RNN](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_rnn.html)
 
-- [LSTM](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/imdb/imdb_lstm.html)
+- [LSTM](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_lstm.html)
 
-- [Transformer](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/imdb/imdb_transformer.html)
+- [Transformer](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_transformer.html)
 
-- [Warm-start using pre-trained embedding in TF Hub](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/imdb/imdb_tfhub.html)
+- [Warm-start using pre-trained embedding in TF Hub](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_tfhub.html)
 
 ## Example: Generate Artificial Faces with GAN
 
-- [Generate Artificial Faces with CelebA Progressive GAN Model](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/progan/progan.html)
+- [Generate Artificial Faces with CelebA Progressive GAN Model](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/progan/progan.html)
 
 ## Example: Neural style transfer
 
-- [Neural style transfer](https://ucla-biostat-203b.github.io/2024winter/slides/10-nn/style_transfer/style_transfer.html)
+- [Neural style transfer](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/style_transfer/style_transfer.html)
