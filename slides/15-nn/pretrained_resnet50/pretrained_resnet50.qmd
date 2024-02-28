@@ -1,0 +1,194 @@
+---
+title: "Using Pretrained CNN Models"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+---
+
+## Setup
+
+Display system information for reproducibility.
+
+:::  {.panel-tabset}
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+:::
+
+
+Load some libraries.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Load the pandas library
+import pandas as pd
+# Load numpy for array manipulation
+import numpy as np
+# Load seaborn plotting library
+import seaborn as sns
+import matplotlib.pyplot as plt
+import os
+
+# Set font sizes in plots
+sns.set(font_scale = 1.2)
+# Display all columns
+pd.set_option('display.max_columns', None)
+
+# Load Tensorflow and Keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+```
+
+#### R
+
+```{r}
+library(keras)
+library(jpeg)
+library(imager)
+```
+
+:::
+
+In this example, we usea a CNN (convolution neural network) pretrained on the ImageNet database to classify natural images. 
+
+## Prepare data
+
+Read in images from the `/book_images` folder, convert them to arrays of size `224 x 224 x 3`, and preprocess them using the [`preprocess_input`](https://www.tensorflow.org/api_docs/python/tf/keras/applications/imagenet_utils/preprocess_input) function in keras.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+img_dir = "book_images"
+image_names = os.listdir(img_dir)
+num_images = len(image_names)
+x = np.empty((num_images, 224, 224, 3))
+for i in range(num_images):
+  img_path = img_dir + '/' + image_names[i]
+  img = keras.utils.load_img(img_path, target_size = (224, 224))
+  plt.imshow(img)
+  x[i] = keras.utils.img_to_array(img)
+  plt.show(x[i] / 255)
+x = keras.applications.imagenet_utils.preprocess_input(x)
+```
+
+#### R
+
+```{r}
+img_dir <- "book_images"
+image_names <- list.files(img_dir)
+num_images <- length(image_names)
+x <- array(dim = c(num_images, 224, 224, 3))
+par(mar = c(0, 0, 0, 0), mfrow = c(2, 3))
+for (i in 1:num_images) {
+  img_path <- paste(img_dir, image_names[i], sep = "/")
+  plot(load.image(img_path))
+  img <- image_load(img_path, target_size = c(224, 224))
+  x[i, , ,] <- image_to_array(img)
+}
+x <- imagenet_preprocess_input(x)
+```
+
+:::
+
+
+## Load the trained network
+
+We load the resnet50 network trained on the ImageNet database. 
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model = keras.applications.resnet.ResNet50(weights = 'imagenet')
+model.summary()
+```
+
+Plot the model:
+```{python}
+tf.keras.utils.plot_model(
+    model,
+    to_file = "model.png",
+    show_shapes = True,
+    show_dtype = False,
+    show_layer_names = True,
+    rankdir = "TB",
+    expand_nested = False,
+    dpi = 96,
+    layer_range = None,
+    show_layer_activations = False,
+)
+```
+
+<p align="center">
+![](./model.png){width=500px}
+</p>
+
+#### R
+
+```{r}
+model <- application_resnet50(weights = "imagenet")
+summary(model)
+```
+
+:::
+
+
+## Classify images
+
+Finally, we classify our six images, and return the top three class choices in terms of predicted probability for each.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+pred6 = keras.applications.imagenet_utils.decode_predictions(
+  model.predict(x), 
+  top = 3
+  )
+
+for i in range(num_images):
+  print(image_names[i])
+  print(np.asarray(pred6[i]))
+```
+
+#### R
+
+```{r}
+pred6 <- model %>% 
+  predict(x) %>%
+  imagenet_decode_predictions(top = 3)
+
+names(pred6) <- image_names
+pred6
+```
+
+:::
+
