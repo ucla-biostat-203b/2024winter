@@ -69,4 +69,6 @@ We illustrate a binary classification example using a dataset from the Cleveland
 
 ## Ensemble (model stacking) workflow
 
+> We differentiate **homogenous ensemble** (e.g., bagging, boosting) from **heterogeneous ensemble** (e.g., stacking). The former uses the same type of model (e.g., random forest) to build multiple models and then combine them. The latter uses different types of models (e.g., random forest, SVM, and neural network) to build multiple models and then combine them.
+
 [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/18-tidymodels/workflow_stack_heart.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/18-tidymodels/workflow_stack_heart.html)
