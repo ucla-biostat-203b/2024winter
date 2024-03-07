@@ -179,13 +179,13 @@ Following are selected examples from the collection of [Keras code examples](htt
 
 ## Example: CIFAR100 - CNN
 
-[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/15-nn/cifar100_cnn/cifar100_cnn.qmd), [html](https://ucla-biostat-203b.github.io/2023winter/slides/15-nn/cifar100_cnn/cifar100_cnn.html).
+[qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/15-nn/cifar100_cnn/cifar100_cnn.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/cifar100_cnn/cifar100_cnn.html).
 
 ## Example: Using Pretrained Resnet50 to classify natural images
 
 [qmd](https://raw.githubusercontent.com/ucla-biostat-203b/2024winter/master/slides/15-nn/pretrained_resnet50/pretrained_resnet50.qmd), [html](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/pretrained_resnet50/pretrained_resnet50.html).
 
-## Example: IMDB review sentiment analysis - Lasso, MLP, RNN, LSTM, fransformer
+## Example: IMDB review sentiment analysis - Lasso, MLP, RNN, LSTM, transformer
 
 - [Lasso penalized logistic regression](https://ucla-biostat-203b.github.io/2024winter/slides/15-nn/imdb/imdb_lasso.html)
 
