@@ -1,0 +1,334 @@
+---
+title: "IMDB Sentiment Analysis (Warm-Start From Pretrained Embedding)"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+---
+
+## Setup
+
+Display system information for reproducibility.
+
+:::  {.panel-tabset}
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+:::
+
+Load libraries.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Plotting tool
+import matplotlib.pyplot as plt
+# Load Tensorflow and Keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import tensorflow_hub as hub
+```
+
+#### R
+
+```{r}
+library(keras)
+library(tfhub)
+```
+
+:::
+
+Source: <https://tensorflow.rstudio.com/tutorials/keras/text_classification_with_hub>
+
+## Prepare data
+
+Different from earlier experiment of fitting LSTM on IMDB data, we will start from the original raw text of IMDB reviews. 
+
+We download the IMDB dataset from a static url (if it's not already in the cache):
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+if (dir.exists("aclImdb/"))
+  unlink("aclImdb/", recursive = TRUE)
+url <- "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
+dataset <- get_file(
+  "aclImdb_v1",
+  url,
+  untar = TRUE,
+  cache_dir = '.',
+  cache_subdir = ''
+)
+unlink("aclImdb/train/unsup/", recursive = TRUE)
+```
+
+We can then create a TensorFlow dataset from the directory structure using the `text_dataset_from_directory` function:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+batch_size = 512
+seed = 425
+
+train_data = keras.utils.text_dataset_from_directory(
+  'aclImdb/train',
+  batch_size = batch_size,
+  validation_split = 0.2,
+  subset = 'training',
+  seed = seed
+)
+validation_data = keras.utils.text_dataset_from_directory(
+  'aclImdb/train',
+  batch_size = batch_size,
+  validation_split = 0.2,
+  subset = 'validation',
+  seed = seed
+)
+test_data = keras.utils.text_dataset_from_directory(
+  'aclImdb/test',
+  batch_size = batch_size
+)
+```
+
+#### R
+
+```{r}
+batch_size <- 512
+seed <- 425
+
+train_data <- text_dataset_from_directory(
+  'aclImdb/train',
+  batch_size = batch_size,
+  validation_split = 0.2,
+  subset = 'training',
+  seed = seed
+)
+validation_data <- text_dataset_from_directory(
+  'aclImdb/train',
+  batch_size = batch_size,
+  validation_split = 0.2,
+  subset = 'validation',
+  seed = seed
+)
+test_data <- text_dataset_from_directory(
+  'aclImdb/test',
+  batch_size = batch_size
+)
+```
+:::
+
+Let’s take a moment to understand the format of the data. Each example is a sentence representing the movie review and a corresponding label. The sentence is not preprocessed in any way. The label is an integer value of either 0 or 1, where 0 is a negative review, and 1 is a positive review.
+
+Let’s print first 10 examples.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+batch = list(train_data.as_numpy_iterator())[0]
+batch[0][0]
+```
+First 10 labels:
+```{python}
+batch[1][0:9]
+```
+
+#### R
+
+```{r}
+batch <- train_data %>%
+  reticulate::as_iterator() %>%
+  reticulate::iter_next()
+
+batch[[1]][1]
+```
+Let’s also print the first 10 labels.
+```{r}
+batch[[2]][1:10]
+```
+
+:::
+
+## Build model
+
+Let’s first create a Keras layer that uses a TensorFlow Hub model to embed the sentences, and try it out on a couple of input examples. Note that no matter the length of the input text, the output shape of the embeddings is: `(num_examples, embedding_dimension)`.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+embedding = "https://tfhub.dev/google/nnlm-en-dim50/2"
+hub_layer = hub.KerasLayer(
+  handle = embedding, 
+  # Enable fine-tuning (takes longer)
+  trainable = True
+  )
+# Embed the first training texts
+hub_layer(batch[0][0:1])
+```
+
+#### R
+
+```{r}
+embedding <- "https://tfhub.dev/google/nnlm-en-dim50/2"
+hub_layer <- tfhub::layer_hub(
+  handle = embedding, 
+  # Enable fine-tuning (takes longer)
+  trainable = TRUE
+  )
+# Embed the first training texts
+hub_layer(batch[[1]][1:2])
+```
+
+:::
+
+Let’s now build and compile the full model:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model = keras.Sequential([
+  hub_layer,
+  layers.Dense(units = 16, activation = 'relu'),
+  layers.Dense(units = 1, activation = 'sigmoid')
+]
+)
+```
+
+```{python}
+model.compile(
+  optimizer = 'adam',
+  loss = "binary_crossentropy",
+  metrics = 'accuracy'  
+)
+```
+
+
+#### R
+
+```{r}
+model <- keras_model_sequential() %>%
+  hub_layer() %>%
+  layer_dense(16, activation = 'relu') %>%
+  layer_dense(1)
+```
+
+Compile model:
+```{r}
+model %>% compile(
+  optimizer = 'adam',
+  loss = loss_binary_crossentropy(from_logits = TRUE),
+  metrics = 'accuracy'
+)
+```
+
+:::
+
+:::
+
+## Training
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+history = model.fit(
+  train_data,
+  epochs = 10,
+  validation_data = validation_data,
+  verbose = 2
+)
+
+model.summary()
+```
+Visualize training process:
+```{python}
+plt.figure()
+plt.ylabel("Loss (training and validation)")
+plt.xlabel("Training Epoches")
+plt.ylim([0, 1])
+plt.plot(history.history["loss"])
+plt.plot(history.history["val_loss"])
+plt.show()
+
+plt.figure()
+plt.ylabel("Accuracy (training and validation)")
+plt.xlabel("Training Epoches")
+plt.ylim([0, 1])
+plt.plot(history.history["accuracy"])
+plt.plot(history.history["val_accuracy"])
+plt.show()
+```
+
+#### R
+
+```{r}
+system.time({
+history <- model %>% fit(
+  train_data,
+  epochs = 10,
+  validation_data = validation_data,
+  verbose = 2
+)
+})
+
+summary(model)
+```
+
+Visualize training process:
+```{r}
+plot(history)
+```
+
+:::
+
+## Testing
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+results = model.evaluate(test_data, verbose = 2)
+results
+```
+
+#### R
+
+```{r}
+results <- model %>% evaluate(test_data, verbose = 2)
+results
+```
+
+:::

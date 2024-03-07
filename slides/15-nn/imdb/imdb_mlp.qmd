@@ -1,0 +1,342 @@
+---
+title: "IMDB Sentiment Analysis (MLP)"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+---
+
+## Set up
+
+This example tries to reproduce the two-layer MLP for classifying IMDB reviews based on bags-of-words.
+
+Display system information for reproducibility.
+
+:::  {.panel-tabset}
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+:::
+
+Load libraries.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Numpy
+import numpy as np
+# Plotting tool
+import matplotlib.pyplot as plt
+# Load Tensorflow and Keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+```
+
+#### R
+
+```{r}
+library(keras)
+```
+
+:::
+
+
+## Prepare data
+
+From documentation:  
+
+> Dataset of 25,000 movies reviews from IMDB, labeled by sentiment (positive/negative). Reviews have been preprocessed, and each review is encoded as a sequence of word indexes (integers). For convenience, words are indexed by overall frequency in the dataset, so that for instance the integer "3" encodes the 3rd most frequent word in the data. This allows for quick filtering operations such as: "only consider the top 10,000 most common words, but eliminate the top 20 most common words".
+
+Retrieve IMDB data:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+max_features = 10000 # to be consistent with lasso example
+batch_size = 32
+
+print('Loading data...')
+(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(
+  num_words = max_features
+  )
+```
+
+Sizes of training and test sets:
+```{python}
+print(len(x_train), 'train sequences')
+print(len(x_test), 'test sequences')
+```
+
+#### R
+
+```{r}
+max_features <- 10000 # to be consistent with lasso example
+
+cat('Loading data...\n')
+imdb <- dataset_imdb(num_words = max_features)
+imdb$train$x[[1]]
+imdb$train$y[[1]]
+```
+
+Sizes of training and test sets:
+```{r}
+x_train <- imdb$train$x
+y_train <- imdb$train$y
+x_test <- imdb$test$x
+y_test <- imdb$test$y
+
+cat(length(x_train), 'train sequences\n')
+cat(length(x_test), 'test sequences\n')
+```
+
+:::
+
+Create the bag of words matrices.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+from scipy import sparse
+
+def one_hot(sequences, dimension):
+  seqlen = [len(sequences[i]) for i in range(len(sequences))]
+  n = len(seqlen)
+  rowind = np.repeat(range(n), seqlen)
+  colind = np.concatenate(sequences)
+  vals = np.ones(len(rowind))
+  # Has to be CSR format for batching; CSC doesn't work for Keras
+  return sparse.coo_matrix((vals, (rowind, colind)), shape = (n, dimension)).tocsr()
+
+# Train
+x_train_1h = one_hot(x_train, max_features)
+x_train_1h.shape
+# Sparsity of train set
+x_train_1h.nnz / np.prod(x_train_1h.shape)
+# Test
+x_test_1h = one_hot(x_test, max_features)
+x_test_1h.shape
+# Sparsity of test set
+x_test_1h.nnz / np.prod(x_test_1h.shape)
+```
+#### R
+
+```{r}
+library(Matrix)
+
+one_hot <- function(sequences, dimension) {
+  seqlen <- sapply(sequences, length)
+  n <- length(seqlen)
+  rowind <- rep(1:n, seqlen)
+  colind <- unlist(sequences)
+  sparseMatrix(
+    i = rowind,
+    j = colind,
+    dims = c(n, dimension)
+  )
+}
+
+# Train
+x_train_1h <- one_hot(x_train, max_features)
+dim(x_train_1h)
+# Proportion of nonzeros
+nnzero(x_train_1h) / (25000 * max_features)
+# Test
+x_test_1h <- one_hot(x_test, max_features)
+dim(x_test_1h)
+# Proportion of nonzeros
+nnzero(x_test_1h) / (25000 * max_features)
+```
+
+:::
+
+Encode $y$ as binary class matrix:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+y_train = keras.utils.to_categorical(y_train, 2)
+y_test = keras.utils.to_categorical(y_test, 2)
+# Train
+y_train.shape
+# Test
+y_test.shape
+```
+
+#### R
+
+```{r}
+y_train <- to_categorical(y_train, 2)
+y_test <- to_categorical(y_test, 2)
+# Train
+dim(y_train)
+# Test
+dim(y_test)
+```
+
+:::
+
+## Build model
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+model = keras.Sequential([
+  keras.Input(shape = (max_features,)),
+  layers.Dense(units = 16, activation = 'ReLU'),
+  layers.Dense(units = 16, activation = 'ReLU'),
+  layers.Dense(units = 2, activation = 'softmax')
+])
+
+model.summary()
+```
+
+Compile model:
+```{python}
+# try using different optimizers and different optimizer configs
+model.compile(
+  loss = 'binary_crossentropy',
+  optimizer = 'adam',
+  metrics = ['accuracy']
+)
+```
+
+#### R
+
+```{r}
+model <- keras_model_sequential() %>%
+  layer_dense(units = 16, activation = "ReLU", input_shape = max_features) %>% 
+  layer_dense(units = 16, activation = "ReLU") %>% 
+  layer_dense(units = 2, activation = 'softmax')
+
+# Try using different optimizers and different optimizer configs
+model %>% compile(
+  loss = 'binary_crossentropy',
+  optimizer = 'adam',
+  metrics = c('accuracy')
+)
+summary(model)
+```
+
+:::
+
+## Training
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+print('Train...')
+history = model.fit(
+  x_train_1h, y_train,
+  batch_size = batch_size,
+  epochs = 20,
+  validation_data = (x_test_1h, y_test), 
+  verbose = 2 # one line per epoch
+)
+```
+
+Visualize training process:
+```{python}
+plt.figure()
+plt.ylabel("Loss (training and validation)")
+plt.xlabel("Training Steps")
+plt.ylim([0, 2])
+plt.plot(history.history["loss"])
+plt.plot(history.history["val_loss"])
+plt.show()
+
+plt.figure()
+plt.ylabel("Accuracy (training and validation)")
+plt.xlabel("Training Steps")
+plt.ylim([0, 1])
+plt.plot(history.history["accuracy"])
+plt.plot(history.history["val_accuracy"])
+plt.show()
+```
+
+#### R
+
+```{r}
+batch_size <- 32
+
+cat('Train...\n')
+system.time({
+history <- model %>% fit(
+  x_train_1h, y_train,
+  batch_size = batch_size,
+  epochs = 20,
+  validation_data = list(x_test_1h, y_test),
+  verbose = 2
+)
+})
+```
+
+Visualize training process:
+```{r}
+plot(history)
+```
+
+:::
+
+## Testing
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+score, acc = model.evaluate(
+  x_test_1h, y_test,
+  batch_size = batch_size,
+  verbose = 2
+)
+print('Test score:', score)
+print('Test accuracy:', acc)
+```
+
+#### R
+
+```{r}
+scores <- model %>% evaluate(
+  x_test_1h, y_test,
+  batch_size = batch_size
+)
+```
+
+```{r}
+cat('Test score:', scores[[1]])
+cat('Test accuracy', scores[[2]])
+```
+
+:::

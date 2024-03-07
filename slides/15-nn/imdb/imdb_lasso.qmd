@@ -1,0 +1,404 @@
+---
+title: "IMDB Sentiment Analysis (Lasso)"
+subtitle: "Biostat 203B"
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false
+---
+
+## Set up
+
+Display system information for reproducibility.
+
+:::  {.panel-tabset}
+
+#### Python
+
+```{python}
+import IPython
+print(IPython.sys_info())
+```
+
+#### R
+
+```{r}
+sessionInfo()
+```
+
+:::
+
+Load libraries.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+# Load the pandas library
+import pandas as pd
+# Load numpy for array manipulation
+import numpy as np
+# Load seaborn plotting library
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Set font sizes in plots
+sns.set(font_scale = 1.2)
+# Display all columns
+pd.set_option('display.max_columns', None)
+
+# Load Tensorflow and Keras
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+```
+
+#### R
+
+```{r}
+library(keras)
+library(tidyverse)
+library(tidymodels)
+library(glmnet)
+library(pROC)
+```
+
+:::
+
+## Prepare data
+
+From documentation:  
+
+> Dataset of 25,000 movies reviews from IMDB, labeled by sentiment (positive/negative). Reviews have been preprocessed, and each review is encoded as a sequence of word indexes (integers). For convenience, words are indexed by overall frequency in the dataset, so that for instance the integer "3" encodes the 3rd most frequent word in the data. This allows for quick filtering operations such as: "only consider the top 10,000 most common words, but eliminate the top 20 most common words".
+
+Retrieve IMDB data. We restrict to the 10,000 most frequently-used words and tokens.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+max_features = 10000
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(num_words = max_features)
+```
+
+Data dimensions.
+```{python}
+x_train.shape
+y_train.shape
+x_test.shape
+y_test.shape
+# Indices of the first 12 words of the first training document
+x_train[0][0:11]
+```
+To decode the reviews:
+```{python}
+# Use the default parameters to keras.datasets.imdb.load_data
+start_char = 1
+oov_char = 2
+index_from = 3
+
+# Retrieve the word index file mapping words to indices
+word_index = keras.datasets.imdb.get_word_index()
+
+# Reverse the word index to obtain a dict mapping indices to words
+# And add `index_from` to indices to sync with `x_train`
+inverted_word_index = dict(
+    (i + index_from, word) for (word, i) in word_index.items()
+)
+
+# Update `inverted_word_index` to include `start_char` and `oov_char`
+inverted_word_index[start_char] = "[START]"
+inverted_word_index[oov_char] = "[OOV]"
+# Decode the first sequence in the dataset
+" ".join(inverted_word_index[i] for i in x_train[0])
+```
+
+#### R
+
+```{r}
+max_features <- 10000
+
+imdb <- dataset_imdb(num_words = max_features)
+x_train <- imdb$train$x
+y_train <- imdb$train$y
+x_test <- imdb$test$x
+y_test <- imdb$test$y
+```
+
+Data dimensions.
+```{r}
+# Training set
+length(x_train)
+table(y_train)
+# Test set
+length(x_test)
+table(y_test)
+# Indices of the first 12 words of the first training document
+x_train[[1]][1:12]
+```
+
+Function for decoding the IMDB reviews:
+```{r}
+word_index <- dataset_imdb_word_index()
+
+decode_review <- function(text, word_index) {
+  word <- names(word_index)
+  idx <- unlist(word_index, use.names = FALSE)
+  word <- c("<PAD>", "<START>", "<UNK>", "<UNUSED>", word)
+  idx <- c(0:3, idx + 3)
+  words <- word[match(text, idx, 2)]
+  paste(words, collapse = " ")
+}
+
+decode_review(x_train[[1]], word_index)
+```
+
+:::
+
+Create the bag of words matrices.
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+from scipy import sparse
+
+def one_hot(sequences, dimension):
+  seqlen = [len(sequences[i]) for i in range(len(sequences))]
+  n = len(seqlen)
+  rowind = np.repeat(range(n), seqlen)
+  colind = np.concatenate(sequences)
+  vals = np.ones(len(rowind))
+  return sparse.coo_matrix((vals, (rowind, colind)), shape = (n, dimension)).tocsc()
+
+# Train
+x_train_1h = one_hot(x_train, 10000)
+x_train_1h.shape
+# Sparsity of train set
+x_train_1h.count_nonzero() / np.prod(x_train_1h.shape)
+# Test
+x_test_1h = one_hot(x_test, 10000)
+x_test_1h.shape
+# Sparsity of test set
+x_test_1h.count_nonzero() / np.prod(x_test_1h.shape)
+```
+
+#### R
+
+```{r}
+library(Matrix)
+
+one_hot <- function(sequences, dimension) {
+  seqlen <- sapply(sequences, length)
+  n <- length(seqlen)
+  rowind <- rep(1:n, seqlen)
+  colind <- unlist(sequences)
+  sparseMatrix(
+    i = rowind,
+    j = colind,
+    dims = c(n, dimension)
+  )
+}
+
+# Train
+x_train_1h <- one_hot(x_train, 10000)
+dim(x_train_1h)
+# Proportion of nonzeros
+nnzero(x_train_1h) / (25000 * 10000)
+# Test
+x_test_1h <- one_hot(x_test, 10000)
+dim(x_test_1h)
+# Proportion of nonzeros
+nnzero(x_test_1h) / (25000 * 10000)
+```
+
+:::
+
+## Lasso
+
+### Training Lasso
+
+::: {.panel-tabset}
+
+#### Python
+
+We use logistic regression model in [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html):
+```{python}
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+
+logit_mod = LogisticRegression(
+  penalty = 'l1',
+  solver = 'liblinear',
+  warm_start = True
+  )
+
+pipe = Pipeline(steps = [
+  ("model", logit_mod)
+])
+pipe
+```
+Set up tuning grid for $C = 1/\alpha$.
+```{python}
+C_grid = np.logspace(start = -3, stop = 3, base = 10, num = 100)
+
+tuned_parameters = {"model__C": C_grid}
+```
+
+Cross-validation:
+```{python}
+from sklearn.model_selection import GridSearchCV
+
+# Set up CV
+n_folds = 10
+search = GridSearchCV(
+  pipe, 
+  tuned_parameters, 
+  cv = n_folds, 
+  scoring = "roc_auc",
+  # Refit the best model on the whole data set
+  refit = True,
+  # Adjust n_jobs according to hardware
+  n_jobs = 8
+  )
+
+search.fit(x_train_1h, y_train)
+```  
+
+
+#### R
+
+```{r}
+cvres <- cv.glmnet(
+  x_train_1h,
+  y_train,
+  nfolds = 10,
+  family = "binomial",
+  # loss to use for CV
+  type.measure = "auc",
+  # pass through to glmnet
+  standardize = FALSE,
+)
+```
+
+:::
+
+Visualize CV result:
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+cvres = pd.DataFrame(
+  {
+  "C": np.array(search.cv_results_["param_model__C"]),
+  "aucroc": search.cv_results_["mean_test_score"]
+  }
+)
+
+plt.figure()
+sns.relplot(
+  kind = "line",
+  data = cvres,
+  x = "C",
+  y = "aucroc"
+  ).set(
+    xscale = "log",
+    xlabel = "C",
+    ylabel = "CV AUC"
+);
+plt.show()
+```
+
+#### R
+
+```{r}
+plot(cvres)
+```
+
+:::
+
+
+Which words have the largest effect sizes in the lasso penalized logistic regression?
+
+::: {.panel-tabset}
+
+#### Python
+
+```{python}
+search.best_estimator_['model']
+betahat = search.best_estimator_['model'].coef_[0]
+ix = np.argsort(abs(betahat))[::-1]
+
+pd.DataFrame({
+  'word': [inverted_word_index[i + 1 + index_from] for i in ix[range(10)]],
+  'beta': betahat[ix[range(10)]]
+})
+```
+
+#### R
+
+```{r}
+betahat_sorted <- sort(
+  as.vector(abs(coef(cvres))), 
+  decreasing = TRUE, 
+  index.return = TRUE
+  )
+
+tibble(
+  word = str_split(decode_review(betahat_sorted$ix[1:10], word_index), ' ')[[1]],
+  beta = coef(cvres)[betahat_sorted$ix[1:10]]
+)
+```
+
+:::
+
+### Testing Lasso
+
+::: {.panel-tabset}
+
+#### Python
+
+Test AUC:
+```{python}
+from sklearn.metrics import accuracy_score, roc_auc_score
+
+roc_auc_score(
+  y_test, 
+  search.best_estimator_.predict_proba(x_test_1h)[:, 1]
+  )
+```
+
+Test accuracy:
+```{python}
+accuracy_score(
+  y_test,
+  search.best_estimator_.predict(x_test_1h)
+  )
+```
+
+#### R
+
+Test AUC:
+```{r}
+auc(y_test, predict(cvres, x_test_1h, type = "response"))
+```
+
+Test accuracy:
+```{r}
+sum(y_test == predict(cvres, x_test_1h, type = "class")) / length(y_test)
+```
+
+:::
