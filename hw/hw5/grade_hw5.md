@@ -14,7 +14,7 @@ Is the report clear (sectioning, whole sentences, typos, grammar)? Do readers ha
 
 ### Compleeness and performance: ??/100
 
-Completeness (50): 3 machine learning algorithms (each with CV tuning) + model stacking.
+Completeness (50): 3 machine learning algorithms (each with CV tuning) + model stacking. Clearly present the results with a few sentences of interpretation.
 
 Performance (50): Score will be mainly determined by the distribution of the reported best AUCs in the class.
 
