@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Dr. Hua Zhou">
+<meta name="author" content="Your Name and UID">
 
 <title>Biostat 203B Homework 5</title>
 <style>
@@ -3045,7 +3045,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Dr. Hua Zhou </p>
+             <p>Your Name and UID </p>
           </div>
   </div>
     
@@ -3061,7 +3061,7 @@ vertical-align: -.125em;
 <p>Using the ICU cohort <code>mimiciv_icu_cohort.rds</code> you built in Homework 4, develop at least three machine learning approaches (logistic regression with enet regularization, random forest, boosting, SVM, MLP, etc) plus a model stacking approach for predicting whether a patient’s ICU stay will be longer than 2 days. You should use the <code>los_long</code> variable as the outcome. You algorithms can use patient demographic information (gender, age at ICU <code>intime</code>, marital status, race), ICU admission information (first care unit), the last lab measurements before the ICU stay, and first vital measurements during ICU stay as features. You are welcome to use any feature engineering techniques you think are appropriate; but make sure to not use features that are not available at an ICU stay’s <code>intime</code>. For instance, <code>last_careunit</code> cannot be used in your algorithms.</p>
 <ol type="1">
 <li><p>Data preprocessing and feature engineering.</p></li>
-<li><p>Partition data into 50% training set and 50% test set. Stratify partitioning according to <code>los_long</code>. For grading purpose, sort the data by <code>subject_id</code>, <code>hadm_id</code>, and <code>stay_id</code> and use the seed <code>203</code> for the initial data split.</p></li>
+<li><p>Partition data into 50% training set and 50% test set. Stratify partitioning according to <code>los_long</code>. For grading purpose, sort the data by <code>subject_id</code>, <code>hadm_id</code>, and <code>stay_id</code> and use the seed <code>203</code> for the initial data split. Below is the sample code.</p></li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">203</span>)</span>

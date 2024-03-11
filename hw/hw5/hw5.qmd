@@ -1,7 +1,7 @@
 ---
 title: "Biostat 203B Homework 5"
 subtitle: Due Mar 22 @ 11:59PM
-author: Dr. Hua Zhou
+author: "Your Name and UID"
 format:
   html:
     theme: cosmo
