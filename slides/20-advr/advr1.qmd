@@ -1,0 +1,277 @@
+---
+title: "Select Topics in R Programming - Part I"
+subtitle: Biostat 203B
+author: "Dr. Hua Zhou @ UCLA"
+date: today
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    number-sections: true
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-fold: false    
+---
+
+
+## Preamble
+
+Display machine information for reproducibility.
+
+```{r}
+sessionInfo()
+```
+
+## _Advanced R_
+
+To gain a deep understanding of how R works, the book [Advanced R](https://adv-r.hadley.nz) by Hadley Wickham is a must read. Read **now** to save numerous hours you might waste in future.
+
+We cover select topics on coding style, benchmarking, profiling, debugging, parallel computing, byte code compiling, Rcpp, and package development.
+
+## Style
+
+- [Google's R style](https://google.github.io/styleguide/Rguide.xml).
+
+- [Hadley Wickham's tidyverse style guide](https://style.tidyverse.org).
+
+- Most important is to be consistent in your code style.
+
+## Benchmark
+
+Sources:  
+
+- _Advanced R_: <http://adv-r.had.co.nz/Performance.html>, <https://adv-r.hadley.nz/perf-measure.html#microbenchmarking>   
+
+- Blog: <http://www.alexejgossmann.com/benchmarking_r/>   
+
+In order to identify performance issue, we need to measure runtime accurately.
+
+### `system.time`
+
+```{r}
+set.seed(203)
+x <- runif(1e6)
+
+system.time({sqrt(x)})
+system.time({x ^ 0.5})
+system.time({exp(log(x) / 2)})
+```
+
+Check `?proc.time`  for the explanation:
+
+> The ‘user time’ is the CPU time charged for the execution of user instructions of the calling process. 
+The ‘system time’ is the CPU time charged for execution by the system on behalf of the calling process.
+
+From William Dunlap:
+
+> "User CPU time" gives the CPU time spent by the current 
+process (i.e., the current R session) and "system CPU time" 
+gives the CPU time spent by the kernel (the operating 
+system) on behalf of the current process.  The operating 
+system is used for things like opening files, doing 
+input or output, starting other processes, and looking at 
+the system clock:  operations that involve resources that many 
+processes must share.  Different operating systems will 
+have different things done by the operating system.
+
+```{r}
+start <- Sys.time()
+y <- exp(log(x) / 2)
+sum_y <- sum(y)
+end <- Sys.time()
+
+end - start
+```
+
+
+### `microbenchmark`
+
+```{r}
+library("microbenchmark")
+library("ggplot2")
+
+mbm <- microbenchmark(
+  sqrt(x),
+  x ^ 0.5,
+  exp(log(x) / 2),
+  times = 100
+)
+mbm
+```
+Results from `microbenchmark` can be nicely plotted in base R or ggplot2.
+```{r}
+boxplot(mbm)
+autoplot(mbm)
+```
+
+### `bench`
+
+The `bench` package is another tool for microbenchmarking. The output is a tibble:
+```{r}
+library(bench)
+
+(lb <- bench::mark(
+  sqrt(x),
+  x ^ 0.5,
+  exp(log(x) / 2)
+))
+```
+To visualize the result
+```{r}
+plot(lb)
+```
+
+It is colored according to GC (garbage collection) levels.
+
+## Profiling
+
+> Premature optimization is the root of all evil (or at least most of it) in programming.  
+> -Don Knuth
+
+Sources:   
+
+- <https://adv-r.hadley.nz/perf-measure.html#profiling>  
+
+- <https://rstudio.github.io/profvis/>  
+
+- <https://support.rstudio.com/hc/en-us/articles/218221837-Profiling-with-RStudio>
+
+### Example: profiling time
+
+First generate test data:
+```{r}
+times <- 4e5
+cols <- 150
+data <- as.data.frame(x = matrix(rnorm(times * cols, mean = 5), ncol = cols))
+data <- cbind(id = paste0("g", seq_len(times)), data)
+head(data)
+```
+Original code for centering columns of a dataframe:
+```{r}
+library(profvis)
+profvis({
+  # Store in another variable for this run
+  data1 <- data
+  
+  # Get column means
+  means <- apply(data1[, names(data1) != "id"], 2, mean)
+  
+  # Subtract mean from each column
+  for (i in seq_along(means)) {
+    data1[, names(data1) != "id"][, i] <-
+      data1[, names(data1) != "id"][, i] - means[i]
+  }
+})
+```
+
+Profile `apply` vs `colMeans` vs `lapply` vs `vapply`:
+```{r}
+profvis({
+  data1 <- data
+  # Four different ways of getting column means
+  means <- apply(data1[, names(data1) != "id"], 2, mean)
+  means <- colMeans(data1[, names(data1) != "id"])
+  means <- lapply(data1[, names(data1) != "id"], mean)
+  means <- vapply(data1[, names(data1) != "id"], mean, numeric(1))
+})
+```
+
+We decide to use `vapply`:
+```{r}
+profvis({
+  data1 <- data
+  means <- vapply(data1[, names(data1) != "id"], mean, numeric(1))
+
+  for (i in seq_along(means)) {
+    data1[, names(data1) != "id"][, i] <- data1[, names(data1) != "id"][, i] - means[i]
+  }
+})
+```
+
+Calculate mean and center in one pass:
+```{r}
+profvis({
+ data1 <- data
+ 
+ # Given a column, normalize values and return them
+ col_norm <- function(col) {
+   return(col - mean(col))
+ }
+ 
+ # Apply the normalizer function over all columns except id
+ data1[, names(data1) != "id"] <-
+   lapply(data1[, names(data1) != "id"], col_norm)
+})
+```
+
+### Example: profiling memory
+
+Original code for cumulative sums:
+```{r}
+profvis({
+  data <- data.frame(value = runif(1e5))
+
+  data$sum[1] <- data$value[1]
+  for (i in seq(2, nrow(data))) {
+    data$sum[i] <- data$sum[i-1] + data$value[i]
+  }
+})
+```
+
+Write a function to avoid expensive indexing by `$`:
+```{r}
+profvis({
+  csum <- function(x) {
+    if (length(x) < 2) return(x)
+
+    sum <- x[1]
+    for (i in seq(2, length(x))) {
+      sum[i] <- sum[i-1] + x[i]
+    }
+    return(sum)
+  }
+  data$sum <- csum(data$value)
+})
+```
+
+Pre-allocate vector:
+```{r}
+#| error: true
+
+profvis({
+  csum2 <- function(x) {
+    if (length(x) < 2) return(x)
+
+    sum <- numeric(length(x))  # Preallocate
+    sum[1] <- x[1]
+    for (i in seq(2, length(x))) {
+      sum[i] <- sum[i-1] + x[i]
+    }
+    sum
+  }
+  data$sum <- csum2(data$value)
+})
+```
+
+### Advice
+
+Modularize big projects into small functions. Profile functions as early and as frequently as possible.
+
+## Debugging
+
+Learning sources:  
+
+- Video: <https://vimeo.com/99375765>  
+
+- _Advanced R_: <https://adv-r.hadley.nz/debugging.html>   
+
+- breakpoint
+
+- step in/through function
+
+- `browser()`
+
+- `traceback()`
+
+- `options(error = browser)`, `options(error = NULL)`, `Debug` -> `On Error` -> `Break in Code`
