@@ -75,7 +75,7 @@ for around $0.27 an hour.
 ## Vendors
 
 <p align="center">
-<img src="./cloud-market-share.jpeg" height="350">
+<img src="./cloud-market-share.jpg" width="50%">
 </p>
 
 There are many vendors out there. Good for customers (us). They all work similarly.  
